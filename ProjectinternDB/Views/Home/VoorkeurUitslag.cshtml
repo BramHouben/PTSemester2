@@ -1,0 +1,25 @@
+﻿@using Model
+@model List<Voorkeur>
+
+@{
+    ViewData["Title"] = "VoorkeurUitslag";
+}
+
+<h2>Voorkeur uitslag</h2>
+
+<div class="row">
+    @foreach (Voorkeur vk in Model)
+    {
+        <div class="col-xs-6 col-sm-3">
+            <strong>@vk.Vak_naam</strong>
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            @vk.Prioriteit
+        </div>
+    }
+</div>
+
+
+@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+<a asp-action="Index">Back to List</a>

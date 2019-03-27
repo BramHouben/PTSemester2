@@ -6,9 +6,9 @@ namespace Data
 
     public interface IVoorkeurContext
     {
-        List<Voorkeur>VoorkeurenOphalen();
+        List<Voorkeur>VoorkeurenOphalen(string id);
 
-        void VoorkeurToevoegen(Voorkeur voorkeur);
+        void VoorkeurToevoegen(Voorkeur voorkeur, string id);
     }
 
 }

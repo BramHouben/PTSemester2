@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
 using ProjectinternDB.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ProjectinternDB.Controllers
 {
@@ -18,10 +20,18 @@ namespace ProjectinternDB.Controllers
             return View();
         }
 
+        public IActionResult userInlog(string User_id)
+        {
+            User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _voorkeurLogic.krijgUser_id(User_id);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult InvoegenVoorkeur(VoorkeurViewModel voorkeur)
         {
 
-            _voorkeurLogic.AddVoorkeur(voorkeur.Vak_naam, voorkeur.Prioriteit);
+            _voorkeurLogic.AddVoorkeur(voorkeur.Vak_naam, voorkeur.Prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             return RedirectToAction("Index");
         }

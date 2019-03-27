@@ -1,9 +1,13 @@
-﻿namespace ProjectinternDB.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjectinternDB.Models
 {
     public class VoorkeurViewModel
     {
-        public string Vak_naam { get; set; }
 
+        [Required]
+        public string Vak_naam { get; set; }
+        [Required]
         public int Prioriteit { get; set; }
     }
 }

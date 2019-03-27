@@ -24,7 +24,7 @@ namespace Model
 
         public int Id { get; set; }
 
-        [Required]
+      
         public string Vak_naam { get; set; }
 
         public int Prioriteit { get; set; }

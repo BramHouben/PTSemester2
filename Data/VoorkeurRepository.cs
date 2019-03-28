@@ -13,7 +13,7 @@ namespace Data
             IvoorkeurContext = new VoorkeurSQLContext();
         }
 
-        public List<Voorkeur> vkmodelList => IvoorkeurContext.VoorkeurenOphalen();
-        public void AddVoorkeur(Voorkeur VkModel) => IvoorkeurContext.VoorkeurToevoegen(VkModel);
+        public List<Voorkeur> vkmodelList(string id) => IvoorkeurContext.VoorkeurenOphalen(id);
+        public void AddVoorkeur(Voorkeur VkModel, string id) => IvoorkeurContext.VoorkeurToevoegen(VkModel, id);
     }
 }

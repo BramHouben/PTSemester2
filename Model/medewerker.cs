@@ -10,13 +10,16 @@ namespace Model
         {
 
         }
-        public Medewerker(int medewerkerId, string naam)
+        public Medewerker(string medewerkerId, string naam)
         {
             MedewerkerId = medewerkerId;
             Naam = naam;
         }
 
-        public int MedewerkerId { get; set; }
+        public string MedewerkerId { get; set; }
         public string Naam { get; set; }
+        public string role_id { get; set; }
+
+        public string email { get; set; }
     }
 }

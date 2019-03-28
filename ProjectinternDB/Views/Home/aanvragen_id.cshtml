@@ -1,0 +1,35 @@
+﻿@*@using Microsoft.AspNetCore.Identity
+
+@model ProjectinternDB.Models.MedewerkerViewModel
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "aanvragen_id";
+}
+<h2>Voorkeur</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="View">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+
+                <input asp-for="@SignInManager." class="form-control" />
+                <span asp-validation-for="Vak_naam" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Terug</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@

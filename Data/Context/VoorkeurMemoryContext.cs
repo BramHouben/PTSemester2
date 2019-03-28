@@ -20,12 +20,12 @@ namespace Data.Context
             }
         }
 
-        public List<Voorkeur> VoorkeurenOphalen()
+        public List<Voorkeur> VoorkeurenOphalen(string id)
         {
             return voorkeuren;
         }
 
-        public void VoorkeurToevoegen(Voorkeur voorkeur)
+        public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
             voorkeuren.Add(voorkeur);
         }

@@ -5,15 +5,21 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    if (User.IsInRole("Teamleider"))
-    {
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
 
-            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
-        </ul>
-    }
-    
+    <ul class="navbar-nav mr-auto">
+
+        @if (User.IsInRole("Teamleider"))
+        {
+        <li><P>dit is een teamleider</P></li>
+        }
+        <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
+
+        <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUitslag</a></li>
+
+        <li class="nav-item"><a asp-area="" asp-controller="Team" asp-action="TeamOverzicht" class="nav-link">TeamOverzicht</a></li>
+    </ul>
+
+
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="rm-inline my-2 my-lg-0">
         <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
@@ -29,8 +35,8 @@
 }
 else
 {
-<ul class="nav navbar-nav navbar-right">
-    <li class="nav-item"><a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a></li>
-    <li class="nav-item"><a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a></li>
-</ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item"><a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Register</a></li>
+        <li class="nav-item"><a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a></li>
+    </ul>
 }

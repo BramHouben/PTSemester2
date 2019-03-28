@@ -51,10 +51,18 @@ namespace ProjectinternDB.Controllers
 
             return View(teamLogic.TeamsOphalen());
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        /*public IActionResult Details()
+        {
+            Team selectedTeamteam = _teamLogic.TeamsOphalen()
+        }*/
+
     }
 }

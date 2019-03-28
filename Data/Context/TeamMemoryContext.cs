@@ -7,14 +7,17 @@ namespace Data.Context
     public class TeamMemoryContext : ITeamContext
     {
         private List<Docent> docenten;
+        private List<Team> teams;
         public List<Team> TeamsOphalen()
         {
-
-            List<Team> teams = new List<Team>
+            if (teams == null)
             {
-                new Team(1, 1, 1),
-                new Team(2, 2, 2)
-            };
+                teams = new List<Team>
+                {
+                    new Team(1, 1, 1),
+                    new Team(2, 2, 2)
+                };
+            }
 
             return teams;
         }
@@ -52,6 +55,25 @@ namespace Data.Context
                     return "Teamleider niet gevonden";
 
             }
+        }
+        public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
+        {
+            switch (curriculumeigenaarId)
+            {
+                case 1:
+                    return "Hans Klok";
+                case 2:
+                    return "Freek Vonk";
+                default:
+                    return "Curriculum Eigenaar Niet Gevonden";
+            }
+        }
+
+        public Team TeamOphalenMetID(int id)
+        {
+            this.TeamsOphalen();
+        id--;
+            return TeamsOphalen()[id];
         }
     }
 }

@@ -27,7 +27,7 @@
     @foreach (Team team in Model)
     {
         <div class="col-xs-6 col-sm-3">
-            @team.Id
+            @team.TeamId
         </div>
 
         <div class="col-xs-6 col-sm-3">
@@ -39,7 +39,7 @@
         </div>
         <div class="col-xs-6 col-sm-3">
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /*id=item.Name*/ }) |
+            @Html.ActionLink("Details", "Details", new { id=team.TeamId }) |
             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </div>
 

@@ -14,8 +14,8 @@ namespace Data
             IteamContext = new TeamMemoryContext();
         }
 
-        public List<Team> teams => IteamContext.TeamsOphalen();
-        public List<Docent> docenten => IteamContext.DocentInTeamOphalen();
+        public List<Team> Teams => IteamContext.TeamsOphalen();
+        public List<Docent> Docenten => IteamContext.DocentInTeamOphalen();
         public void VoegDocentToeAanTeam(Docent docent)
         {
             IteamContext.DocentToevoegen(docent);
@@ -28,6 +28,16 @@ namespace Data
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
         {
             return IteamContext.TeamleiderNaamMetTeamleiderId(teamleiderId);
+        }
+
+        public Team TeamOphalenMetID(int ID)
+        {
+            return IteamContext.TeamOphalenMetID(ID);
+        }
+
+        public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
+        {
+            return IteamContext.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
         }
     }
 }

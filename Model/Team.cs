@@ -13,17 +13,17 @@ namespace Model
 
         public Team(int teamID)
         {
-            Id = teamID;
+            TeamId = teamID;
         }
 
         public Team(int teamID, int teamleiderID, int curriculumEigenaarID)
         {
-            Id = teamID;
+            TeamId = teamID;
             TeamleiderID = teamleiderID;
             CurriculumEigenaarID = curriculumEigenaarID;
         }
 
-        public int Id { get; set; }
+        public int TeamId { get; set; }
         public int TeamleiderID { get; set; }
         public int CurriculumEigenaarID { get; set; }
 

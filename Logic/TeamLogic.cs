@@ -11,12 +11,12 @@ namespace Logic
 
         public List<Team> TeamsOphalen()
         {
-            return TeamRepo.teams;
+            return TeamRepo.Teams;
         }
 
         public List<Docent> DocentenOphalen()
         {
-            return TeamRepo.docenten;
+            return TeamRepo.Docenten;
         }
 
         public void VoegDocentToeAanTeam(Docent docent)
@@ -31,6 +31,14 @@ namespace Logic
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
         {
             return TeamRepo.TeamleiderNaamMetTeamleiderId(teamleiderId);
+        }
+        public Team TeamOphalenMetID(int ID)
+        {
+            return TeamRepo.TeamOphalenMetID(ID);
+        }
+        public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
+        {
+            return TeamRepo.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
         }
     }
 }

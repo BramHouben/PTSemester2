@@ -1,0 +1,13 @@
+﻿@using Logic
+@model Model.Team
+
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+    TeamLogic teamLogic = new TeamLogic();
+}
+
+<h2>Details van team: @Model.TeamId</h2>
+<div>TeamLeider @teamLogic.TeamleiderNaamMetTeamleiderId(Model.CurriculumEigenaarID)</div>
+<div>Curriculum Eigenaar @teamLogic.CurriculumEigenaarNaamMetCurriculumEigenaarId(Model.CurriculumEigenaarID)</div>

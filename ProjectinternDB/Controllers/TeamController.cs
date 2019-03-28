@@ -59,10 +59,19 @@ namespace ProjectinternDB.Controllers
         }
 
 
-        /*public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            Team selectedTeamteam = _teamLogic.TeamsOphalen()
-        }*/
+            var teamLogic = new TeamLogic();
+            Team geselecteerdTeam = teamLogic.TeamOphalenMetID(id); //.SingleOrDefault(o => o.Name == id); // there should be only one!
+            if (geselecteerdTeam == null)
+            {
+                return NotFound();
+            }
+            
+            return View(geselecteerdTeam);
+            
+            // Team selectedTeamteam = _teamLogic.TeamsOphalen()
+        }
 
     }
 }

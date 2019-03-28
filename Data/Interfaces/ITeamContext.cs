@@ -13,5 +13,7 @@ namespace Data.Interfaces
         void DocentToevoegen(Docent doc);
         void DocentVerwijderen(Docent docent);
         string TeamleiderNaamMetTeamleiderId(int teamleiderId);
+        Team TeamOphalenMetID(int id);
+        string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId);
     }
 }

@@ -50,5 +50,10 @@ namespace ProjectinternDB.Controllers
 
             return View(teamLogic.TeamsOphalen());
         }
+
+        /*public IActionResult Details()
+        {
+            Team selectedTeamteam = _teamLogic.TeamsOphalen()
+        }*/
     }
 }

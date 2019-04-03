@@ -22,7 +22,7 @@ namespace Data.Context
             while (reader.Read())
             {
                 medewerker_new.MedewerkerId = (string)reader["id"];
-                medewerker_new.email = (string)reader["Email"];
+                medewerker_new.Email = (string)reader["Email"];
             }
             reader.Close();
             var cmd2 = new SqlCommand("select roleId from AspNetUserRoles where UserId = @id", conn);
@@ -30,7 +30,7 @@ namespace Data.Context
             var reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
-                medewerker_new.role_id = (string)reader2["roleId"];
+                medewerker_new.Role_id = (string)reader2["roleId"];
             }
 
             conn.Close();

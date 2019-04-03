@@ -8,7 +8,6 @@ namespace Model
     {
         public Medewerker()
         {
-
         }
         public Medewerker(string medewerkerId, string naam)
         {
@@ -18,8 +17,7 @@ namespace Model
 
         public string MedewerkerId { get; set; }
         public string Naam { get; set; }
-        public string role_id { get; set; }
-
-        public string email { get; set; }
+        public string Role_id { get; set; }
+        public string Email { get; set; }
     }
 }

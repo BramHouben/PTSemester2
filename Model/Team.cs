@@ -26,6 +26,7 @@ namespace Model
         public int TeamId { get; set; }
         public int TeamleiderID { get; set; }
         public int CurriculumEigenaarID { get; set; }
+        
 
     }
 }

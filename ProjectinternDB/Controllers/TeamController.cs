@@ -58,6 +58,17 @@ namespace ProjectinternDB.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Edit(int id)
+        {
+            var teamLogic = new TeamLogic();
+            Team geselecteerdTeam = teamLogic.TeamOphalenMetID(id);
+            if (geselecteerdTeam == null)
+            {
+                return NotFound();
+            }
+
+            return View(geselecteerdTeam);
+        }
 
         public IActionResult Details(int id)
         {

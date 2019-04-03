@@ -8,6 +8,7 @@ namespace Data.Context
     {
         private List<Docent> docenten;
         private List<Team> teams;
+
         public List<Team> TeamsOphalen()
         {
             if (teams == null)
@@ -56,6 +57,7 @@ namespace Data.Context
 
             }
         }
+
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
             switch (curriculumeigenaarId)
@@ -72,8 +74,16 @@ namespace Data.Context
         public Team TeamOphalenMetID(int id)
         {
             this.TeamsOphalen();
-        id--;
-            return TeamsOphalen()[id];
+            id--;
+            try
+            {
+                return TeamsOphalen()[id];
+            }
+            catch
+            {
+                // return empty team
+                return null;
+            }
         }
     }
 }

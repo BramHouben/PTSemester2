@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Data.Interfaces;
@@ -20,7 +21,13 @@ namespace Data.Context
             List<Team> teamList = new List<Team>();
 
             connectie = dbconn.GetConnString();
-            connectie.Open();
+            // Verhelpt error Connection is still open
+            if (connectie.State != ConnectionState.Open)
+            {
+                connectie.Open();
+            }
+
+
 
             var cmd = new SqlCommand("SELECT * FROM Team", connectie);
             var reader = cmd.ExecuteReader();
@@ -36,6 +43,12 @@ namespace Data.Context
 
                 teamList.Add(team);
             }
+            // SLUIT READER NIET AF< Moet nog worden opgelost.
+            if (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+          
             connectie.Close();
             return teamList;
 
@@ -48,24 +61,27 @@ namespace Data.Context
             try
             {
                 connectie = dbconn.GetConnString();
-                connectie.Open();
+                if (connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
 
                 var cmd = new SqlCommand("SELECT * FROM Team", connectie);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    var docent = new Docent((int)reader["DocentID"], (int)reader["TeamID"],
-                        (int)reader["RuimteVoorInzet"])
-                    {
-
-                    };
+                    var docent = new Docent((int) reader["DocentID"], (int) reader["TeamID"],
+                        (int) reader["RuimteVoorInzet"]);
 
                     docent.MedewerkerId = (string)reader["MedewerkerID"];
                     docent.Naam = (string)reader["Naam"];
                     docentList.Add(docent);
                 }
-
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                }
                 connectie.Close();
             }
             catch
@@ -96,7 +112,36 @@ namespace Data.Context
 
         public Team TeamOphalenMetID(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                connectie = dbconn.GetConnString();
+                if (connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                Team team = null;
+                var cmd = new SqlCommand("SELECT * FROM Team WHERE ID = @id", connectie);
+                cmd.Parameters.AddWithValue("@id", id);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                  team = new Team((int)reader["TeamID"], (int)reader["TeamLeiderID"],
+                        (int)reader["CurriculumEigenaarID"]);
+
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                }
+                connectie.Close();
+                return team;
+            }
+            catch
+            {
+                return
+                    null; // Er is iets fout gegaan met de database connectie. Waarschijnlijk staat er geen docent in de database.
+            }
         }
 
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)

@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using ProjectinternDB.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static ProjectinternDB.Data.ApplicationDbContext;
+using ProjectinternDB.Models;
 
 namespace ProjectinternDB
 {
@@ -20,6 +22,7 @@ namespace ProjectinternDB
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -35,12 +38,22 @@ namespace ProjectinternDB
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
+
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                  .AddDefaultUI()
+                  .AddRoles<IdentityRole>()
+                  .AddRoleManager<RoleManager<IdentityRole>>()
+                  .AddDefaultTokenProviders()
+                  .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddTransient<UserManager<ApplicationUser>>();
+            //services.AddTransient<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSession();
+          
 
         }
 
@@ -61,9 +74,10 @@ namespace ProjectinternDB
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseAuthentication();
-
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

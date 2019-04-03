@@ -7,9 +7,11 @@ using Logic;
 using ProjectinternDB.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectinternDB.Controllers
 {
+    //[Authorize(Roles = "Teamleider")]
     public class VoorkeurController : Controller
     {
 

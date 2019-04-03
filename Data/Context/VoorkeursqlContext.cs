@@ -71,5 +71,27 @@ namespace Data.Context
                 connectie.Close();
             }
         }
+        public void DeleteVoorkeur(int id)
+        {
+            try
+            {
+                connectie = dbconn.GetConnString();
+
+                connectie.Open();
+                var command = connectie.CreateCommand();
+                command.Parameters.AddWithValue("@voorkeur_id", id);
+                command.CommandText = "Delete from Voorkeur where id=@voorkeur_id";
+                command.ExecuteNonQuery();
+
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+            }
+            finally
+            {
+                connectie.Close();
+            }
+        }
     }
 }

@@ -37,5 +37,10 @@ namespace Data.Context
             voorkeuren.Add(new Voorkeur(3, "Vak3", 3));
             voorkeuren.Add(new Voorkeur(4, "Vak4", 3));
         }
+
+        public void DeleteVoorkeur(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

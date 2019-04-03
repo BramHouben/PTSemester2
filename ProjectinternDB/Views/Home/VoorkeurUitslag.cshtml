@@ -18,9 +18,11 @@
         <div class="col-xs-6 col-sm-3">
             @vk.Prioriteit
         </div>
-  
+        <div class="col-xs-6 col-sm-3">
+            @Html.ActionLink("Delete", "Delete","Voorkeur", new { id = vk.Id  }) |
+        </div>
     }
 </div>
 
-@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+
 <a asp-action="Index">Terug</a>

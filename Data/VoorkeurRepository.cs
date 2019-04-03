@@ -15,5 +15,7 @@ namespace Data
 
         public List<Voorkeur> vkmodelList(string id) => IvoorkeurContext.VoorkeurenOphalen(id);
         public void AddVoorkeur(Voorkeur VkModel, string id) => IvoorkeurContext.VoorkeurToevoegen(VkModel, id);
+
+        public void DeleteVoorkeur(int id) => IvoorkeurContext.DeleteVoorkeur(id);
     }
 }

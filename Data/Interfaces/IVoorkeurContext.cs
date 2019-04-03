@@ -9,6 +9,8 @@ namespace Data
         List<Voorkeur>VoorkeurenOphalen(string id);
 
         void VoorkeurToevoegen(Voorkeur voorkeur, string id);
+
+        void DeleteVoorkeur(int id);
     }
 
 }

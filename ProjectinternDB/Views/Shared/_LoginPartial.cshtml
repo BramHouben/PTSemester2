@@ -1,11 +1,12 @@
 @using Microsoft.AspNetCore.Identity
-@model ProjectinternDB.Models.MedewerkerViewModel
-
+@*@model ProjectinternDB.Models.MedewerkerViewModel*@
+@inject SignInManager<ApplicationUser> SignInManager
+@inject  UserManager<ApplicationUser> UserManager
 @if (User.Identity.IsAuthenticated)
-    {
+{
     //    var user = await UserManager.FindByNameAsync(User.Identity.Name);
 
-   
+
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -19,7 +20,7 @@
     <li class="nav-item" ><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>
 </ul>
     //}
-    
+
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="rm-inline my-2 my-lg-0">
         <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">
@@ -30,7 +31,7 @@
             </li>
         </ul>
     </form>
-
+    }
 
 }
 else

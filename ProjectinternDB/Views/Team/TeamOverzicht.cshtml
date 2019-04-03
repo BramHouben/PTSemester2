@@ -1,0 +1,50 @@
+﻿@using Logic
+@using Model
+@model IEnumerable<Team>
+
+@{
+    ViewData["Title"] = "TeamOverzicht";
+    TeamLogic teamLogic = new TeamLogic();
+}
+
+<h2>TeamOverzicht</h2>
+
+<div class="row">
+    <div class="col-xs-6 col-sm-3">
+        <h6>Team ID</h6>
+    </div>
+
+    <div class="col-xs-6 col-sm-3">
+        <h6>Teamleider ID</h6>
+    </div>
+
+    <div class="col-xs-6 col-sm-3">
+        <h6>Teamleider naam</h6>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <h6> </h6>
+    </div>
+    @foreach (Team team in Model)
+    {
+        <div class="col-xs-6 col-sm-3">
+            @team.TeamId
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            @team.TeamleiderID
+        </div>
+
+        <div class="col-xs-6 col-sm-3">
+            @teamLogic.TeamleiderNaamMetTeamleiderId(team.TeamleiderID)
+        </div>
+        <div class="col-xs-6 col-sm-3">
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { id=team.TeamId }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </div>
+
+    }
+</div>
+
+@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+<a asp-action="Index">Terug</a>

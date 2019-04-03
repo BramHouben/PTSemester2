@@ -59,6 +59,8 @@ namespace ProjectinternDB.Controllers
             return View(voorkeurLogic.OphalenVoorkeur(id));
         }
 
+        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,8 +1,5 @@
 @using Microsoft.AspNetCore.Identity
-@using System.Security.Claims;
-@using System.Web;
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@model ProjectinternDB.Models.MedewerkerViewModel
 
 @if (User.Identity.IsAuthenticated)
     {
@@ -10,15 +7,19 @@
 
    
 
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
+@if (SignInManager.IsSignedIn(User))
+{
+    //if (User.IsInRole(""))
+    //{
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
 
-            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
-
-            <li class="nav-item"><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>
-        </ul>
+    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
     
-
+    <li class="nav-item" ><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>
+</ul>
+    //}
+    
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="rm-inline my-2 my-lg-0">
         <ul class="nav navbar-nav navbar-right">
             <li class="nav-item">

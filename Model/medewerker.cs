@@ -4,24 +4,20 @@ using System.Text;
 
 namespace Model
 {
-    public class medewerker
+    public class Medewerker
     {
-        public medewerker()
+        public Medewerker()
         {
-
         }
-        public medewerker(string id, string email, string role_id)
+        public Medewerker(string medewerkerId, string naam)
         {
-            this.id = id;
-            this.role_id = role_id;
-            this.email = email;
+            MedewerkerId = medewerkerId;
+            Naam = naam;
         }
 
-        public string id { get; set; }
-
-  public string role_id { get; set; }
-
-        public string email { get; set; }
-
+        public string MedewerkerId { get; set; }
+        public string Naam { get; set; }
+        public string Role_id { get; set; }
+        public string Email { get; set; }
     }
 }

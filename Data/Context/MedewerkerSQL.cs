@@ -8,7 +8,7 @@ namespace Data.Context
         private SqlConnection conn;
         private DBconn dbconn = new DBconn();
 
-        public medewerker getmedewerkerid(string id)
+        public Medewerker getmedewerkerid(string id)
         {
             conn = dbconn.GetConnString();
             conn.Open();
@@ -17,12 +17,12 @@ namespace Data.Context
             cmd.Parameters.AddWithValue("@id", id);
             var reader = cmd.ExecuteReader();
 
-            medewerker medewerker_new = new medewerker();
+            Medewerker medewerker_new = new Medewerker();
 
             while (reader.Read())
             {
-                medewerker_new.id = (string)reader["id"];
-                medewerker_new.email = (string)reader["Email"];
+                medewerker_new.MedewerkerId = (string)reader["id"];
+                medewerker_new.Email = (string)reader["Email"];
             }
             reader.Close();
             var cmd2 = new SqlCommand("select roleId from AspNetUserRoles where UserId = @id", conn);
@@ -30,7 +30,7 @@ namespace Data.Context
             var reader2 = cmd2.ExecuteReader();
             while (reader2.Read())
             {
-                medewerker_new.role_id = (string)reader2["roleId"];
+                medewerker_new.Role_id = (string)reader2["roleId"];
             }
 
             conn.Close();

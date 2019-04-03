@@ -22,10 +22,10 @@ namespace Logic
             VoorkeurRepo.AddVoorkeur(new Voorkeur(vak_naam, prioriteit),id);
         }
 
-        public medewerker krijgUser_id(string user_id)
+        public Medewerker krijgUser_id(string user_id)
         {
 
-
+            
             return sqlMedewerker.getmedewerkerid(user_id);
         }
 

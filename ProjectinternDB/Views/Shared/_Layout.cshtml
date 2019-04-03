@@ -4,22 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FontysVIP</title>
-    <style>
-        .purple_bar {
-            height: 50px;
-            background-color: #754675;
-            /* border-color: black;
-            border-style: solid;*/
-        }
-
-        .imgNavbar {
-            align-content: flex-start;
-        }
-
-        .body-content {
-            padding-top: 65px;
-        }
-    </style>
     <environment include="Development">
 
         <link href="~/lib/bootstrap/dist/css/bootstrap_lux.css" rel="stylesheet" />
@@ -54,6 +38,7 @@
                     <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Contact"class="nav-link">Contact</a></li>*@
             </ul>
             <partial name="_LoginPartial" />
+            <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="~/images/user.png" height="50" alt="User" class="imgNavbar" /></a>
         </div>
     </nav>
     <div class="purple_bar"></div>

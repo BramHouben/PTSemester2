@@ -2,6 +2,7 @@
 for details on configuring this project to bundle and minify static web assets. */
 body {
     padding-bottom: 20px;
+    /*padding-top: 65px;*/
 }
 
 /* Wrapping element */
@@ -9,6 +10,7 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 50px;
 }
 
 /* Carousel */
@@ -34,3 +36,59 @@ body {
         display: none;
     }
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+th {
+    background-color: #754675;
+    color: white;
+}
+
+.purple_bar {
+    height: 50px;
+    background-color: #754675;
+    /* border-color: black;
+            border-style: solid;*/
+}
+
+.imgNavbar {
+    align-content: flex-start;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: 100%;
+        left: 50%;
+        margin-left: -60px;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }

@@ -8,21 +8,20 @@
 
 <h2>Voorkeur uitslag</h2>
 
-<div class="row">
-    @foreach (Voorkeur vk in Model)
-    {
-        <div class="col-xs-6 col-sm-3">
-            <strong>@vk.Vak_naam</strong>
-        </div>
-
-        <div class="col-xs-6 col-sm-3">
-            @vk.Prioriteit
-        </div>
-        <div class="col-xs-6 col-sm-3">
-            @Html.ActionLink("Delete", "Delete","Voorkeur", new { id = vk.Id  }) |
-        </div>
-    }
+<div>
+    <table>
+        <tr>
+            <th>Inzet Item</th>
+            <th>Prioriteit</th>
+        </tr>
+        @foreach (Voorkeur vk in Model)
+        {
+            <tr>
+                <td>@vk.Vak_naam</td>
+                <td>@vk.Prioriteit</td>
+                <td><div class="tooltip">?<span class="tooltiptext">Informatie over het vak... @*@vk.Vak_Info*@</span></div></td>
+            </tr>
+        }
+    </table>
 </div>
-
-
 <a asp-action="Index">Terug</a>

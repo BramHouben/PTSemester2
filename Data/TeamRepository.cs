@@ -11,18 +11,23 @@ namespace Data
 
         public TeamRepository()
         {
-            IteamContext = new TeamMemoryContext();
+            IteamContext = new TeamsqlContext();
         }
 
         public List<Team> Teams => IteamContext.TeamsOphalen();
-        public List<Docent> Docenten => IteamContext.DocentInTeamOphalen();
+
+        public List<Docent> DocentenInTeamOphalen(int teamid)
+        {
+           return IteamContext.DocentInTeamOphalen(teamid);
+        }
+       
         public void VoegDocentToeAanTeam(Docent docent)
         {
             IteamContext.DocentToevoegen(docent);
         }
-        public void VerwijderDocentUitTeam(Docent docent)
+        public void VerwijderDocentUitTeam(int DocentID)
         {
-            IteamContext.DocentVerwijderen(docent);
+            IteamContext.DocentVerwijderen(DocentID);
         }
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
@@ -38,6 +43,11 @@ namespace Data
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
             return IteamContext.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
+        }
+
+        public int haalTeamIdOpMetIDString(string id)
+        {
+            return IteamContext.haalTeamIdOp(id);
         }
     }
 }

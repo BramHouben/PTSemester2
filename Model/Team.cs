@@ -25,8 +25,9 @@ namespace Model
 
         public int TeamId { get; set; }
         public int TeamleiderID { get; set; }
+        public string TeamleiderNaam { get; set; }
         public int CurriculumEigenaarID { get; set; }
-        
-
+        public string CurriculumEigenaarNaam { get; set; }
+        public IEnumerable<Docent> Docenten { get; set; }
     }
 }

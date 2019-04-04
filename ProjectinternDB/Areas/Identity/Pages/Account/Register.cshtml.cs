@@ -55,6 +55,14 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
             [Display(Name = "Bevestig wachtwoord")]
             [Compare("Password", ErrorMessage = "Wachtwoord komt niet overeen.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Voornaam")]
+            public string Voornaam { get; set; }
+
+            [Required]
+            [Display(Name = "Achternaam")]
+            public string Achternaam { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -67,7 +75,7 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email , Voornaam = Input.Voornaam, Achternaam = Input.Achternaam };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

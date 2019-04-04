@@ -23,7 +23,10 @@ body {
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
 }
-
+.row {
+    text-align:center;
+    justify-content:center;
+}
 /* QR code generator */
 #qrCode {
     margin: 15px;
@@ -103,6 +106,6 @@ th {
             line-height: 140%;
         }
 
-        img-hover a:hover span {
-            visibility: visible;
-        }
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }

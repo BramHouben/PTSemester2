@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Logic;
 using Model;
 using ProjectinternDB.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace ProjectinternDB.Controllers
 {
@@ -19,8 +21,17 @@ namespace ProjectinternDB.Controllers
         public IActionResult Index()
         {
             IEnumerable<Team> teams= _teamLogic.TeamsOphalen();
+            IEnumerable<Docent> docenten = _teamLogic.DocentenOphalen(1);
 
              return View(teams);
+        }
+
+        public IActionResult DocentenInTeam()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int teamid = _teamLogic.haalTeamIDOpMetString(id);
+            List<Docent> docenten = _teamLogic.DocentenOphalen(teamid);
+            return View(docenten);
         }
 
         //public IActionResult DocentenToevoegen(TeamViewModel team)

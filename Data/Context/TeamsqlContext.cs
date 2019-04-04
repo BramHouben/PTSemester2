@@ -73,7 +73,7 @@ namespace Data.Context
         public List<Docent> DocentInTeamOphalen(int id)
         {
             List<Docent> docentList = new List<Docent>();
-            SqlDataReader reader = null;
+            
             try
             {
                 connectie = dbconn.GetConnString();
@@ -81,14 +81,18 @@ namespace Data.Context
                 {
                     connectie.Open();
                 }
-
-                var cmd = new SqlCommand("SELECT * FROM Team", connectie);
-               reader = cmd.ExecuteReader();
+                var cmd = connectie.CreateCommand();
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.CommandText = "SELECT DocentID, TeamID, RuimteVoorInzet FROM Docent where TeamID = @id";
+                
+                var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var docent = new Docent((int) reader["DocentID"], (int) reader["TeamID"],
-                        (int) reader["RuimteVoorInzet"]);
-                    docent.MedewerkerId = (string) reader["MedewerkerID"];
+                    Docent docent = new Docent();
+                    docent.DocentId = (int)reader["DocentID"]; 
+                    docent.TeamId =(int) reader["TeamID"];
+                    docent.RuimteVoorInzet =(int) reader["RuimteVoorInzet"];
+                    //docent.MedewerkerId = (string) reader["MedewerkerID"];
                     docent.Naam = (string) reader["Naam"];
                     docentList.Add(docent);
                 }
@@ -122,9 +126,32 @@ namespace Data.Context
             throw new NotImplementedException();
         }
 
-        public void DocentVerwijderen(Docent docent)
+        public void DocentVerwijderen(int DocentID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                connectie = dbconn.GetConnString();
+                if (connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                var cmd = connectie.CreateCommand();
+                cmd.Parameters.AddWithValue("@docentid", DocentID);
+                cmd.CommandText = "UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid";
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+            }
+            finally
+            {
+                if (connectie.State != ConnectionState.Closed)
+                {
+                    connectie.Close();
+                }
+
+            }
         }
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
@@ -180,6 +207,66 @@ namespace Data.Context
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
             throw new NotImplementedException();
+        }
+
+        public void VerwijderDocentUitTeam(int TeamID, int DocentID)
+        {
+            try
+            {
+                connectie = dbconn.GetConnString();
+                if(connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                var cmd = connectie.CreateCommand();
+                cmd.Parameters.AddWithValue("@teamid", TeamID);
+                cmd.Parameters.AddWithValue("@docentid", DocentID);
+                cmd.CommandText = "UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid";
+                cmd.ExecuteNonQuery();
+            }
+            catch(SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+            }
+            finally
+            {
+                if(connectie.State != ConnectionState.Closed)
+                {
+                    connectie.Close();
+                }
+                
+            }
+        }
+
+        public int haalTeamIdOp(string id)
+        {
+            int result = 0;
+            try
+            {
+                connectie = dbconn.GetConnString();
+                var cmd = connectie.CreateCommand();
+                cmd.Parameters.AddWithValue("@idstring", id);
+                cmd.CommandText = "SELECT TeamID FROM Team WHERE TeamLeiderID IN (SELECT TeamLeiderID FROM TeamLeider WHERE MedewerkerID = @stringid);";
+                if(connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                result = cmd.ExecuteNonQuery();
+
+            }
+            catch(SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+                
+            }
+            finally
+            {
+                if(connectie.State != ConnectionState.Closed)
+                {
+                    connectie.Close();
+                }
+            }
+            return result;
         }
     }
 }

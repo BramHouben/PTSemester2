@@ -21,9 +21,9 @@ namespace Logic
         {
             TeamRepo.VoegDocentToeAanTeam(docent);
         }
-        public void VerwijderDocentUitTeam(Docent docent)
+        public void VerwijderDocentUitTeam(int docentid)
         {
-            TeamRepo.VerwijderDocentUitTeam(docent);
+            TeamRepo.VerwijderDocentUitTeam(docentid);
         }
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
@@ -37,6 +37,11 @@ namespace Logic
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
             return TeamRepo.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
+        }
+
+        public int haalTeamIDOpMetString(string id)
+        {
+            return TeamRepo.haalTeamIdOpMetIDString(id);
         }
     }
 }

@@ -13,15 +13,20 @@
         <tr>
             <th>Inzet Item</th>
             <th>Prioriteit</th>
+            <th>Opties</th>
+
         </tr>
         @foreach (Voorkeur vk in Model)
         {
             <tr>
                 <td>@vk.Vak_naam</td>
                 <td>@vk.Prioriteit</td>
-                <td><div class="tooltip">?<span class="tooltiptext">Informatie over het vak... @*@vk.Vak_Info*@</span></div></td>
+                <td>
+                    <div class="col-xs-6 col-sm-3">
+                        @Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) |
+                    </div>
+                </td>
             </tr>
         }
     </table>
 </div>
-<a asp-action="Index">Terug</a>

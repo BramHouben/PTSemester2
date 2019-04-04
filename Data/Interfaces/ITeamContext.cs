@@ -8,7 +8,7 @@ namespace Data.Interfaces
     public interface ITeamContext
     {
         List<Team>TeamsOphalen();
-        List<Docent> DocentInTeamOphalen();
+        List<Docent> DocentInTeamOphalen(int id);
 
         void DocentToevoegen(Docent doc);
         void DocentVerwijderen(Docent docent);

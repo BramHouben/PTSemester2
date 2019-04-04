@@ -11,11 +11,16 @@ namespace Data
 
         public TeamRepository()
         {
-            IteamContext = new TeamMemoryContext();
+            IteamContext = new TeamsqlContext();
         }
 
         public List<Team> Teams => IteamContext.TeamsOphalen();
-        public List<Docent> Docenten => IteamContext.DocentInTeamOphalen();
+
+        public List<Docent> DocentenInTeamOphalen(int teamid)
+        {
+           return IteamContext.DocentInTeamOphalen(teamid);
+        }
+       
         public void VoegDocentToeAanTeam(Docent docent)
         {
             IteamContext.DocentToevoegen(docent);

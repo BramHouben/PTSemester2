@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -17,33 +18,30 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult Index()
         {
+            IEnumerable<Team> teams= _teamLogic.TeamsOphalen();
 
-            return View(_teamLogic.TeamsOphalen());
+             return View(teams);
         }
 
-        public IActionResult DocentenToevoegen(TeamViewModel team)
-        {
-            foreach (var docent in team.Docenten)
-            {
-                _teamLogic.VoegDocentToeAanTeam(docent);
-            }
-            
-
-            return RedirectToAction("Index");
-        }
+        //public IActionResult DocentenToevoegen(TeamViewModel team)
+        //{
+        //    foreach (var docent in team.Docenten)
+        //    {
+        //        _teamLogic.VoegDocentToeAanTeam(docent);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
         public IActionResult TeamOverzicht()
         {
             var teamLogic = new TeamLogic();
-
             var teams = new List<TeamViewModel>();
-
             foreach (var team in teamLogic.TeamsOphalen())
             {
                 teams.Add(new TeamViewModel
                 {
                     TeamleiderID = team.TeamleiderID,
                     CurriculumEigenaarID = team.CurriculumEigenaarID,
-                    Docenten = teamLogic.DocentenOphalen(),
+                    Docenten = teamLogic.DocentenOphalen(team.TeamId),
                     Teams = teamLogic.TeamsOphalen(),
                     TeamleiderNaam = teamLogic.TeamleiderNaamMetTeamleiderId(1)
                 });
@@ -74,9 +72,16 @@ namespace ProjectinternDB.Controllers
         {
             var teamLogic = new TeamLogic();
             Team geselecteerdTeam = teamLogic.TeamOphalenMetID(id); //.SingleOrDefault(o => o.Name == id); // there should be only one!
+           
             if (geselecteerdTeam == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                geselecteerdTeam.CurriculumEigenaarNaam =
+                teamLogic.CurriculumEigenaarNaamMetCurriculumEigenaarId(geselecteerdTeam.CurriculumEigenaarID);
+                geselecteerdTeam.TeamleiderNaam = teamLogic.TeamleiderNaamMetTeamleiderId(geselecteerdTeam.TeamleiderID);
             }
             
             return View(geselecteerdTeam);

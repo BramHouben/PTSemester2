@@ -13,12 +13,10 @@ namespace Logic
         {
             return TeamRepo.Teams;
         }
-
-        public List<Docent> DocentenOphalen()
+        public List<Docent> DocentenOphalen(int teamid)
         {
-            return TeamRepo.Docenten;
+            return TeamRepo.DocentenInTeamOphalen(teamid);
         }
-
         public void VoegDocentToeAanTeam(Docent docent)
         {
             TeamRepo.VoegDocentToeAanTeam(docent);

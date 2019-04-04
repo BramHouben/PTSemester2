@@ -23,7 +23,7 @@ namespace Data.Context
             return teams;
         }
 
-        public List<Docent> DocentInTeamOphalen()
+        public List<Docent> DocentInTeamOphalen(int id)
         {
             docenten = new List<Docent>
             {

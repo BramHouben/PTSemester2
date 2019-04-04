@@ -1,8 +1,8 @@
 ﻿@page
 @model RegisterModel
-@{
+@*@{
     ViewData["Title"] = "Registreer";
-}
+}*@
 
 <h2>@ViewData["Title"]</h2>
 
@@ -26,6 +26,16 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Voornaam"></label>
+                <input asp-for="Input.Voornaam" class="form-control" />
+                <span asp-validation-for="Input.Voornaam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Achternaam"></label>
+                <input asp-for="Input.Achternaam" class="form-control" />
+                <span asp-validation-for="Input.Achternaam" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Registreer</button>
         </form>

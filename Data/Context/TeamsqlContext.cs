@@ -35,18 +35,21 @@ namespace Data.Context
 
                 while (reader.Read())
                 {
-                    var team = new Team();
+                    var team = new Team
+                    {
+                        TeamId = (int) reader["TeamID"],
+                        TeamleiderID = (int) reader["TeamLeiderID"],
+                        CurriculumEigenaarID = (int) reader["CurriculumEigenaarID"]
+                    };
 
 
-                    team.TeamId = (int) reader["TeamID"];
-                    team.TeamleiderID = (int) reader["TeamLeiderID"];
-                    team.CurriculumEigenaarID = (int) reader["CurriculumEigenaarID"];
 
                     teamList.Add(team);
                 }
             }
             catch
             {
+                Console.WriteLine("Geen gegevens in Team Tabel of SQL connectie error");
             }
             finally
             {
@@ -59,6 +62,7 @@ namespace Data.Context
                 }
                 catch
                 {
+                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
                 }
             }
            
@@ -99,7 +103,7 @@ namespace Data.Context
             }
             catch
             {
-                // Er is iets fout gegaan met de database connectie. Waarschijnlijk staat er geen docent in de database.
+                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk ontbreken er gegevens in de team tabel.");
             }
             finally
             {
@@ -112,6 +116,7 @@ namespace Data.Context
                 }
                 catch
                 {
+                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
                 }
             }
 
@@ -119,11 +124,40 @@ namespace Data.Context
         }
 
 
-
-
         public void DocentToevoegen(Docent doc)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader = null;
+            try
+            {
+                connectie = dbconn.GetConnString();
+                if (connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                var cmd = connectie.CreateCommand();
+                cmd.CommandText = "UPDATE Docent SET TeamID = @TeamID WHERE DocentID = @DocentID;";
+                cmd.Parameters.AddWithValue("@TeamID", doc.TeamId);
+                cmd.Parameters.AddWithValue("@DocentID", doc.DocentId);
+                reader = cmd.ExecuteReader();
+            }
+            catch
+            {
+                Console.WriteLine("Er is iets misgegaan met het updaten van het docent id");
+            }
+            finally
+            {
+                try
+                {
+                    if (connectie.State != ConnectionState.Closed)
+                    {
+                        connectie.Close();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
+                }
+            }
         }
 
         public void DocentVerwijderen(int DocentID)
@@ -156,7 +190,46 @@ namespace Data.Context
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader = null;
+            string naam = null;
+            try
+            {
+                connectie = dbconn.GetConnString();
+                if (connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                var cmd = new SqlCommand("SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM TeamLeider WHERE TeamleiderID = @TeamLeiderID)", connectie);
+                cmd.Parameters.AddWithValue("@TeamLeiderID", teamleiderId);
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                   naam = (string)reader["Naam"];
+                }
+
+               
+            }
+            catch
+            {
+                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven teamleiderID.");
+                
+            }
+            finally
+            {
+                try
+                {
+                    if (connectie.State != ConnectionState.Closed)
+                    {
+                        connectie.Close();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
+                }
+            }
+            return naam;
         }
 
         public Team TeamOphalenMetID(int id)
@@ -186,8 +259,9 @@ namespace Data.Context
             }
             catch
             {
+                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven ID.");
                 return
-                    null; // Er is iets fout gegaan met de database connectie. Waarschijnlijk staat er geen docent in de database.
+                    null;
             }
             finally
             {
@@ -200,13 +274,53 @@ namespace Data.Context
                 }
                 catch
                 {
+                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
                 }
             }
         }
 
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
-            throw new NotImplementedException();
+            SqlDataReader reader = null;
+            string naam = null;
+            try
+            {
+                connectie = dbconn.GetConnString();
+                if (connectie.State != ConnectionState.Open)
+                {
+                    connectie.Open();
+                }
+                var cmd = new SqlCommand("SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM CurriculumEigenaar WHERE CurriculumEigenaarID = @CurriculumEigenaarID)", connectie);
+                cmd.Parameters.AddWithValue("@CurriculumEigenaarID", curriculumeigenaarId);
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    naam = (string)reader["Naam"];
+                }
+
+
+            }
+            catch
+            {
+                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven teamleiderID.");
+
+            }
+            finally
+            {
+                try
+                {
+                    if (connectie.State != ConnectionState.Closed)
+                    {
+                        connectie.Close();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
+                }
+            }
+            return naam;
         }
 
         public void VerwijderDocentUitTeam(int TeamID, int DocentID)

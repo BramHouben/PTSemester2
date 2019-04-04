@@ -1,5 +1,4 @@
-﻿
-@using Model
+﻿@using Model
 @model List<Voorkeur>
 
 @{
@@ -9,11 +8,16 @@
 <h2>Voorkeur uitslag</h2>
 
 <div>
+    <h3>Voorkeur Najaar/Voorjaar 2019
+        @* @if(datum.Month > 1 && datum.Month < 7) { }
+            else { }*@   
+    </h3>
     <table>
         <tr>
             <th>Inzet Item</th>
             <th>Prioriteit</th>
             <th>Opties</th>
+            <th>Informatie</th>
 
         </tr>
         @foreach (Voorkeur vk in Model)
@@ -21,12 +25,21 @@
             <tr>
                 <td>@vk.Vak_naam</td>
                 <td>@vk.Prioriteit</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) | </td>
                 <td>
-                    <div class="col-xs-6 col-sm-3">
-                        @Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) |
+                    <div class="img-hover">
+                        <a href="#">
+                            <img src="~/images/info.png" style="height:20px; align-content: flex-start; display:block;" class="imgNavbar"/>
+                            <span>Informatie over het vak...</span>
+                        </a>
                     </div>
                 </td>
             </tr>
         }
     </table>
 </div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

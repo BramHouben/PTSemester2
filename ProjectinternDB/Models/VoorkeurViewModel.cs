@@ -6,6 +6,7 @@ namespace ProjectinternDB.Models
     {
 
         [Required]
+        [Display(Name = "Vak")]
         public string Vak_naam { get; set; }
         [Required]
         public int Prioriteit { get; set; }

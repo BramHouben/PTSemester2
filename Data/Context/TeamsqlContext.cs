@@ -244,7 +244,7 @@ namespace Data.Context
                 }
 
                 Team team = null;
-                var cmd = new SqlCommand("SELECT * FROM Team WHERE ID = @id", connectie);
+                var cmd = new SqlCommand("SELECT * FROM [dbo].[Team] WHERE TeamID = @id", connectie);
                 cmd.Parameters.AddWithValue("@id", id);
                 reader = cmd.ExecuteReader();
 
@@ -359,7 +359,7 @@ namespace Data.Context
             {
                 connectie = dbconn.GetConnString();
                 var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@idstring", id);
+                cmd.Parameters.AddWithValue("@stringid", id);
                 cmd.CommandText = "SELECT TeamID FROM Team WHERE TeamLeiderID IN (SELECT TeamLeiderID FROM TeamLeider WHERE MedewerkerID = @stringid);";
                 if(connectie.State != ConnectionState.Open)
                 {

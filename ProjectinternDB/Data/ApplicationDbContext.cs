@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ProjectinternDB.Models;
+using Model;
 
 namespace ProjectinternDB.Data
 {
@@ -14,5 +15,6 @@ namespace ProjectinternDB.Data
         {
           
         }
+        public DbSet<Model.Docent> Docent { get; set; }
     }
 }

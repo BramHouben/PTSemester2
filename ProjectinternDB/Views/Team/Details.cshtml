@@ -1,13 +1,11 @@
 ﻿@using Logic
 @model Model.Team
 
-
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
-    TeamLogic teamLogic = new TeamLogic();
 }
 
-<h2>Details van team: @Model.TeamId</h2>
-<div>TeamLeider @teamLogic.TeamleiderNaamMetTeamleiderId(Model.CurriculumEigenaarID)</div>
-<div>Curriculum Eigenaar @teamLogic.CurriculumEigenaarNaamMetCurriculumEigenaarId(Model.CurriculumEigenaarID)</div>
+<h2>Details van team: @Html.DisplayFor(model => model.TeamId).</h2>
+<div>TeamLeider:@Html.DisplayFor(model => model.TeamleiderNaam)</div>
+<div>Curriculum Eigenaar: @Html.DisplayFor(model => model.CurriculumEigenaarNaam)</div>

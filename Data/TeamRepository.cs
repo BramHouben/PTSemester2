@@ -25,9 +25,9 @@ namespace Data
         {
             IteamContext.DocentToevoegen(docent);
         }
-        public void VerwijderDocentUitTeam(Docent docent)
+        public void VerwijderDocentUitTeam(int DocentID)
         {
-            IteamContext.DocentVerwijderen(docent);
+            IteamContext.DocentVerwijderen(DocentID);
         }
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
@@ -43,6 +43,11 @@ namespace Data
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
             return IteamContext.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
+        }
+
+        public int haalTeamIdOpMetIDString(string id)
+        {
+            return IteamContext.haalTeamIdOp(id);
         }
     }
 }

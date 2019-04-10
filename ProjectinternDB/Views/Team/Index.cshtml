@@ -55,6 +55,19 @@
                 @Html.ActionLink("Delete", "Delete", new {id = team.TeamId})
             </td>
         </tr>
+        //Table Header voor docent in team
+        <tr>
+            <th>
+               DocentID
+            </th>
+            <th>
+              Ruimte Voor Inzet
+            </th>
+            <th>
+               TeamID
+            </th>
+        </tr>
+
         @foreach (var docent in team.Docenten)
          {
              <tr>

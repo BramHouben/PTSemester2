@@ -7,11 +7,7 @@ namespace ProjectinternDB.Models
     {
 
         [Required]
-        public Traject traject { get; set; }
-        [Required]
-        public Onderdeel onderdeel { get; set; }
-        [Required]
-        public Taak taak { get; set; }
+        public string Vak_naam { get; set; }
         [Required]
         public int Prioriteit { get; set; }
     }

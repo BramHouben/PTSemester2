@@ -11,9 +11,11 @@ namespace Data.Interfaces
         List<Docent> DocentInTeamOphalen(int id);
 
         void DocentToevoegen(Docent doc);
-        void DocentVerwijderen(Docent docent);
+        void DocentVerwijderen(int DocentID);
         string TeamleiderNaamMetTeamleiderId(int teamleiderId);
         Team TeamOphalenMetID(int id);
         string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId);
+        int haalTeamIdOp(string id);
+        //void VerwijderDocentUitTeam(int TeamID, int DocentID);
     }
 }

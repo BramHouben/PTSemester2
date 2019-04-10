@@ -2,7 +2,7 @@
 
 namespace Model.Onderwijsdelen
 {
-    public class Traject
+    public class Traject 
     {
         [Key]
         public int TrajectId { get; set; }

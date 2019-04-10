@@ -13,6 +13,7 @@ using Model.Onderwijsdelen;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Data;
 using Data.Context;
+using Microsoft.AspNetCore.Http;
 
 namespace ProjectinternDB.Controllers
 {
@@ -45,7 +46,7 @@ namespace ProjectinternDB.Controllers
         {
             List<Taak> productList = new List<Taak>();
 
-            // ------- Getting Data from Database Using EntityFrameworkCore -------
+       
             productList = _voorkeurLogic.GetTakenByOnderdeelId(OnderdeelId);
 
             // ------- Inserting Select Item in List -------
@@ -61,15 +62,25 @@ namespace ProjectinternDB.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult InvoegenVoorkeur(/*VoorkeurViewModel voorkeur*/VoorkeurViewModel objTraject, IFormCollection formCollection)
+        {
 
-        //public IActionResult InvoegenVoorkeur(VoorkeurViewModel voorkeur)
+            //_voorkeurLogic.AddVoorkeur(voorkeur.TrajectNaam, voorkeur.Prioriteit, voorkeur.Onderdeel.OnderdeelNaam, voorkeur.Taak.TaakNaam, User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            //return RedirectToAction("Index");
+            var Prioriteit = HttpContext.Request.Form["Prioriteit"].ToString();
+            int test = Convert.ToInt32(Prioriteit);
+            var OnderdeelId = HttpContext.Request.Form["OnderdeelId"].ToString();
+            var TaakId = HttpContext.Request.Form["TaakId"].ToString();
+            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, test, OnderdeelId, TaakId, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return RedirectToAction("Index");
+        }
+        //[HttpPost]
+        //public IActionResult InvoegenVoorkeur(VoorkeurViewModel objTraject, IFormCollection formCollection)
         //{
 
-        //    _voorkeurLogic.AddVoorkeur(voorkeur.Vak_naam, voorkeur.Prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-        //    return RedirectToAction("Index");
         //}
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

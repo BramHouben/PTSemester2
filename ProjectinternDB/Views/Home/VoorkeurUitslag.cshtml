@@ -23,7 +23,7 @@
         @foreach (Voorkeur vk in Model)
         {
             <tr>
-                <td>@vk.Vak_naam</td>
+                <td>@vk.Taak_naam</td>
                 <td>@vk.Prioriteit</td>
                 <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) | </td>
                 <td>

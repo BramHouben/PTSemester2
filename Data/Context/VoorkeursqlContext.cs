@@ -34,7 +34,7 @@ namespace Data.Context
 
 
                 voorkeur.Id = (int)reader["Id"];
-                voorkeur.Vak_naam = (string)reader["vak_naam"];
+                voorkeur.Taak_naam = (string)reader["Taak"];
                 voorkeur.Prioriteit = (int)reader["Prioriteit"];
                 vklistmodel.Add(voorkeur);
             }
@@ -51,10 +51,16 @@ namespace Data.Context
             {
                 connectie.Open();
                 var command = connectie.CreateCommand();
-                command.Parameters.AddWithValue("@vak_naam", voorkeur.Vak_naam);
+
+
+
+                
+                command.Parameters.AddWithValue("@Traject", voorkeur.Taak_naam);
                 command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
+                command.Parameters.AddWithValue("@Eenheid", voorkeur.Onderdeel_naam);
+                command.Parameters.AddWithValue("@Traject_naam", voorkeur.Traject_naam);
                 command.Parameters.AddWithValue("@UserId", id);
-                command.CommandText = "INSERT INTO Voorkeur (Vak_naam, Prioriteit, UserId) VALUES ( @vak_naam, @Prioriteit, @UserId)";
+                command.CommandText = "INSERT INTO Voorkeur (Traject, Eenheid,Taak, Prioriteit, UserId) VALUES ( @Traject,@Eenheid, @Prioriteit,@Traject_naam ,@UserId)";
                 command.ExecuteNonQuery();
 
             }

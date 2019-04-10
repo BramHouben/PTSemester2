@@ -5,10 +5,15 @@ namespace ProjectinternDB.Models
 {
     public class VoorkeurViewModel
     {
+        public int TrajectId { get; set; }
+        public string TrajectNaam { get; set; }
+
 
         [Required]
-        public string Vak_naam { get; set; }
-        [Required]
         public int Prioriteit { get; set; }
+
+        //public Onderdeel Onderdeel { get; set; }
+
+        //public Taak Taak { get; set; }
     }
 }

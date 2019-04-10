@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Model.Onderwijsdelen;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectinternDB.Models
 {
@@ -6,7 +7,11 @@ namespace ProjectinternDB.Models
     {
 
         [Required]
-        public string Vak_naam { get; set; }
+        public Traject traject { get; set; }
+        [Required]
+        public Onderdeel onderdeel { get; set; }
+        [Required]
+        public Taak taak { get; set; }
         [Required]
         public int Prioriteit { get; set; }
     }

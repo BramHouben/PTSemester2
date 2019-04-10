@@ -14,6 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static ProjectinternDB.Data.ApplicationDbContext;
 using ProjectinternDB.Models;
+using Data.Context;
+using Data;
+using Logic;
 
 namespace ProjectinternDB
 {
@@ -50,7 +53,8 @@ namespace ProjectinternDB
                   .AddEntityFrameworkStores<ApplicationDbContext>();
             //services.AddTransient<UserManager<ApplicationUser>>();
             //services.AddTransient<ApplicationDbContext>();
-
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddScoped<IVoorkeurContext, VoorkeurSQLContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSession();
           

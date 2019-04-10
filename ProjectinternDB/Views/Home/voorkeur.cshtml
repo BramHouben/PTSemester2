@@ -1,25 +1,97 @@
-﻿@model ProjectinternDB.Models.VoorkeurViewModel
+﻿@model Model.Onderwijsdelen.Traject
 
 @{
     ViewData["Title"] = "Voorkeur";
 }
 <h2>Voorkeur</h2>
 <hr />
+
+@{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var items = "<option value='0'>Select</option>";
+        $('#OnderdeelId').html(items);
+        $('#TaakId').html(items);
+    });
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#TrajectId').change(function () {
+                var url = '@Url.Content("~/")' + "Voorkeur/GetOnderdeel";
+                var ddlsource = "#TrajectId";
+                $.getJSON(url, { TrajectId: $(ddlsource).val() }, function (data) {
+                    var items = '';
+                    $("#OnderdeelId").empty();
+                    $.each(data, function (i, onderdeel) {
+                        items += "<option value='" + onderdeel.value + "'>" + onderdeel.text + "</option>";
+                    });
+                    $('#OnderdeelId').html(items);
+                });
+            });
+
+            $('#OnderdeelId').change(function () {
+                var url = '@Url.Content("~/")' + "Voorkeur/GetTaak";
+                var ddlsource = "#OnderdeelId";
+                $.getJSON(url, { OnderdeelId: $(ddlsource).val() }, function (data) {
+                    var items = '';
+                    $('#TaakId').empty();
+                    $.each(data, function (i, taak) {
+                        items += "<option value='" + taak.value + "'>" + taak.text + "</option>";
+                    });
+                    $('#TaakId').html(items);
+                });
+            });
+        });
+    </script>
+
+    <form asp-controller="Voorkeur" asp-action="Index" method="post" class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="row">
+                <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <label asp-for="TrajectNaam" class="control-label">Traject</label>
+                    <select asp-for="TrajectId"
+                            class="form-control"
+                            asp-items="@(new SelectList(@ViewBag.ListOfTraject,"TrajectId", "TrajectNaam"))"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <label class="control-label">Onderdeel</label>
+                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
+                            asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <label class="control-label">Taak</label>
+                    <select class="form-control" id="TaakId" name="TaakId"
+                            asp-items="@(new SelectList(string.Empty,"TaakId", "TaakNaam"))"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                    <input id="Submit1" type="submit" value="submit" />
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="View">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Vak_naam" class="control-label"></label>
-                <input asp-for="Vak_naam" class="form-control" />
-                <span asp-validation-for="Vak_naam" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Prioriteit" class="control-label"></label>
-                <input asp-for="Prioriteit" class="form-control" />
-                <span asp-validation-for="Prioriteit" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" />
             </div>

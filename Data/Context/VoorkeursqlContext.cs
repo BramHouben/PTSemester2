@@ -11,13 +11,17 @@ namespace Data.Context
     public class VoorkeurSQLContext : IVoorkeurContext
     {
         
-        private SqlConnection connectie;
+        private SqlConnection connectie { get; }
 
         private DBconn dbconn = new DBconn();
 
         public VoorkeurSQLContext()
         {
-            
+            connectie = dbconn.GetConnString();
+        }
+
+        public List<Voorkeur> VoorkeurenOphalen(string id)
+        {
             List<Voorkeur> vklistmodel = new List<Voorkeur>();
 
             connectie.Open();
@@ -43,7 +47,6 @@ namespace Data.Context
 
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
-
             try
             {
                 connectie.Open();

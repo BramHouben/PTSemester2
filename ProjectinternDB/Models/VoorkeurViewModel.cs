@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Model.Onderwijsdelen;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectinternDB.Models
 {
@@ -6,7 +7,6 @@ namespace ProjectinternDB.Models
     {
 
         [Required]
-        [Display(Name = "Vak")]
         public string Vak_naam { get; set; }
         [Required]
         public int Prioriteit { get; set; }

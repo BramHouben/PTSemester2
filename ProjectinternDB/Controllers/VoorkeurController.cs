@@ -9,18 +9,49 @@ using ProjectinternDB.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Model.Onderwijsdelen;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Data;
+using Data.Context;
 
 namespace ProjectinternDB.Controllers
 {
     //[Authorize(Roles = "Teamleider")]
     public class VoorkeurController : Controller
     {
+        private VoorkeurLogic _voorkeurLogic;
 
-        private VoorkeurLogic _voorkeurLogic = new VoorkeurLogic();
+        public VoorkeurController(IVoorkeurContext context)
+        {
+            _voorkeurLogic = new VoorkeurLogic(context);
+        }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public JsonResult GetOnderdeel(int TrajectId)
+        {
+            List<Onderdeel> Onderdelen = new List<Onderdeel>();
+
+            Onderdelen = _voorkeurLogic.GetOnderdelenByTrajectId(TrajectId);
+            Onderdelen.Insert(0, new Onderdeel { OnderdeelId = 0, OnderdeelNaam = "Select" });
+
+            return Json(new SelectList(Onderdelen, "OnderdeelId", "OnderdeelNaam"));
+        }
+
+        public JsonResult GetTaak(int OnderdeelId)
+        {
+            List<Taak> productList = new List<Taak>();
+
+            // ------- Getting Data from Database Using EntityFrameworkCore -------
+            productList = _voorkeurLogic.GetTakenByOnderdeelId(OnderdeelId);
+
+            // ------- Inserting Select Item in List -------
+            productList.Insert(0, new Taak { TaakId = 0, TaakNaam = "Select" });
+
+            return Json(new SelectList(productList, "TaakId", "TaakNaam"));
         }
 
         public IActionResult userInlog(string User_id)
@@ -31,13 +62,14 @@ namespace ProjectinternDB.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult InvoegenVoorkeur(VoorkeurViewModel voorkeur)
-        {
+        //public IActionResult InvoegenVoorkeur(VoorkeurViewModel voorkeur)
+        //{
 
-            _voorkeurLogic.AddVoorkeur(voorkeur.Vak_naam, voorkeur.Prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //    _voorkeurLogic.AddVoorkeur(voorkeur.Vak_naam, voorkeur.Prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -49,8 +81,5 @@ namespace ProjectinternDB.Controllers
             _voorkeurLogic.DeleteVoorkeur(id);
             return RedirectToAction("Index");
         }
-
-
-
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
@@ -39,6 +40,21 @@ namespace Data.Context
         }
 
         public void DeleteVoorkeur(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Traject> GetTrajecten()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Onderdeel> GetOnderdelenByTrajectId(int trajectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
         {
             throw new NotImplementedException();
         }

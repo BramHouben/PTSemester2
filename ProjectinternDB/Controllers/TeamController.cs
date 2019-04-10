@@ -10,14 +10,18 @@ using Model;
 using ProjectinternDB.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using Microsoft.AspNetCore.Authorization;
+
+
 namespace ProjectinternDB.Controllers
 {
+    [Authorize(Roles = "Teamleider")]
     public class TeamController : Controller
     {
-
         private TeamLogic _teamLogic = new TeamLogic();
 
         public IActionResult Index()

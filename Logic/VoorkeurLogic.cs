@@ -3,14 +3,19 @@ using System;
 using Model;
 using System.Collections.Generic;
 using Data.Context;
+using Model.Onderwijsdelen;
 
 namespace Logic
 {
     public class VoorkeurLogic
     {
-        private VoorkeurRepository VoorkeurRepo = new VoorkeurRepository();
-        //private medewerker inlogmedewerker;
+        private VoorkeurRepository VoorkeurRepo;
         private MedewerkerSQL sqlMedewerker = new MedewerkerSQL();
+
+        public VoorkeurLogic(IVoorkeurContext context)
+        {
+            VoorkeurRepo = new VoorkeurRepository(context);
+        }
 
         public void AddVoorkeur(string vak_naam, int prioriteit, string id)
         {
@@ -29,7 +34,7 @@ namespace Logic
         public Medewerker krijgUser_id(string user_id)
         {
 
-     
+            
             return sqlMedewerker.getmedewerkerid(user_id);
         }
 
@@ -41,5 +46,11 @@ namespace Logic
         {
             return id;
         }
+
+        public List<Traject> GetTrajecten() => VoorkeurRepo.GetTrajecten();
+
+        public List<Onderdeel> GetOnderdelenByTrajectId(int trajectId) => VoorkeurRepo.GetOnderdelenByTrajectId(trajectId);
+
+        public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => VoorkeurRepo.GetTakenByOnderdeelId(onderdeelId);
     }
 }

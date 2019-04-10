@@ -91,12 +91,14 @@ namespace Data.Context
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Docent docent = new Docent();
-                    docent.DocentId = (int)reader["DocentID"];
-                    docent.TeamId = (int)reader["TeamID"];
-                    docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                    Docent docent = new Docent
+                    {
+                        DocentId = (int) reader["DocentID"],
+                        TeamId = (int) reader["TeamID"],
+                        RuimteVoorInzet = (int) reader["RuimteVoorInzet"],
+                        Naam = (string) reader["Naam"]
+                    };
                     //docent.MedewerkerId = (string) reader["MedewerkerID"];
-                    docent.Naam = (string)reader["Naam"];
                     docentList.Add(docent);
                 }
             }
@@ -249,7 +251,6 @@ namespace Data.Context
                 {
                     team = new Team((int)reader["TeamID"], (int)reader["TeamLeiderID"],
                         (int)reader["CurriculumEigenaarID"]);
-
                 }
                 return team;
             }

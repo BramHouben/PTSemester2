@@ -10,6 +10,8 @@ using Model;
 using ProjectinternDB.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ProjectinternDB.Controllers
 {
@@ -100,5 +102,27 @@ namespace ProjectinternDB.Controllers
             // Team selectedTeamteam = _teamLogic.TeamsOphalen()
         }
 
+    
+
+        public IActionResult VoegDocentToe()
+        {
+            // Haalt huidig teamid op
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int teamid = _teamLogic.haalTeamIDOpMetString(id);
+            //
+            var teams = new TeamViewModel();
+            Team team = _teamLogic.TeamOphalenMetID(teamid);
+            teams.Docenten = _teamLogic.DocentenOphalen(teamid) as List<Docent>;
+            teams.DocentenZonderTeam = _teamLogic.DocentenOphalen(teamid) as List<Docent>;
+            teams.TeamID = teamid;
+            return View(teams);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult VoegToeAanTeam(int teamid, int medewerkerid)
+        {
+            throw new Exception(teamid.ToString() + medewerkerid.ToString());
+        }
     }
 }

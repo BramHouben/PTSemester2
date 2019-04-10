@@ -113,20 +113,18 @@ namespace ProjectinternDB.Controllers
             // Haalt huidig teamid op
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int teamid = _teamLogic.haalTeamIDOpMetString(id);
-            //
+            List<Docent> docentenZonderTeam = _teamLogic.haalDocentenZonderTeamOp();
             var teams = new TeamViewModel();
+            teams.DocentenZonderTeam = docentenZonderTeam;
             Team team = _teamLogic.TeamOphalenMetID(teamid);
-            teams.Docenten = _teamLogic.DocentenOphalen(teamid) as List<Docent>;
-            teams.DocentenZonderTeam = _teamLogic.DocentenOphalen(teamid) as List<Docent>;
             teams.TeamID = teamid;
             return View(teams);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult VoegToeAanTeam(int teamid, int medewerkerid)
+        public IActionResult VoegDocentToeAanTeam([FromQuery]int teamid, [FromQuery]int docentid)
         {
-            throw new Exception(teamid.ToString() + medewerkerid.ToString());
+            _teamLogic.VoegDocentToeAanTeam(docentid, teamid);
+            return RedirectToAction("VoegDocentToe", "Team");
         }
     }
 }

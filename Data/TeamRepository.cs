@@ -21,9 +21,9 @@ namespace Data
            return IteamContext.DocentInTeamOphalen(teamid);
         }
        
-        public void VoegDocentToeAanTeam(Docent docent)
+        public void VoegDocentToeAanTeam(int DocentID, int TeamID)
         {
-            IteamContext.DocentToevoegen(docent);
+            IteamContext.VoegDocentToeAanTeam(DocentID, TeamID);
         }
         public void VerwijderDocentUitTeam(int DocentID)
         {
@@ -48,6 +48,11 @@ namespace Data
         public int haalTeamIdOpMetIDString(string id)
         {
             return IteamContext.haalTeamIdOp(id);
+        }
+
+        public List<Docent> haalDocentenZonderTeamOp()
+        {
+            return IteamContext.haalDocentenZonderTeamOp();
         }
     }
 }

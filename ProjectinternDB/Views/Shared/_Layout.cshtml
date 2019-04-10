@@ -26,16 +26,18 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="navbar-nav mr-auto ">
+            <ul class="nav navbar-nav navbar-right">
                 @if (User.IsInRole("Teamleider"))
                 {
-                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">teambekijken</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="DocentenToevoegen" class="nav-link">DocentenToevoegen</a></li>
+                    @*<ul class="nav nav-pills">*@
+                    <li class="nav-item dropdown show">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Teamleider</a>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                            <a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">Team Overzicht</a>
+                            <a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a>
+                        </div>
+                    </li>
                 }
-
-                @*<li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="About"class="nav-link">About</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Contact"class="nav-link">Contact</a></li>*@
             </ul>
             <partial name="_LoginPartial" />
             <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="~/images/user.png" height="50" alt="User" class="imgNavbar" /></a>

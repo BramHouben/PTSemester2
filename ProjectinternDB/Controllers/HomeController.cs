@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectinternDB.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Data;
 using Model.Onderwijsdelen;
@@ -58,17 +57,6 @@ namespace ProjectinternDB.Controllers
         public IActionResult VoorkeurUitslag()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-           
-            //var voorkeuren = new List<VoorkeurViewModel>();
-
-            //foreach (var voorkeur in voorkeurLogic.OphalenVoorkeur(id))
-            //{
-            //    voorkeuren.Add(new VoorkeurViewModel
-            //    {
-            //        Vak_naam = voorkeur.Vak_naam,
-            //        Prioriteit = voorkeur.Prioriteit
-            //    });
-            //}
 
             return View(_voorkeurLogic.OphalenVoorkeur(id));
         }

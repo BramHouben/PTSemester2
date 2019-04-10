@@ -17,14 +17,13 @@ namespace Logic
             VoorkeurRepo = new VoorkeurRepository(context);
         }
 
-        public void AddVoorkeur(int traject_naam, int prioriteit, int onderdeel_naam, int taak_naam, string id)
+        public void AddVoorkeur(string trajectNaam, string onderdeelNaam, string taakNaam, int prioriteit, string id)
         {
             if (prioriteit > 5 || prioriteit < 0)
             {
-                throw new ArgumentException("Iets Fout met het proces, Probeer opnieuw");
-                    
+                throw new ArgumentException("Iets Fout met het proces, Probeer opnieuw"); //Melding sturen naar de gebruiker!                   
             }
-            VoorkeurRepo.AddVoorkeur(new Voorkeur(traject_naam, prioriteit,onderdeel_naam,taak_naam),id);
+            VoorkeurRepo.AddVoorkeur(new Voorkeur(trajectNaam, onderdeelNaam, taakNaam, prioriteit),id);
         }
 
         public void DeleteVoorkeur(int id)

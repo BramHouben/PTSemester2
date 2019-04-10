@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
 using ProjectinternDB.Models;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Model.Onderwijsdelen;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Data;
-using Data.Context;
 using Microsoft.AspNetCore.Http;
 
 namespace ProjectinternDB.Controllers
@@ -45,8 +40,7 @@ namespace ProjectinternDB.Controllers
         public JsonResult GetTaak(int OnderdeelId)
         {
             List<Taak> productList = new List<Taak>();
-
-       
+ 
             productList = _voorkeurLogic.GetTakenByOnderdeelId(OnderdeelId);
 
             // ------- Inserting Select Item in List -------
@@ -63,26 +57,17 @@ namespace ProjectinternDB.Controllers
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult InvoegenVoorkeur(/*VoorkeurViewModel voorkeur*/VoorkeurViewModel objTraject, IFormCollection formCollection)
+        public IActionResult InvoegenVoorkeur(VoorkeurViewModel objTraject, IFormCollection formCollection)
         {
-
-            //_voorkeurLogic.AddVoorkeur(voorkeur.TrajectNaam, voorkeur.Prioriteit, voorkeur.Onderdeel.OnderdeelNaam, voorkeur.Taak.TaakNaam, User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            //return RedirectToAction("Index");
             var Prioriteit = HttpContext.Request.Form["Prioriteit"];
-            int test = Convert.ToInt32(Prioriteit);
             var OnderdeelId = HttpContext.Request.Form["OnderdeelId"];
             var TaakId = HttpContext.Request.Form["TaakId"];
-            int test2 = Convert.ToInt32(OnderdeelId);
-            int test3 = Convert.ToInt32(TaakId);
-            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, test, test2, test3, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int prioriteit = Convert.ToInt32(Prioriteit);
+            string onderdeel = OnderdeelId;
+            string taak = TaakId;
+            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction("Index");
         }
-        //[HttpPost]
-        //public IActionResult InvoegenVoorkeur(VoorkeurViewModel objTraject, IFormCollection formCollection)
-        //{
-
-        //}
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

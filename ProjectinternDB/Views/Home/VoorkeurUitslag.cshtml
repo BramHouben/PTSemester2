@@ -25,9 +25,9 @@
         @foreach (Voorkeur vk in Model)
         {
         <tr>
-            <td>@vk.Traject_naam</td>
-            <td>@vk.Onderdeel_naam</td>
-            <td>@vk.Taak_naam</td>
+            <td>@vk.TrajectNaam</td>
+            <td>@vk.OnderdeelNaam</td>
+            <td>@vk.TaakNaam</td>
             <td>@vk.Prioriteit</td>
             <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) | </td>
             <td>

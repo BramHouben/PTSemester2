@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Model;
+﻿using Model;
 using Model.Onderwijsdelen;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-
 namespace Data.Context
 {
     public class VoorkeurSQLContext : IVoorkeurContext
-    {
-        
+    {  
         private SqlConnection connectie { get; }
-
         private DBconn dbconn = new DBconn();
 
         public VoorkeurSQLContext()
@@ -26,18 +22,21 @@ namespace Data.Context
 
             connectie.Open();
             var cmd = new SqlCommand("SELECT * FROM Voorkeur where UserId  = @UserId", connectie);
+            /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
+                "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
+                "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
             cmd.Parameters.AddWithValue("@UserId", id);
             var reader = cmd.ExecuteReader();
+
             while (reader.Read())
             {
                 var voorkeur = new Voorkeur();
 
-
                 voorkeur.Id = (int)reader["Id"];
-                voorkeur.Taak_naam = (int)reader["Traject"];
                 voorkeur.Prioriteit = (int)reader["Prioriteit"];
-                voorkeur.Traject_naam = (int)reader["Eenheid"];
-               voorkeur.Taak_naam = (int)reader["Taak"];
+                voorkeur.TrajectNaam = (string)reader["Traject"];
+                voorkeur.TaakNaam = (string)reader["Taak"];
+                voorkeur.OnderdeelNaam = (string)reader["Onderdeel"];
                 vklistmodel.Add(voorkeur);
             }
             connectie.Close();
@@ -45,24 +44,32 @@ namespace Data.Context
             return vklistmodel;
         }
 
-
-
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
             try
             {
                 connectie.Open();
+                var cmdTraject = connectie.CreateCommand();
+                cmdTraject.CommandText = "SELECT TrajectNaam FROM Traject WHERE TrajectId = '" + voorkeur.TrajectNaam + "'";
+                var resultTraject = cmdTraject.ExecuteScalar();
+
+                var cmdOnderdeel = connectie.CreateCommand();
+                cmdOnderdeel.CommandText = "SELECT OnderdeelNaam FROM Onderdeel WHERE OnderdeelId = '" + voorkeur.OnderdeelNaam + "'";
+                var resultOnderdeel = cmdOnderdeel.ExecuteScalar();
+
+                var cmdTaak = connectie.CreateCommand();
+                cmdTaak.CommandText = "SELECT TaakNaam FROM Taak WHERE TaakId = '" + voorkeur.TaakNaam + "'";
+                var resultTaak = cmdTaak.ExecuteScalar();
+
+
                 var command = connectie.CreateCommand();
-
-
-
-                
-                command.Parameters.AddWithValue("@Traject", voorkeur.Taak_naam);
+                command.Parameters.AddWithValue("@TrajectNaam", resultTraject);
+                command.Parameters.AddWithValue("@OnderdeelNaam", resultOnderdeel);
+                command.Parameters.AddWithValue("@TaakNaam", resultTaak);
                 command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
-                command.Parameters.AddWithValue("@Eenheid", voorkeur.Onderdeel_naam);
-                command.Parameters.AddWithValue("@Traject_naam", voorkeur.Traject_naam);
                 command.Parameters.AddWithValue("@UserId", id);
-                command.CommandText = "INSERT INTO Voorkeur (Traject, Eenheid,Taak, Prioriteit, UserId) VALUES ( @Traject,@Eenheid, @Prioriteit,@Traject_naam ,@UserId)";
+
+                command.CommandText = "INSERT INTO Voorkeur (Traject, Onderdeel, Taak, Prioriteit, UserId) VALUES ( @TrajectNaam, @OnderdeelNaam, @TaakNaam, @Prioriteit, @UserId)";
                 command.ExecuteNonQuery();
 
             }
@@ -75,6 +82,7 @@ namespace Data.Context
                 connectie.Close();
             }
         }
+
         public void DeleteVoorkeur(int id)
         {
             try

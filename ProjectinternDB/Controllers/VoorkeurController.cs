@@ -69,11 +69,13 @@ namespace ProjectinternDB.Controllers
             //_voorkeurLogic.AddVoorkeur(voorkeur.TrajectNaam, voorkeur.Prioriteit, voorkeur.Onderdeel.OnderdeelNaam, voorkeur.Taak.TaakNaam, User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             //return RedirectToAction("Index");
-            var Prioriteit = HttpContext.Request.Form["Prioriteit"].ToString();
+            var Prioriteit = HttpContext.Request.Form["Prioriteit"];
             int test = Convert.ToInt32(Prioriteit);
-            var OnderdeelId = HttpContext.Request.Form["OnderdeelId"].ToString();
-            var TaakId = HttpContext.Request.Form["TaakId"].ToString();
-            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, test, OnderdeelId, TaakId, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var OnderdeelId = HttpContext.Request.Form["OnderdeelId"];
+            var TaakId = HttpContext.Request.Form["TaakId"];
+            int test2 = Convert.ToInt32(OnderdeelId);
+            int test3 = Convert.ToInt32(TaakId);
+            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, test, test2, test3, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction("Index");
         }
         //[HttpPost]

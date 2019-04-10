@@ -17,7 +17,7 @@ namespace Logic
             VoorkeurRepo = new VoorkeurRepository(context);
         }
 
-        public void AddVoorkeur(int traject_naam, int prioriteit, string onderdeel_naam, string taak_naam, string id)
+        public void AddVoorkeur(int traject_naam, int prioriteit, int onderdeel_naam, int taak_naam, string id)
         {
             if (prioriteit > 5 || prioriteit < 0)
             {

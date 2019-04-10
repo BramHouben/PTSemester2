@@ -34,8 +34,10 @@ namespace Data.Context
 
 
                 voorkeur.Id = (int)reader["Id"];
-                voorkeur.Taak_naam = (string)reader["Taak"];
+                voorkeur.Taak_naam = (int)reader["Traject"];
                 voorkeur.Prioriteit = (int)reader["Prioriteit"];
+                voorkeur.Traject_naam = (int)reader["Eenheid"];
+               voorkeur.Taak_naam = (int)reader["Taak"];
                 vklistmodel.Add(voorkeur);
             }
             connectie.Close();

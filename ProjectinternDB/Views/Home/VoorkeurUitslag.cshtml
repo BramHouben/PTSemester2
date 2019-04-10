@@ -14,27 +14,31 @@
     </h3>
     <table>
         <tr>
-            <th>Inzet Item</th>
-            <th>Prioriteit</th>
+            <th>traject</th>
+            <th>eenheid</th>
+            <th>taak</th>
+            <th>prioriteit</th>
             <th>Opties</th>
             <th>Informatie</th>
 
         </tr>
         @foreach (Voorkeur vk in Model)
         {
-            <tr>
-                <td>@vk.Taak_naam</td>
-                <td>@vk.Prioriteit</td>
-                <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) | </td>
-                <td>
-                    <div class="img-hover">
-                        <a href="#">
-                            <img src="~/images/info.png" style="height:20px; align-content: flex-start; display:block;" class="imgNavbar"/>
-                            <span>Informatie over het vak...</span>
-                        </a>
-                    </div>
-                </td>
-            </tr>
+        <tr>
+            <td>@vk.Traject_naam</td>
+            <td>@vk.Onderdeel_naam</td>
+            <td>@vk.Taak_naam</td>
+            <td>@vk.Prioriteit</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) | </td>
+            <td>
+                <div class="img-hover">
+                    <a href="#">
+                        <img src="~/images/info.png" style="height:20px; align-content: flex-start; display:block;" class="imgNavbar" />
+                        <span>Informatie over het vak...</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
         }
     </table>
 </div>

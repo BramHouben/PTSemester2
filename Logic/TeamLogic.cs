@@ -17,9 +17,9 @@ namespace Logic
         {
             return TeamRepo.DocentenInTeamOphalen(teamid);
         }
-        public void VoegDocentToeAanTeam(Docent docent)
+        public void VoegDocentToeAanTeam(int DocentID, int TeamID)
         {
-            TeamRepo.VoegDocentToeAanTeam(docent);
+            TeamRepo.VoegDocentToeAanTeam(DocentID, TeamID);
         }
         public void VerwijderDocentUitTeam(int docentid)
         {
@@ -42,6 +42,11 @@ namespace Logic
         public int haalTeamIDOpMetString(string id)
         {
             return TeamRepo.haalTeamIdOpMetIDString(id);
+        }
+
+        public List<Docent> haalDocentenZonderTeamOp()
+        {
+            return TeamRepo.haalDocentenZonderTeamOp();
         }
     }
 }

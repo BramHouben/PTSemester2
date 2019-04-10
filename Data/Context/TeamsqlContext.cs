@@ -125,7 +125,7 @@ namespace Data.Context
         }
 
 
-        public void DocentToevoegen(Docent doc)
+        public void VoegDocentToeAanTeam(int DocentID, int TeamID)
         {
             SqlDataReader reader = null;
             try
@@ -137,13 +137,13 @@ namespace Data.Context
                 }
                 var cmd = connectie.CreateCommand();
                 cmd.CommandText = "UPDATE Docent SET TeamID = @TeamID WHERE DocentID = @DocentID;";
-                cmd.Parameters.AddWithValue("@TeamID", doc.TeamId);
-                cmd.Parameters.AddWithValue("@DocentID", doc.DocentId);
-                reader = cmd.ExecuteReader();
+                cmd.Parameters.AddWithValue("@TeamID", TeamID);
+                cmd.Parameters.AddWithValue("@DocentID", DocentID);
+                cmd.ExecuteNonQuery();
             }
             catch
             {
-                Console.WriteLine("Er is iets misgegaan met het updaten van het docent id");
+                Console.WriteLine("Er is iets misgegaan met het updaten van het Team id");
             }
             finally
             {
@@ -375,6 +375,45 @@ namespace Data.Context
                 }
             }
             return result;
+        }
+
+        public List<Docent> haalDocentenZonderTeamOp()
+        {
+            List<Docent> docenten = new List<Docent>();
+            try
+            {
+                connectie = dbconn.GetConnString();
+                connectie.Open();
+                var cmd = connectie.CreateCommand();
+                cmd.CommandText = "SELECT DocentID, Naam, RuimteVoorInzet FROM Docent WHERE TeamID is null";
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Docent docent = new Docent();
+                    docent.DocentId = (int)reader["DocentID"];
+                    docent.Naam = (string)reader["Naam"];
+                    if(DBNull.Value.Equals(reader["RuimteVoorInzet"]))
+                    {
+                        docent.RuimteVoorInzet = 0;
+                    }
+                    else
+                    {
+                        docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                    }
+                    
+                    docenten.Add(docent);
+                }
+                return docenten;
+            }
+            catch (SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+                return null;
+            }
+            finally
+            {
+                connectie.Close();
+            }
         }
     }
 }

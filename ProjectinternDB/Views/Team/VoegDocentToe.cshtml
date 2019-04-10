@@ -6,19 +6,19 @@
     Docent docent = new Docent();
 }
 
-<h2>VoegDocentToe</h2>
+<h2>Voeg Docent Toe aan uw Team</h2>
 
 <table class="table">
 <thead>
 <tr>
     <th>
-        @Html.DisplayNameFor(model => docent.DocentId)
+        Docent ID
     </th>
     <th>
         @Html.DisplayNameFor(model => docent.Naam)
     </th>
     <th>
-        @Html.DisplayNameFor(model => docent.RuimteVoorInzet)
+        Ruimte Voor Inzet
     </th>
     <th></th>
 </tr>
@@ -39,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
         </td>
         <td>
-            <a asp-action="VoegToeAanTeam" asp-route-teamid="@Model.TeamID" asp-route-docentid="@item.DocentId" >Voeg Toe Aan Team @Model.TeamID</a>
+            <a asp-action="VoegDocentToeAanTeam" asp-route-teamid="@Model.TeamID" asp-route-docentid="@item.DocentId" >Voeg Toe Aan Team @Model.TeamID</a>
         </td>
     </tr>
 }

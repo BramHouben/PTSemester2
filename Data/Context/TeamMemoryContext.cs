@@ -41,9 +41,9 @@ namespace Data.Context
             return docenten;
         }
 
-        public void DocentToevoegen(Docent docent)
+        public void VoegDocentToeAanTeam(int docentID, int TeamID)
         {
-            docenten.Add(docent);
+            docenten.Add(new Docent { });
         }
 
         public void DocentVerwijderen(Docent docent)
@@ -115,6 +115,17 @@ namespace Data.Context
         public int haalTeamIdOp(string id)
         {
             return 1;
+        }
+
+        public List<Docent> haalDocentenZonderTeamOp()
+        {
+            docenten = new List<Docent>
+            {
+                new Docent(1, 0, 600, "Jan"),
+                new Docent(2, 0, 500, "Kees"),
+                new Docent(3, 0, 550, "Klaas")
+            };
+            return docenten;
         }
     }
 }

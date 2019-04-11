@@ -243,14 +243,17 @@ namespace Data.Context
                     connectie.Open();
                 }
                 Team team = null;
-                var cmd = new SqlCommand("SELECT * FROM [dbo].[Team] WHERE TeamID = @id", connectie);
+                var cmd = new SqlCommand("SELECT T.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[Team] T INNER JOIN [dbo].[TeamLeider] TL ON T.TeamLeiderID = TL.TeamLeiderID INNER JOIN [dbo].[AspNetUsers] ANU ON TL.MedewerkerID = ANU.Id  WHERE T.TeamID = @id", connectie);
                 cmd.Parameters.AddWithValue("@id", id);
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    team = new Team((int)reader["TeamID"], (int)reader["TeamLeiderID"],
-                        (int)reader["CurriculumEigenaarID"]);
+                    team = new Team();
+                    team.TeamId = (int)reader["TeamID"];
+                    team.TeamleiderID = (int)reader["TeamLeiderID"];
+                    team.CurriculumEigenaarID = (int)reader["CurriculumEigenaarID"];
+                    team.TeamleiderNaam = (string)reader["Naam"];
                 }
                 return team;
             }

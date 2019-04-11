@@ -91,13 +91,20 @@ namespace Data.Context
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Docent docent = new Docent
+                    Docent docent = new Docent();
+
+                    docent.DocentId = (int)reader["DocentID"];
+                    docent.TeamId = (int)reader["TeamID"];
+                    if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
                     {
-                        DocentId = (int) reader["DocentID"],
-                        TeamId = (int) reader["TeamID"],
-                        RuimteVoorInzet = (int) reader["RuimteVoorInzet"],
-                        Naam = (string) reader["Naam"]
-                    };
+                        docent.RuimteVoorInzet = 0;
+                    }
+                    else
+                    {
+                        docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                    }
+                    docent.Naam = (string)reader["Naam"];
+                    
                     //docent.MedewerkerId = (string) reader["MedewerkerID"];
                     docentList.Add(docent);
                 }

@@ -9,71 +9,71 @@
 <h2>Voeg Docent Toe aan uw Team</h2>
 
 <table class="table">
-<thead>
-<tr>
-    <th>
-        Docent ID
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => docent.Naam)
-    </th>
-    <th>
-        Ruimte Voor Inzet
-    </th>
-    <th></th>
-</tr>
-</thead>
-<tbody>
+    <thead>
+        <tr>
+            <th>
+                Docent ID
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => docent.Naam)
+            </th>
+            <th>
+                Ruimte Voor Inzet
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 
 
-@foreach (var item in Model.DocentenZonderTeam)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DocentId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Naam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
-        </td>
-        <td>
-            <a asp-action="VoegDocentToeAanTeam" asp-route-teamid="@Model.TeamID" asp-route-docentid="@item.DocentId" >Voeg Toe Aan Team @Model.TeamID</a>
-        </td>
-    </tr>
-}
+        @foreach (var item in Model.DocentenZonderTeam)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
+                </td>
+                <td>
+                    <a asp-action="VoegDocentToeAanTeam" asp-route-teamid="@Model.TeamID" asp-route-docentid="@item.DocentId">Voeg Toe Aan Team @Model.TeamID</a>
+                </td>
+            </tr>
+        }
 </table>
 @*<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="VoegDocentToe">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TeamleiderID" class="control-label"></label>
-                <input asp-for="TeamleiderID" class="form-control"/>
-                <span asp-validation-for="TeamleiderID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CurriculumEigenaarID" class="control-label"></label>
-                <input asp-for="CurriculumEigenaarID" class="form-control"/>
-                <span asp-validation-for="CurriculumEigenaarID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TeamleiderNaam" class="control-label"></label>
-                <input asp-for="TeamleiderNaam" class="form-control"/>
-                <span asp-validation-for="TeamleiderNaam" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default"/>
-            </div>
-        </form>
-    </div>
-</div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="VoegDocentToe">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="TeamleiderID" class="control-label"></label>
+                    <input asp-for="TeamleiderID" class="form-control"/>
+                    <span asp-validation-for="TeamleiderID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CurriculumEigenaarID" class="control-label"></label>
+                    <input asp-for="CurriculumEigenaarID" class="form-control"/>
+                    <span asp-validation-for="CurriculumEigenaarID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeamleiderNaam" class="control-label"></label>
+                    <input asp-for="TeamleiderNaam" class="form-control"/>
+                    <span asp-validation-for="TeamleiderNaam" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default"/>
+                </div>
+            </form>
+        </div>
+    </div>*@
 
 <div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
+    <a asp-action="TeamOverzicht">Terug naar uw Team</a>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

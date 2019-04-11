@@ -12,11 +12,11 @@
     </div>
 
     <div class="col-xs-6 col-sm-3">
-        <h6>Teamleider ID</h6>
+        <h6>Teamleider Naam</h6>
     </div>
 
     <div class="col-xs-6 col-sm-3">
-        <h6>Teamleider naam</h6>
+        <h6></h6>
     </div>
     <div class="col-xs-6 col-sm-3">
         <h6> </h6>
@@ -36,8 +36,7 @@
         </div>
         <div class="col-xs-6 col-sm-3">
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /*id=Model.TeamId*/ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Bekijk Team", "DocentenInTeam", new { id=Model.TeamId })
         </div>
 
     

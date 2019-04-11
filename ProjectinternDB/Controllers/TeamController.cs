@@ -52,17 +52,6 @@ namespace ProjectinternDB.Controllers
         {
             var teamLogic = new TeamLogic();
             var teams = new List<TeamViewModel>();
-            /*foreach (var team in teamLogic.TeamsOphalen())
-            {
-                teams.Add(new TeamViewModel
-                {
-                    TeamleiderID = team.TeamleiderID,
-                    CurriculumEigenaarID = team.CurriculumEigenaarID,
-                    Docenten = teamLogic.DocentenOphalen(team.TeamId),
-                    Teams = teamLogic.TeamsOphalen(),
-                    TeamleiderNaam = teamLogic.TeamleiderNaamMetTeamleiderId(1)
-                });
-            }*/
             int id = teamLogic.haalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var team = teamLogic.TeamOphalenMetID(id);
 
@@ -127,6 +116,19 @@ namespace ProjectinternDB.Controllers
         {
             _teamLogic.VoegDocentToeAanTeam(docentid, teamid);
             return RedirectToAction("VoegDocentToe", "Team");
+        }
+
+        public IActionResult VerwijderUitTeam(int id)
+        {
+            try
+            {
+                _teamLogic.VerwijderDocentUitTeam(id);
+                return RedirectToAction(nameof(TeamOverzicht));
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

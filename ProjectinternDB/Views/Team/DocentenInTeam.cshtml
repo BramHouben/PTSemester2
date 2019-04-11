@@ -44,9 +44,9 @@
                 @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.DocentId">Edit</a> |
+                @*<a asp-action="Edit" asp-route-id="@item.DocentId">Edit</a> |*@
                 <a asp-action="Details" asp-route-id="@item.DocentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DocentId">Delete</a>
+                <a asp-action="VerwijderUitTeam" asp-route-id="@item.DocentId">Verwijder docent uit Team</a>
             </td>
         </tr>
 }

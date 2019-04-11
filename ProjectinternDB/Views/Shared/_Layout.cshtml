@@ -26,7 +26,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav mr-auto ">
                 @if (User.IsInRole("Teamleider"))
                 {
                     @*<ul class="nav nav-pills">*@
@@ -39,9 +39,10 @@
                     </li>
                 }
             </ul>
-            <partial name="_LoginPartial" />
-            <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="~/images/user.png" height="50" alt="User" class="imgNavbar" /></a>
+
+
         </div>
+        <partial name="_LoginPartial" />
     </nav>
     <div class="purple_bar"></div>
 

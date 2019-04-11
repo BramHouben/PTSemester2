@@ -1,42 +1,47 @@
 @using Microsoft.AspNetCore.Identity
 @*@model ProjectinternDB.Models.MedewerkerViewModel*@
 @inject SignInManager<ApplicationUser> SignInManager
-@inject  UserManager<ApplicationUser> UserManager
+@inject UserManager<ApplicationUser> UserManager
 @if (User.Identity.IsAuthenticated)
 {
     //    var user = await UserManager.FindByNameAsync(User.Identity.Name);
 
 
 
-@if (SignInManager.IsSignedIn(User))
-{
-    //if (User.IsInRole(""))
-    //{
-<ul class="navbar-nav mr-auto">
-    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        //if (User.IsInRole(""))
+        //{
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
 
-    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
-    
-    @*<li class="nav-item" ><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>*@
-</ul>
-    //}
+            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
 
-    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="rm-inline my-2 my-lg-0">
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item">
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link">Hallo @UserManager.GetUserName(User)</a>
-            </li>
-            <li class="nav-item">
-                <button type="submit" class="btn btn-link navbar-btn navbar-link btn btn-secondary my-2 my-sm-0">Logout</button>
-            </li>
+            @*<li class="nav-item" ><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>*@
         </ul>
-    </form>
+        //}
+
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="rm-inline my-2 my-lg-0">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="nav-link">Hallo @UserManager.GetUserName(User)</a>
+                </li>
+                <li class="nav-item">
+                    <button type="submit" class="btn btn-link navbar-btn navbar-link btn btn-secondary my-2 my-sm-0">Logout</button>
+                </li>
+
+            </ul>
+        </form>
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="~/images/user.png" height="50" alt="User" class="imgNavbar" /></a>
+        </li>
     }
 
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
+
         <li class="nav-item"><a asp-area="Identity" asp-page="/Account/Register" class="nav-link">Registreren</a></li>
         <li class="nav-item"><a asp-area="Identity" asp-page="/Account/Login" class="nav-link">Login</a></li>
     </ul>

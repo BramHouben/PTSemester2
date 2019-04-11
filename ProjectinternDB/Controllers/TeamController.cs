@@ -53,7 +53,7 @@ namespace ProjectinternDB.Controllers
         {
             var teamLogic = new TeamLogic();
             var teams = new List<TeamViewModel>();
-            foreach (var team in teamLogic.TeamsOphalen())
+            /*foreach (var team in teamLogic.TeamsOphalen())
             {
                 teams.Add(new TeamViewModel
                 {
@@ -63,9 +63,11 @@ namespace ProjectinternDB.Controllers
                     Teams = teamLogic.TeamsOphalen(),
                     TeamleiderNaam = teamLogic.TeamleiderNaamMetTeamleiderId(1)
                 });
-            }
+            }*/
+            int id = teamLogic.haalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var team = teamLogic.TeamOphalenMetID(id);
 
-            return View(teamLogic.TeamsOphalen());
+            return View(team);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -91,7 +93,7 @@ namespace ProjectinternDB.Controllers
             var teamLogic = new TeamLogic();
             Team geselecteerdTeam = teamLogic.TeamOphalenMetID(id); //.SingleOrDefault(o => o.Name == id); // there should be only one!
            
-            if (geselecteerdTeam == null)
+            /*if (geselecteerdTeam == null)
             {
                 return NotFound();
             }
@@ -100,7 +102,7 @@ namespace ProjectinternDB.Controllers
                 geselecteerdTeam.CurriculumEigenaarNaam =
                 teamLogic.CurriculumEigenaarNaamMetCurriculumEigenaarId(geselecteerdTeam.CurriculumEigenaarID);
                 geselecteerdTeam.TeamleiderNaam = teamLogic.TeamleiderNaamMetTeamleiderId(geselecteerdTeam.TeamleiderID);
-            }
+            }*/
             
             return View(geselecteerdTeam);
             

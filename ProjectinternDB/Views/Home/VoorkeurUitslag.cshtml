@@ -29,7 +29,7 @@
             <td>@vk.OnderdeelNaam</td>
             <td>@vk.TaakNaam</td>
             <td>@vk.Prioriteit</td>
-            <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }) | </td>
+            <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }, new { onclick = "return confirm('Weet u zeker dat deze voorkeur verwijderd moet worden ?');" })) | </td>
             <td>
                 <div class="img-hover">
                     <a href="#">

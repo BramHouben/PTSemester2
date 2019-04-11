@@ -23,6 +23,7 @@ namespace ProjectinternDB.Controllers
     public class TeamController : Controller
     {
         private TeamLogic _teamLogic = new TeamLogic();
+        private VacatureLogic _vacatureLogic = new VacatureLogic();
 
         public IActionResult Index()
         {
@@ -125,6 +126,30 @@ namespace ProjectinternDB.Controllers
         {
             _teamLogic.VoegDocentToeAanTeam(docentid, teamid);
             return RedirectToAction("VoegDocentToe", "Team");
+        }
+
+        public IActionResult MaakVacature()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MaakVacature(IFormCollection form)
+        {
+            Vacature vacature = new Vacature();
+            vacature.Omschrijving = form["Omschrijving"];
+            if (form["naam"] == "")
+            {
+                vacature.Naam = null;
+            }
+            else
+            {
+            vacature.Naam = form["Naam"];
+            }
+
+            vacature.OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]);
+            _vacatureLogic.VacatureOpslaan(vacature);
+           return RedirectToAction("Index");
         }
     }
 }

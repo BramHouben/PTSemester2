@@ -134,7 +134,7 @@ namespace Data.Context
 
         public void VoegDocentToeAanTeam(int DocentID, int TeamID)
         {
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             try
             {
                 connectie = dbconn.GetConnString();

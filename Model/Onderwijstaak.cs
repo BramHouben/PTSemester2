@@ -6,11 +6,11 @@ namespace Model
 {
     public class Onderwijstaak
     {
-        public Onderwijstaak(int onderwijsTaakID, string omschrijving, List<Docent> inzetbaarheidDocenten)
+        public Onderwijstaak(int onderwijsTaakID, string omschrijving)// List<Docent> inzetbaarheidDocenten)
         {
             OnderwijsTaakID = onderwijsTaakID;
             Omschrijving = omschrijving;
-            InzetbaarheidDocenten = inzetbaarheidDocenten;
+           // InzetbaarheidDocenten = inzetbaarheidDocenten;
         }
 
         public Onderwijstaak()
@@ -22,6 +22,6 @@ namespace Model
 
         public string Omschrijving { get; set; }
 
-        public List<Docent> InzetbaarheidDocenten { get; set; }
+      //  public List<Docent> InzetbaarheidDocenten { get; set; }
     }
 }

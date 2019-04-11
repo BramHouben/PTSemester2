@@ -24,33 +24,44 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarColor03">
-            <ul class="nav navbar-nav mr-auto ">
+            <ul class="nav navbar-nav mr-auto">
                 @if (User.IsInRole("Teamleider"))
                 {
+
                     @*<ul class="nav nav-pills">*@
-                    <li class="nav-item dropdown show">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Teamleider</a>
-                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                            <a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">Team Overzicht</a>
-                            <a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a>
-                            <a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a>
-                        </div>
-                    </li>
+
+                    @*<li class="nav-item dropdown show">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Teamleider</a>
+                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">*@
+                    <a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">Team Overzicht</a>
+                    <a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a>
+                    <a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a>
+                    @*</div>
+                </li>*@
+                }
+                else if (User.IsInRole("Docent"))
+                {
+
+                    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
+
+                    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
+
+                    @*<li class="nav-item" ><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>*@
+
                 }
             </ul>
 
-
+            <partial name="_LoginPartial" />
         </div>
-        <partial name="_LoginPartial" />
+       
     </nav>
     <div class="purple_bar"></div>
 
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer class ="fixed-bottom">
+        <footer class="fixed-bottom">
             <p>&copy; 2019 - FontysVIP</p>
         </footer>
     </div>

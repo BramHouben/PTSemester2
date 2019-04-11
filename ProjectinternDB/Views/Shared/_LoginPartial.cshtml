@@ -10,15 +10,13 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
+        @*<script>
+            var element = document.getElementById("navbarColor03");
+            element.classList.add("noFlexGrow");
+        </script>*@
         //if (User.IsInRole(""))
         //{
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Voorkeur" class="nav-link">Voorkeur</a></li>
-
-            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="VoorkeurUitslag" class="nav-link">VoorkeurUistlag</a></li>
-
-            @*<li class="nav-item" ><a asp-area="" asp-controller="Voorkeur" asp-action="userInlog" class="nav-link">krijgid</a></li>*@
-        </ul>
+  
         //}
 
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="rm-inline my-2 my-lg-0">
@@ -29,12 +27,13 @@
                 <li class="nav-item">
                     <button type="submit" class="btn btn-link navbar-btn navbar-link btn btn-secondary my-2 my-sm-0">Logout</button>
                 </li>
-
+                <li>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="~/images/user.png" height="50" alt="User" class="imgNavbar" /></a>
+                </li>
             </ul>
+
         </form>
-        <li>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="~/images/user.png" height="50" alt="User" class="imgNavbar" /></a>
-        </li>
+
     }
 
 }

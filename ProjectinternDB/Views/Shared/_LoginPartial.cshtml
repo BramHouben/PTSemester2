@@ -10,6 +10,10 @@
 
     @if (SignInManager.IsSignedIn(User))
     {
+        <script>
+            var element = document.getElementById("navbarColor03");
+            element.classList.add("noFlexGrow");
+        </script>
         //if (User.IsInRole(""))
         //{
         <ul class="navbar-nav mr-auto">

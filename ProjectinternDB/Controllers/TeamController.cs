@@ -130,7 +130,7 @@ namespace ProjectinternDB.Controllers
             {
                 return View();
             }
-
+        }
         public IActionResult MaakVacature()
         {
             return View();

@@ -12,9 +12,7 @@ namespace ProjectinternDB.Models
         [Required]
         public int Prioriteit { get; set; }
         public string Semester { get; set; }
-
         //public Onderdeel Onderdeel { get; set; }
-
         //public Taak Taak { get; set; }
     }
 }

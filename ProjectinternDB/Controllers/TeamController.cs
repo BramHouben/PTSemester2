@@ -154,5 +154,13 @@ namespace ProjectinternDB.Controllers
             _vacatureLogic.VacatureOpslaan(vacature);
            return RedirectToAction("Index");
         }
+
+        public IActionResult VacatureOverzicht()
+        {
+            // Nog toe te voegen Bram C, Functies Details, Edit, Delete
+            List<Vacature> vacatures;
+            vacatures = _vacatureLogic.VacaturesOphalen();
+            return View(vacatures);
+        }
     }
 }

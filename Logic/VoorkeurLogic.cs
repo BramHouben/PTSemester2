@@ -17,13 +17,13 @@ namespace Logic
             VoorkeurRepo = new VoorkeurRepository(context);
         }
 
-        public void AddVoorkeur(string trajectNaam, string onderdeelNaam, string taakNaam, int prioriteit, string id)
+        public void AddVoorkeur(string traject, string eenheid, string onderdeel, string taak, int prioriteit, string id)
         {
             if (prioriteit > 5 || prioriteit < 0)
             {
                 throw new ArgumentException("Iets Fout met het proces, Probeer opnieuw"); //Melding sturen naar de gebruiker!                   
             }
-            VoorkeurRepo.AddVoorkeur(new Voorkeur(trajectNaam, onderdeelNaam, taakNaam, prioriteit),id);
+            VoorkeurRepo.AddVoorkeur(new Voorkeur(traject, eenheid, onderdeel, taak, prioriteit),id);
         }
 
         public void DeleteVoorkeur(int id)
@@ -48,7 +48,9 @@ namespace Logic
 
         public List<Traject> GetTrajecten() => VoorkeurRepo.GetTrajecten();
 
-        public List<Onderdeel> GetOnderdelenByTrajectId(int trajectId) => VoorkeurRepo.GetOnderdelenByTrajectId(trajectId);
+        public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => VoorkeurRepo.GetEenhedenByTrajectId(trajectId);
+
+        public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => VoorkeurRepo.GetOnderdelenByEenheidId(eenheidId);
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => VoorkeurRepo.GetTakenByOnderdeelId(onderdeelId);
     }

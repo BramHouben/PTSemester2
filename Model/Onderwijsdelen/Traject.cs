@@ -7,5 +7,7 @@ namespace Model.Onderwijsdelen
         [Key]
         public int TrajectId { get; set; }
         public string TrajectNaam { get; set; }
+
+        public int Prioriteit { get; set; }
     }
 }

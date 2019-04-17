@@ -33,10 +33,11 @@ namespace Data.Context
                 var voorkeur = new Voorkeur();
 
                 voorkeur.Id = (int)reader["Id"];
-                voorkeur.Prioriteit = (int)reader["Prioriteit"];
                 voorkeur.TrajectNaam = reader["Traject"]?.ToString();
-                voorkeur.TaakNaam = reader["Taak"]?.ToString();
+                voorkeur.EenheidNaam = reader["Eenheid"]?.ToString();
                 voorkeur.OnderdeelNaam = reader["Onderdeel"]?.ToString();
+                voorkeur.TaakNaam = reader["Taak"]?.ToString();
+                voorkeur.Prioriteit = (int)reader["Prioriteit"];
                 vklistmodel.Add(voorkeur);
             }
             connectie.Close();
@@ -53,6 +54,10 @@ namespace Data.Context
                 cmdTraject.CommandText = "SELECT TrajectNaam FROM Traject WHERE TrajectId = '" + voorkeur.TrajectNaam + "'";
                 var resultTraject = cmdTraject.ExecuteScalar();
 
+                var cmdEenheid = connectie.CreateCommand();
+                cmdEenheid.CommandText = "SELECT EenheidNaam FROM Eenheid WHERE EenheidId = '" + voorkeur.EenheidNaam + "'";
+                var resultEenheid = cmdEenheid.ExecuteScalar();
+
                 var cmdOnderdeel = connectie.CreateCommand();
                 cmdOnderdeel.CommandText = "SELECT OnderdeelNaam FROM Onderdeel WHERE OnderdeelId = '" + voorkeur.OnderdeelNaam + "'";
                 var resultOnderdeel = cmdOnderdeel.ExecuteScalar();
@@ -64,12 +69,13 @@ namespace Data.Context
 
                 var command = connectie.CreateCommand();
                 command.Parameters.AddWithValue("@TrajectNaam", resultTraject);
+                command.Parameters.AddWithValue("@EenheidNaam", resultEenheid);
                 command.Parameters.AddWithValue("@OnderdeelNaam", resultOnderdeel);
                 command.Parameters.AddWithValue("@TaakNaam", resultTaak);
                 command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
                 command.Parameters.AddWithValue("@UserId", id);
 
-                command.CommandText = "INSERT INTO Voorkeur (Traject, Onderdeel, Taak, Prioriteit, UserId) VALUES ( @TrajectNaam, @OnderdeelNaam, @TaakNaam, @Prioriteit, @UserId)";
+                command.CommandText = "INSERT INTO Voorkeur (Traject, Eenheid, Onderdeel, Taak, Prioriteit, UserId) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @Prioriteit, @UserId)";
                 command.ExecuteNonQuery();
 
             }
@@ -129,12 +135,40 @@ namespace Data.Context
             return trajecten;
         }
 
-        public List<Onderdeel> GetOnderdelenByTrajectId(int trajectId)
+        public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
         {
             connectie.Open();
 
-            var cmd = new SqlCommand("SELECT * FROM dbo.Onderdeel WHERE Onderdeel.trajectId = @trajectid", connectie);
+            var cmd = new SqlCommand("SELECT * FROM dbo.Eenheid WHERE Eenheid.trajectId = @trajectid", connectie);
             cmd.Parameters.AddWithValue("@trajectid", trajectId);
+            var reader = cmd.ExecuteReader();
+
+            var eenheden = new List<Eenheid>();
+
+            while (reader.Read())
+            {
+                var eenheid = new Eenheid
+                {
+                    EenheidId = (int)reader["EenheidId"],
+                    EenheidNaam = reader["EenheidNaam"]?.ToString(),
+                    TrajectId = (int)reader["TrajectId"],
+
+                };
+
+                eenheden.Add(eenheid);
+            }
+
+            connectie.Close();
+
+            return eenheden;
+        }
+
+        public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
+        {
+            connectie.Open();
+
+            var cmd = new SqlCommand("SELECT * FROM dbo.Onderdeel WHERE Onderdeel.EenheidId = @eenheidId", connectie);
+            cmd.Parameters.AddWithValue("@eenheidId", eenheidId);
             var reader = cmd.ExecuteReader();
 
             var onderdelen = new List<Onderdeel>();
@@ -145,8 +179,7 @@ namespace Data.Context
                 {
                     OnderdeelId = (int)reader["OnderdeelId"],
                     OnderdeelNaam = reader["OnderdeelNaam"]?.ToString(),
-                    TrajectId = (int)reader["TrajectId"],
-
+                    EenheidId = (int)reader["EenheidId"],
                 };
 
                 onderdelen.Add(onderdeel);
@@ -161,7 +194,7 @@ namespace Data.Context
         {
             connectie.Open();
 
-            var cmd = new SqlCommand("SELECT * FROM dbo.Taak WHERE Taak.onderdeelId = @onderdeelId", connectie);
+            var cmd = new SqlCommand("SELECT * FROM dbo.Taak WHERE Taak.OnderdeelId = @onderdeelId", connectie);
             cmd.Parameters.AddWithValue("@onderdeelId", onderdeelId);
             var reader = cmd.ExecuteReader();
 

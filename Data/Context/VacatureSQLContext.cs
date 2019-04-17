@@ -15,7 +15,37 @@ namespace Data.Context
         private DBconn dbconn = new DBconn();
         public List<Vacature> VacaturesOphalen()
         {
-            throw new NotImplementedException();
+            connectie = dbconn.GetConnString();
+            if (connectie.State != ConnectionState.Open)
+            {
+                connectie.Open();
+            }
+            var cmd = connectie.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Vacature";
+            SqlDataReader reader = cmd.ExecuteReader();
+            List<Vacature> vacatures = new List<Vacature>();
+            while (reader.Read())
+            {
+                Vacature vacature = new Vacature
+                {
+                    Omschrijving = (string) reader["Omschrijving"]?.ToString(),
+                    Naam = (string) reader["Vacature_Naam"]
+                };
+                if (reader["OnderwijstaakID"] != DBNull.Value)
+                {
+                    vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
+                }
+
+                if (reader["VacatureID"] != DBNull.Value)
+                {
+                    vacature.VactureID = Convert.ToInt32(reader["VacatureID"]);
+                }
+
+                vacatures.Add(vacature);
+            }
+            connectie.Close();
+            return vacatures;
+
         }
 
         public void VacatureOpslaan(Vacature vac)
@@ -28,15 +58,10 @@ namespace Data.Context
                     connectie.Open();
                 }
                 var cmd = connectie.CreateCommand();
-
-                
-                   
-                
-                    cmd.Parameters.AddWithValue("@VacatureNaam", vac.Naam);
-               
+                cmd.Parameters.AddWithValue("@VacatureNaam", vac.Naam);
                 if (vac.Omschrijving == null)
                 {
-                    cmd.Parameters.AddWithValue("@Omschrijving",DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Omschrijving", DBNull.Value);
                 }
                 else
                 {

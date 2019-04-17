@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Model.Vacature>
+
+@{
+    ViewData["Title"] = "VacatureOverzicht";
+}
+
+<h2>VacatureOverzicht</h2>
+
+<p>
+    <a asp-action="MaakVacature">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VactureID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Naam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Omschrijving)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnderwijstaakID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VactureID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Omschrijving)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnderwijstaakID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -19,5 +19,10 @@ namespace Data
         {
             vacatureContext.VacatureOpslaan(vacature);
         }
+
+        public List<Vacature> VacaturesOphalen()
+        {
+            return vacatureContext.VacaturesOphalen();
+        }
     }
 }

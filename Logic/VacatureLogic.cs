@@ -26,5 +26,9 @@ namespace Logic
             }
             vacatureRepository.VacatureOpslaan(vacature);
         }
+        public List<Vacature> VacaturesOphalen()
+        {
+            return vacatureRepository.VacaturesOphalen();
+        }
     }
 }

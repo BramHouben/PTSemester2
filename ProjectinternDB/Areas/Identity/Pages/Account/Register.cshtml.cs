@@ -40,12 +40,12 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Email is verplicht!")]
+            [EmailAddress(ErrorMessage ="Vul een geldig email adres in!")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Wachtwoord is verplicht!")]
             [StringLength(100, ErrorMessage = "De {0} moet op zijn minst {2} en maximaal {1} karakters lan.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Wachtwoord")]
@@ -56,11 +56,11 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "Wachtwoord komt niet overeen.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Voornaam is verplicht!")]
             [Display(Name = "Voornaam")]
             public string Voornaam { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Achternaam is verplicht!")]
             [Display(Name = "Achternaam")]
             public string Achternaam { get; set; }
         }

@@ -37,13 +37,13 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage ="Email is verplicht!")]
+            [EmailAddress(ErrorMessage = "Vul een geldig email adres in!")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Wachtwoord is verplicht!")]
             [DataType(DataType.Password)]
-            [Display(Name = "Wachtwoord")]
+            [Display(Name = "Wachtwoord" )]
             public string Password { get; set; }
 
             [Display(Name = "Onthouden?")]
@@ -78,7 +78,7 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("User ingelogd.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -92,7 +92,7 @@ namespace ProjectinternDB.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Verkeerde login.");
                     return Page();
                 }
             }

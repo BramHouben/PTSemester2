@@ -133,7 +133,7 @@ namespace Data.Context
         {
             connectie.Open();
 
-            var cmd = new SqlCommand("SELECT * FROM dbo.Onderdeel WHERE Onderdeel.trajectId = @trajectid", connectie);
+            var cmd = new SqlCommand("SELECT * FROM dbo.Onderdeel WHERE Onderdeel.EenheidId = @trajectid", connectie);
             cmd.Parameters.AddWithValue("@trajectid", trajectId);
             var reader = cmd.ExecuteReader();
 
@@ -145,7 +145,7 @@ namespace Data.Context
                 {
                     OnderdeelId = (int)reader["OnderdeelId"],
                     OnderdeelNaam = reader["OnderdeelNaam"]?.ToString(),
-                    TrajectId = (int)reader["TrajectId"],
+                    TrajectId = (int)reader["EenheidId"],
 
                 };
 
@@ -174,6 +174,7 @@ namespace Data.Context
                     TaakId = (int)reader["TaakId"],
                     TaakNaam = reader["TaakNaam"]?.ToString(),
                     OnderdeelId = (int)reader["OnderdeelId"],
+                    Taak_info = reader["info"]?.ToString(),
                 };
 
                 taken.Add(taak);

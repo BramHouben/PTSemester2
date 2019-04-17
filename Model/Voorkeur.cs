@@ -15,6 +15,7 @@ namespace Model
             OnderdeelNaam = onderdeelNaam;
             TaakNaam = taakNaam;
             Prioriteit = prioriteit;
+         
         }
 
         public Voorkeur(int id, string vak_naam, int prioriteit)
@@ -32,5 +33,7 @@ namespace Model
         public string OnderdeelNaam { get; set; }
 
         public int Prioriteit { get; set; }
+
+        public string Taak_info { get; set; }
     }
 }

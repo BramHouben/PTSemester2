@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Data.Interfaces;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
@@ -424,6 +425,42 @@ namespace Data.Context
             {
                 connectie.Close();
             }
+        }
+
+        public List<Taak> GetTaken()
+        {
+            var taken = new List<Taak>();
+
+            try
+            {
+                connectie.Open();
+
+                var cmd = new SqlCommand("SELECT COUNT(TaakId) AS TaakId, TaakNaam FROM dbo.Taak GROUP BY TaakNaam", connectie);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var taak = new Taak
+                    {
+                        TaakId = (int)reader["TaakId"],
+                        TaakNaam = reader["TaakNaam"]?.ToString(),
+                    };
+
+                    taken.Add(taak);
+                }
+            }
+
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            finally
+            {
+                connectie.Close();
+            }
+
+            return taken;
         }
     }
 }

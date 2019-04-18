@@ -2,6 +2,7 @@
 using Model;
 using System.Collections.Generic;
 using Data.Interfaces;
+using Model.Onderwijsdelen;
 
 namespace Data
 {
@@ -15,6 +16,8 @@ namespace Data
         }
 
         public List<Team> Teams => IteamContext.TeamsOphalen();
+
+        public List<Taak> Taken => IteamContext.GetTaken();
 
         public List<Docent> DocentenInTeamOphalen(int teamid)
         {

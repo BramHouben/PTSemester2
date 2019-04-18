@@ -50,7 +50,6 @@
             $('#OnderdeelId').change(function () {
                 var url = '@Url.Content("~/")' + "Voorkeur/GetTaak";
                 var ddlsource = "#OnderdeelId";
-            
                 $.getJSON(url, { OnderdeelId: $(ddlsource).val() }, function (data) {
                     var items = '';
                     $('#TaakId').empty();
@@ -59,12 +58,13 @@
                         items += "<option value='" + taak.value + "'>" + taak.text + "</option>";
                     });
                     $('#TaakId').html(items);
-                 
                 });
             });
         });
     </script>
+
     <script src="~/js/InfoGeselecteerdeItems.js"></script>
+
     <form asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" method="post" class="form-horizontal" role="form">
         <div class="form-group">
             <div class="row">
@@ -81,7 +81,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                     <label class="control-label">Eenheid</label>
-                    <select class="form-control" id="EenheidId" name="EenheidNaam"
+                    <select class="form-control" id="EenheidId" name="EenheidId"
                             asp-items="@(new SelectList(string.Empty,"EenheidId", "EenheidNaam"))"></select>
                 </div>
             </div>
@@ -90,7 +90,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                     <label class="control-label">Onderdeel</label>
-                    <select class="form-control" id="OnderdeelId" name="OnderdeelNaam"
+                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
                             asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
                 </div>
             </div>
@@ -99,7 +99,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                     <label class="control-label">Taak</label>
-                    <select class="form-control" id="TaakId" name="TaakNaam"
+                    <select class="form-control" id="TaakId" name="TaakId"
                             asp-items="@(new SelectList(string.Empty,"TaakId", "TaakNaam"))"></select>
                 </div>
             </div>

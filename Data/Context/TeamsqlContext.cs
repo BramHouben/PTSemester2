@@ -87,7 +87,7 @@ namespace Data.Context
                 }
                 var cmd = connectie.CreateCommand();
                 cmd.Parameters.AddWithValue("@id", id);
-                cmd.CommandText = "SELECT DocentID, TeamID, RuimteVoorInzet,Naam FROM Docent where TeamID = @id";
+                cmd.CommandText = "SELECT D.DocentID, D.TeamID ,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where TeamID = @id";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())

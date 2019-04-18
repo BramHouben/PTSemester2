@@ -21,9 +21,12 @@ namespace Data
 
         public List<Traject> GetTrajecten() => IvoorkeurContext.GetTrajecten();
 
-        public List<Onderdeel> GetOnderdelenByTrajectId(int trajectId) => IvoorkeurContext.GetOnderdelenByTrajectId(trajectId);
+        public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => IvoorkeurContext.GetEenhedenByTrajectId(trajectId);
+
+        public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => IvoorkeurContext.GetOnderdelenByEenheidId(eenheidId);
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => IvoorkeurContext.GetTakenByOnderdeelId(onderdeelId);
+
 
     }
 }

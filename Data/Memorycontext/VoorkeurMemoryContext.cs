@@ -49,7 +49,12 @@ namespace Data.Context
             throw new NotImplementedException();
         }
 
-        public List<Onderdeel> GetOnderdelenByTrajectId(int trajectId)
+        public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Onderdeel> GetOnderdelenByEenheidId(int onderdeelId)
         {
             throw new NotImplementedException();
         }

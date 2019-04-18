@@ -32,13 +32,13 @@
                     @*<ul class="nav nav-pills">*@
 
                     @*<li class="nav-item dropdown show">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Teamleider</a>
-                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">*@
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Teamleider</a>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">*@
                     <a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">Team Overzicht</a>
                     <a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a>
                     <a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a>
                     @*</div>
-                </li>*@
+                        </li>*@
                 }
                 else if (User.IsInRole("Docent"))
                 {
@@ -54,7 +54,7 @@
 
             <partial name="_LoginPartial" />
         </div>
-       
+
     </nav>
     <div class="purple_bar"></div>
 

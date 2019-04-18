@@ -15,7 +15,9 @@ namespace Data
 
         List<Traject> GetTrajecten();
 
-        List<Onderdeel> GetOnderdelenByTrajectId(int trajectId);
+        List<Eenheid> GetEenhedenByTrajectId(int trajectId);
+
+        List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId);
 
         List<Taak> GetTakenByOnderdeelId(int onderdeelId);
     }

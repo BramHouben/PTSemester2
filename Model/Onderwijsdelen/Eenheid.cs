@@ -2,11 +2,11 @@
 
 namespace Model.Onderwijsdelen
 {
-    public class Onderdeel
+    public class Eenheid
     {
         [Key]
-        public int OnderdeelId { get; set; }
-        public string OnderdeelNaam { get; set; }
         public int EenheidId { get; set; }
+        public string EenheidNaam { get; set; }
+        public int TrajectId { get; set; }
     }
 }

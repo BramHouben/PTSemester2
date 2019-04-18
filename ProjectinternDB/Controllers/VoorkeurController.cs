@@ -27,11 +27,21 @@ namespace ProjectinternDB.Controllers
             return View();
         }
 
-        public JsonResult GetOnderdeel(int TrajectId)
+        public JsonResult GetEenheid(int TrajectId)
         {
-            List<Onderdeel> Onderdelen = new List<Onderdeel>();
+            List<Eenheid> Eenheden = new List<Eenheid>();
 
-            Onderdelen = _voorkeurLogic.GetOnderdelenByTrajectId(TrajectId);
+            Eenheden = _voorkeurLogic.GetEenhedenByTrajectId(TrajectId);
+            Eenheden.Insert(0, new Eenheid { EenheidId = 0, EenheidNaam = "Select" });
+
+            return Json(new SelectList(Eenheden, "EenheidId", "EenheidNaam"));
+        }
+
+        public JsonResult GetOnderdeel(int EenheidId)
+        {
+            List<Onderdeel  > Onderdelen = new List<Onderdeel>();
+ 
+            Onderdelen = _voorkeurLogic.GetOnderdelenByEenheidId(EenheidId);
             Onderdelen.Insert(0, new Onderdeel { OnderdeelId = 0, OnderdeelNaam = "Select" });
 
             return Json(new SelectList(Onderdelen, "OnderdeelId", "OnderdeelNaam"));
@@ -39,14 +49,12 @@ namespace ProjectinternDB.Controllers
 
         public JsonResult GetTaak(int OnderdeelId)
         {
-            List<Taak> productList = new List<Taak>();
- 
-            productList = _voorkeurLogic.GetTakenByOnderdeelId(OnderdeelId);
+            List<Taak> Taken = new List<Taak>();
 
-            // ------- Inserting Select Item in List -------
-            productList.Insert(0, new Taak { TaakId = 0, TaakNaam = "Select" });
+            Taken = _voorkeurLogic.GetTakenByOnderdeelId(OnderdeelId);
+            Taken.Insert(0, new Taak { TaakId = 0, TaakNaam = "Select" });
 
-            return Json(new SelectList(productList, "TaakId", "TaakNaam"));
+            return Json(new SelectList(Taken, "TaakId", "TaakNaam"));
         }
 
         public IActionResult userInlog(string User_id)
@@ -56,16 +64,19 @@ namespace ProjectinternDB.Controllers
 
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public IActionResult InvoegenVoorkeur(VoorkeurViewModel objTraject, IFormCollection formCollection)
         {
             var Prioriteit = HttpContext.Request.Form["Prioriteit"];
+            var EenheidId = HttpContext.Request.Form["EenheidId"];
             var OnderdeelId = HttpContext.Request.Form["OnderdeelId"];
             var TaakId = HttpContext.Request.Form["TaakId"];
             int prioriteit = Convert.ToInt32(Prioriteit);
+            string eenheid = EenheidId;
             string onderdeel = OnderdeelId;
             string taak = TaakId;
-            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
+            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction("Index");
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

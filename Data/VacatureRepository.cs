@@ -24,5 +24,13 @@ namespace Data
         {
             return vacatureContext.VacaturesOphalen();
         }
+        public void DeleteVacature(int id)
+        {
+           vacatureContext.DeleteVacature(id);
+        }
+        public Vacature VacatureOphalen(int id)
+        {
+            return vacatureContext.VacatureOphalen(id);
+        }
     }
 }

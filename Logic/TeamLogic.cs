@@ -2,6 +2,7 @@
 using System;
 using Model;
 using System.Collections.Generic;
+using Model.Onderwijsdelen;
 
 namespace Logic
 {
@@ -13,6 +14,12 @@ namespace Logic
         {
             return TeamRepo.Teams;
         }
+
+        public List<Taak> GetTaken()
+        {
+            return TeamRepo.Taken;
+        }
+
         public List<Docent> DocentenOphalen(int teamid)
         {
             return TeamRepo.DocentenInTeamOphalen(teamid);

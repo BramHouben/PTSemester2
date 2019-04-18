@@ -1,17 +1,14 @@
-﻿using Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Model;
 
 namespace ProjectinternDB.Models
 {
-    public class OnderwijsViewModel
+    public class TakenAanmakenViewModel
     {
-        [Required]
-        public List<Docent> Docenten { get; set; }
-
         [Required]
         public List<Onderwijstraject> OnderwijsTrajecten { get; set; }
 
@@ -21,7 +18,6 @@ namespace ProjectinternDB.Models
         [Required]
         public List<Onderwijsonderdeel> OnderwijsOnderdelen { get; set; }
 
-        [Required]
         public List<Onderwijstaak> OnderwijsTaken { get; set; }
     }
 }

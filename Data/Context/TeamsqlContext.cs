@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Data.Interfaces;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
@@ -86,7 +87,7 @@ namespace Data.Context
                 }
                 var cmd = connectie.CreateCommand();
                 cmd.Parameters.AddWithValue("@id", id);
-                cmd.CommandText = "SELECT DocentID, TeamID, RuimteVoorInzet,Naam FROM Docent where TeamID = @id";
+                cmd.CommandText = "SELECT D.DocentID, D.TeamID ,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where TeamID = @id";
 
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -395,7 +396,7 @@ namespace Data.Context
                 connectie = dbconn.GetConnString();
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT DocentID, Naam, RuimteVoorInzet FROM Docent WHERE TeamID is null";
+                cmd.CommandText = "SELECT D.DocentID, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID WHERE D.TeamID is null";
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -424,6 +425,42 @@ namespace Data.Context
             {
                 connectie.Close();
             }
+        }
+
+        public List<Taak> GetTaken()
+        {
+            var taken = new List<Taak>();
+
+            try
+            {
+                connectie.Open();
+
+                var cmd = new SqlCommand("SELECT COUNT(TaakId) AS TaakId, TaakNaam FROM dbo.Taak GROUP BY TaakNaam", connectie);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var taak = new Taak
+                    {
+                        TaakId = (int)reader["TaakId"],
+                        TaakNaam = reader["TaakNaam"]?.ToString(),
+                    };
+
+                    taken.Add(taak);
+                }
+            }
+
+            catch(SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            finally
+            {
+                connectie.Close();
+            }
+
+            return taken;
         }
     }
 }

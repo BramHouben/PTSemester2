@@ -4,7 +4,7 @@
     ViewData["Title"] = "DocentenInTeam";
 }
 
-<h2>DocentenInTeam</h2>
+<h2>Docenten in uw team</h2>
 
 <p>
     <a asp-action="VoegDocentToeAanTeam">Voeg Docent Toe Aan Team</a>
@@ -46,7 +46,9 @@
             <td>
                 @*<a asp-action="Edit" asp-route-id="@item.DocentId">Edit</a> |*@
                 <a asp-action="Details" asp-route-id="@item.DocentId">Details</a> |
-                <a asp-action="VerwijderUitTeam" asp-route-id="@item.DocentId">Verwijder docent uit Team</a>
+                <a asp-action="VerwijderUitTeam" asp-route-id="@item.DocentId">Verwijder docent uit Team</a> |
+                @*<a>@Html.ActionLink("Fixeren", "Fixeren", new { /* */ })</a>*@
+                <a asp-action="Fixeren" asp-route-id="@item.DocentId">Fixeren</a>
             </td>
         </tr>
 }

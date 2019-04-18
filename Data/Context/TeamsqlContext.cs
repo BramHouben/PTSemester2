@@ -92,10 +92,8 @@ namespace Data.Context
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Docent docent = new Docent();
+                    Docent docent = new Docent {DocentId = (int) reader["DocentID"], TeamId = (int) reader["TeamID"]};
 
-                    docent.DocentId = (int)reader["DocentID"];
-                    docent.TeamId = (int)reader["TeamID"];
                     if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
                     {
                         docent.RuimteVoorInzet = 0;
@@ -257,11 +255,13 @@ namespace Data.Context
 
                 while (reader.Read())
                 {
-                    team = new Team();
-                    team.TeamId = (int)reader["TeamID"];
-                    team.TeamleiderID = (int)reader["TeamLeiderID"];
-                    team.CurriculumEigenaarID = (int)reader["CurriculumEigenaarID"];
-                    team.TeamleiderNaam = (string)reader["Naam"];
+                    team = new Team
+                    {
+                        TeamId = (int) reader["TeamID"],
+                        TeamleiderID = (int) reader["TeamLeiderID"],
+                        CurriculumEigenaarID = (int) reader["CurriculumEigenaarID"],
+                        TeamleiderNaam = (string) reader["Naam"]
+                    };
                 }
                 return team;
             }
@@ -359,7 +359,7 @@ namespace Data.Context
             }
         }
 
-        public int haalTeamIdOp(string id)
+        public int HaalTeamIdOp(string id)
         {
             int result = 0;
             try
@@ -388,7 +388,9 @@ namespace Data.Context
             return result;
         }
 
-        public List<Docent> haalDocentenZonderTeamOp()
+
+
+        public List<Docent> HaalDocentenZonderTeamOp()
         {
             List<Docent> docenten = new List<Docent>();
             try
@@ -400,9 +402,7 @@ namespace Data.Context
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Docent docent = new Docent();
-                    docent.DocentId = (int)reader["DocentID"];
-                    docent.Naam = (string)reader["Naam"];
+                    Docent docent = new Docent {DocentId = (int) reader["DocentID"], Naam = (string) reader["Naam"]};
                     if(DBNull.Value.Equals(reader["RuimteVoorInzet"]))
                     {
                         docent.RuimteVoorInzet = 0;

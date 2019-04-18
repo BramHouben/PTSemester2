@@ -90,6 +90,7 @@ namespace Data.Context
                     taak.DocentID = (int)reader["DocentID"];
                     taak.DocentNaam = (string)reader["Naam"];
                     taak.Taak_id = (int)reader["Taak_id"];
+                    GefixeerdeTaken.Add(taak);
                 }
                 return GefixeerdeTaken;
             }

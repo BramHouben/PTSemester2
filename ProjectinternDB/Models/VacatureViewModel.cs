@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Internal;
 using Model;
+using Model.Onderwijsdelen;
 using Newtonsoft.Json;
 
 namespace ProjectinternDB.Models
@@ -13,6 +14,6 @@ namespace ProjectinternDB.Models
     {
         public List<Vacature> Vacatures { get; set; }
         [Required]
-        public List<Onderwijstaak> Onderwijstaken { get; set; }
+        public List<Taak> Onderwijstaken { get; set; }
     }
 }

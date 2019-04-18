@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using Data;
 using Model;
@@ -29,6 +32,16 @@ namespace Logic
         public List<Vacature> VacaturesOphalen()
         {
             return vacatureRepository.VacaturesOphalen();
+        }
+
+        public void DeleteVacature(int id)
+        {
+          vacatureRepository.DeleteVacature(id);
+        }
+
+        public Vacature VacatureOphalen(int id)
+        {
+            return vacatureRepository.VacatureOphalen(id);
         }
     }
 }

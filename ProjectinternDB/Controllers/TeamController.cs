@@ -27,10 +27,10 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Team> teams= _teamLogic.TeamsOphalen();
+            IEnumerable<Team> teams = _teamLogic.TeamsOphalen();
             IEnumerable<Docent> docenten = _teamLogic.DocentenOphalen(1);
 
-             return View(teams);
+            return View(teams);
         }
 
         public IActionResult DocentenInTeam()
@@ -80,8 +80,9 @@ namespace ProjectinternDB.Controllers
         public IActionResult Details(int id)
         {
             var teamLogic = new TeamLogic();
-            Team geselecteerdTeam = teamLogic.TeamOphalenMetID(id); //.SingleOrDefault(o => o.Name == id); // there should be only one!
-           
+            Team geselecteerdTeam =
+                teamLogic.TeamOphalenMetID(id); //.SingleOrDefault(o => o.Name == id); // there should be only one!
+
             /*if (geselecteerdTeam == null)
             {
                 return NotFound();
@@ -92,13 +93,13 @@ namespace ProjectinternDB.Controllers
                 teamLogic.CurriculumEigenaarNaamMetCurriculumEigenaarId(geselecteerdTeam.CurriculumEigenaarID);
                 geselecteerdTeam.TeamleiderNaam = teamLogic.TeamleiderNaamMetTeamleiderId(geselecteerdTeam.TeamleiderID);
             }*/
-            
+
             return View(geselecteerdTeam);
-            
+
             // Team selectedTeamteam = _teamLogic.TeamsOphalen()
         }
 
-    
+
 
         public IActionResult VoegDocentToe()
         {
@@ -113,7 +114,7 @@ namespace ProjectinternDB.Controllers
             return View(teams);
         }
 
-        public IActionResult VoegDocentToeAanTeam([FromQuery]int teamid, [FromQuery]int docentid)
+        public IActionResult VoegDocentToeAanTeam([FromQuery] int teamid, [FromQuery] int docentid)
         {
             _teamLogic.VoegDocentToeAanTeam(docentid, teamid);
             return RedirectToAction("VoegDocentToe", "Team");
@@ -131,10 +132,12 @@ namespace ProjectinternDB.Controllers
                 return View();
             }
         }
+
         public IActionResult MaakVacature()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult MaakVacature(IFormCollection form)
@@ -147,20 +150,34 @@ namespace ProjectinternDB.Controllers
             }
             else
             {
-            vacature.Naam = form["Naam"];
+                vacature.Naam = form["Naam"];
             }
-
             vacature.OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]);
             _vacatureLogic.VacatureOpslaan(vacature);
-           return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         public IActionResult VacatureOverzicht()
         {
-            // Nog toe te voegen Bram C, Functies Details, Edit, Delete
+            // TODO Bram C Nog toe te voegen Edit
+            // TODO Bram C Veranderen ID in Overzicht
             List<Vacature> vacatures;
             vacatures = _vacatureLogic.VacaturesOphalen();
             return View(vacatures);
+        }
+
+        public IActionResult DeleteVacature(int id)
+        {
+            //Delete Vacature van Db zonder view
+           _vacatureLogic.DeleteVacature(id);
+          return RedirectToAction("VacatureOverzicht");
+        }
+
+        public IActionResult VacatureDetails(int id)
+        {
+           // TODO: Opmaak Pagina Details aanpassen.
+            Vacature vacature = _vacatureLogic.VacatureOphalen(id);
+            return View(vacature);
         }
     }
 }

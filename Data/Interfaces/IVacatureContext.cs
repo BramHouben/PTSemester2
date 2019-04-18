@@ -9,6 +9,8 @@ namespace Data.Interfaces
     {
         List<Vacature> VacaturesOphalen();
         void VacatureOpslaan(Vacature vac);
+        void DeleteVacature(int id);
+        Vacature VacatureOphalen(int id);
 
     }
 }

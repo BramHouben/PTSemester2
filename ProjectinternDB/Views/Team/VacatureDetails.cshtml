@@ -1,0 +1,48 @@
+﻿@model Model.Vacature
+
+@{
+    ViewData["Title"] = "VacatureDetails";
+}
+
+<h2>VacatureDetails</h2>
+
+<div>
+    <h4>Vacature</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VactureID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VactureID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Naam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Naam)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Omschrijving)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Omschrijving)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OnderwijstaakID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OnderwijstaakID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OnderwijsTaakNaam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OnderwijsTaakNaam)
+        </dd>
+    </dl>
+</div>
+<div>
+    @*@Html.ActionLink("Edit", "Edit", new {  id = Model.VactureID }) |*@
+    <a asp-action="Index">Back to List</a>
+</div>

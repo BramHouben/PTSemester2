@@ -28,8 +28,8 @@ namespace Data.Context
             {
                 Vacature vacature = new Vacature
                 {
-                    Omschrijving = (string) reader["Omschrijving"]?.ToString(),
-                    Naam = (string) reader["Vacature_Naam"]
+                    Omschrijving = (string)reader["Omschrijving"]?.ToString(),
+                    Naam = (string)reader["Vacature_Naam"]
                 };
                 if (reader["OnderwijstaakID"] != DBNull.Value)
                 {
@@ -120,18 +120,10 @@ namespace Data.Context
             if (reader.Read())
             {
 
-                vacature.Omschrijving = (string) reader["Omschrijving"]?.ToString();
-                vacature.Naam = (string) reader["Vacature_Naam"];
-            
-                if (reader["OnderwijstaakID"] != DBNull.Value)
-                {
-                    vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
-                }
-
-                if (reader["VacatureID"] != DBNull.Value)
-                {
-                    vacature.VactureID = Convert.ToInt32(reader["VacatureID"]);
-                }
+                vacature.Omschrijving = (string)reader["Omschrijving"]?.ToString();
+                vacature.Naam = (string)reader["Vacature_Naam"];
+                vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
+                vacature.VactureID = Convert.ToInt32(reader["VacatureID"]);
             }
             connectie.Close();
             return vacature;

@@ -42,7 +42,7 @@ namespace ProjectinternDB.Controllers
         public IActionResult DocentenInTeam()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int teamid = _teamLogic.haalTeamIDOpMetString(id);
+            int teamid = _teamLogic.HaalTeamIDOpMetString(id);
             List<Docent> docenten = _teamLogic.DocentenOphalen(teamid);
             return View(docenten);
         }
@@ -59,9 +59,8 @@ namespace ProjectinternDB.Controllers
         {
             var teamLogic = new TeamLogic();
             var teams = new List<TeamViewModel>();
-            int id = teamLogic.haalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int id = teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var team = teamLogic.TeamOphalenMetID(id);
-
             return View(team);
         }
 
@@ -111,10 +110,9 @@ namespace ProjectinternDB.Controllers
         {
             // Haalt huidig teamid op
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int teamid = _teamLogic.haalTeamIDOpMetString(id);
-            List<Docent> docentenZonderTeam = _teamLogic.haalDocentenZonderTeamOp();
-            var teams = new TeamViewModel();
-            teams.DocentenZonderTeam = docentenZonderTeam;
+            int teamid = _teamLogic.HaalTeamIDOpMetString(id);
+            List<Docent> docentenZonderTeam = _teamLogic.HaalDocentenZonderTeamOp();
+            var teams = new TeamViewModel {DocentenZonderTeam = docentenZonderTeam};
             Team team = _teamLogic.TeamOphalenMetID(teamid);
             teams.TeamID = teamid;
             return View(teams);
@@ -148,8 +146,7 @@ namespace ProjectinternDB.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult MaakVacature(IFormCollection form)
         {
-            Vacature vacature = new Vacature();
-            vacature.Omschrijving = form["Omschrijving"];
+            Vacature vacature = new Vacature {Omschrijving = form["Omschrijving"]};
             if (form["naam"] == "")
             {
                 vacature.Naam = null;

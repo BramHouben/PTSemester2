@@ -46,14 +46,14 @@ namespace Logic
             return TeamRepo.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
         }
 
-        public int haalTeamIDOpMetString(string id)
+        public int HaalTeamIDOpMetString(string id)
         {
-            return TeamRepo.haalTeamIdOpMetIDString(id);
+            return TeamRepo.HaalTeamIdOpMetIDString(id);
         }
 
-        public List<Docent> haalDocentenZonderTeamOp()
+        public List<Docent> HaalDocentenZonderTeamOp()
         {
-            return TeamRepo.haalDocentenZonderTeamOp();
+            return TeamRepo.HaalDocentenZonderTeamOp();
         }
     }
 }

@@ -20,5 +20,7 @@ namespace Data
         List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId);
 
         List<Taak> GetTakenByOnderdeelId(int onderdeelId);
+
+        string GetTaakInfo(int taakId);
     }
 }   

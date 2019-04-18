@@ -53,5 +53,7 @@ namespace Logic
         public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => VoorkeurRepo.GetOnderdelenByEenheidId(eenheidId);
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => VoorkeurRepo.GetTakenByOnderdeelId(onderdeelId);
+
+        public string GetTaakInfo(int taakId) => VoorkeurRepo.GetTaakInfo(taakId);
     }
 }

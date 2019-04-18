@@ -16,8 +16,8 @@ namespace Data.Interfaces
         string TeamleiderNaamMetTeamleiderId(int teamleiderId);
         Team TeamOphalenMetID(int id);
         string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId);
-        int haalTeamIdOp(string id);
-        List<Docent> haalDocentenZonderTeamOp();
+        int HaalTeamIdOp(string id);
+        List<Docent> HaalDocentenZonderTeamOp();
         List<Taak> GetTaken();
         //void VerwijderDocentUitTeam(int TeamID, int DocentID);
     }

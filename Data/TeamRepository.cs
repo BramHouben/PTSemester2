@@ -48,14 +48,14 @@ namespace Data
             return IteamContext.CurriculumEigenaarNaamMetCurriculumEigenaarId(curriculumeigenaarId);
         }
 
-        public int haalTeamIdOpMetIDString(string id)
+        public int HaalTeamIdOpMetIDString(string id)
         {
-            return IteamContext.haalTeamIdOp(id);
+            return IteamContext.HaalTeamIdOp(id);
         }
 
-        public List<Docent> haalDocentenZonderTeamOp()
+        public List<Docent> HaalDocentenZonderTeamOp()
         {
-            return IteamContext.haalDocentenZonderTeamOp();
+            return IteamContext.HaalDocentenZonderTeamOp();
         }
     }
 }

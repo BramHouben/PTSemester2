@@ -8,7 +8,7 @@ namespace Data.Context
         private SqlConnection conn;
         private DBconn dbconn = new DBconn();
 
-        public Medewerker getmedewerkerid(string id)
+        public Medewerker Getmedewerkerid(string id)
         {
             conn = dbconn.GetConnString();
             conn.Open();

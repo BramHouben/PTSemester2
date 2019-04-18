@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using Microsoft.AspNetCore.Authorization;
-
+using Model.Onderwijsdelen;
 
 namespace ProjectinternDB.Controllers
 {
@@ -31,6 +31,12 @@ namespace ProjectinternDB.Controllers
             IEnumerable<Docent> docenten = _teamLogic.DocentenOphalen(1);
 
              return View(teams);
+        }
+
+        public IActionResult Fixeren()
+        {
+            IEnumerable<Taak> taken = _teamLogic.GetTaken();
+            return View(taken);
         }
 
         public IActionResult DocentenInTeam()

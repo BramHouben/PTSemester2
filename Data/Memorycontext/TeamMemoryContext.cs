@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using Data.Interfaces;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
     public class TeamMemoryContext : ITeamContext
     {
+        private List<Taak> taken;
         private List<Docent> docenten;
         private List<Team> teams;
         private List<Docent> docenten1 = new List<Docent>() {
@@ -126,6 +128,18 @@ namespace Data.Context
                 new Docent(3, 0, 550, "Klaas")
             };
             return docenten;
+        }
+
+        public List<Taak> GetTaken()
+        {
+            taken = new List<Taak>();
+            {
+                new Taak(1, "Vingerverven");
+                new Taak(2, "LP");
+                new Taak(3, "Proftaak");
+            }
+
+            return taken;
         }
     }
 }

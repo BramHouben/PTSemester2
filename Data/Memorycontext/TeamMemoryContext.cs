@@ -141,5 +141,15 @@ namespace Data.Context
 
             return taken;
         }
+
+        public int HaalTeamIdOp(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Docent> HaalDocentenZonderTeamOp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

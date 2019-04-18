@@ -6,6 +6,7 @@ namespace ProjectinternDB.Models
     {
         public string TrajectId { get; set; }
 
+        [Required]
         public string TrajectNaam { get; set; }
 
         [Required]
@@ -14,7 +15,5 @@ namespace ProjectinternDB.Models
         public string Semester { get; set; }
 
         public string Taak_info { get; set; }
-        //public Onderdeel Onderdeel { get; set; }
-        //public Taak Taak { get; set; }
     }
 }

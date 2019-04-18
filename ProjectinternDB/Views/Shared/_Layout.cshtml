@@ -29,9 +29,9 @@
                 @if (User.IsInRole("Teamleider"))
                 {
 
-                    <a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">Team Overzicht</a>
-                    <a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a>
-                    <a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a>
+                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="TeamOverzicht" class="nav-link">Team Overzicht</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a></li>
 
                 }
                 else if (User.IsInRole("Docent"))

@@ -83,6 +83,19 @@ namespace ProjectinternDB.Controllers
             string eenheid = EenheidId;
             string onderdeel = OnderdeelId;
             string taak = TaakId;
+            //if(eenheid =="0")
+            //{
+            //    eenheid = "x";
+            //    onderdeel = "x";
+            //    taak = "x";
+            //}else if(onderdeel == "0")
+            //{
+            //    onderdeel = "x";
+            //    taak = "x";
+            //}else if(taak == "0")
+            //{
+            //    taak = "x";
+            //}
             _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction("Index");
         }

@@ -57,6 +57,7 @@ namespace Data.Context
         {
             try
             {
+
                 connectie.Open();
                 var cmdTraject = connectie.CreateCommand();
                 cmdTraject.CommandText = "SELECT TrajectNaam FROM Traject WHERE TrajectId = '" + voorkeur.TrajectNaam + "'";
@@ -74,6 +75,21 @@ namespace Data.Context
                 cmdTaak.CommandText = "SELECT TaakNaam FROM Taak WHERE TaakId = '" + voorkeur.TaakNaam + "'";
                 var resultTaak = cmdTaak.ExecuteScalar();
 
+                if (voorkeur.EenheidNaam == "0")
+                {
+                    resultEenheid = DBNull.Value.ToString();
+                    resultOnderdeel = DBNull.Value.ToString();
+                    resultTaak = DBNull.Value.ToString();
+                }
+                else if (voorkeur.OnderdeelNaam == "0")
+                {
+                    resultOnderdeel = DBNull.Value.ToString();
+                    resultTaak = DBNull.Value.ToString();
+                }
+                else if (voorkeur.TaakNaam == "0")
+                {
+                    resultTaak = DBNull.Value.ToString();
+                }
 
                 var command = connectie.CreateCommand();
                 command.Parameters.AddWithValue("@TrajectNaam", resultTraject);

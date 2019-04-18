@@ -34,7 +34,7 @@ namespace Logic
         {
 
             
-            return sqlMedewerker.getmedewerkerid(user_id);
+            return sqlMedewerker.Getmedewerkerid(user_id);
         }
 
         public List<Voorkeur> OphalenVoorkeur(string id)

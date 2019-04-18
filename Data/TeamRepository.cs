@@ -50,7 +50,7 @@ namespace Data
 
         public int haalTeamIdOpMetIDString(string id)
         {
-            return IteamContext.haalTeamIdOp(id);
+            return IteamContext.HaalTeamIdOp(id);
         }
 
         public List<Docent> haalDocentenZonderTeamOp()

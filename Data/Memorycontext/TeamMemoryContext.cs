@@ -114,7 +114,7 @@ namespace Data.Context
             }
         }
 
-        public int haalTeamIdOp(string id)
+        public int HaalTeamIdOp(string id)
         {
             return 1;
         }

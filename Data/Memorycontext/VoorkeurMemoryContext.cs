@@ -63,5 +63,10 @@ namespace Data.Context
         {
             throw new NotImplementedException();
         }
+
+        string IVoorkeurContext.GetTaakInfo(int taakId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

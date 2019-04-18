@@ -18,31 +18,39 @@ namespace Data.Context
 
         public List<Voorkeur> VoorkeurenOphalen(string id)
         {
-            List<Voorkeur> vklistmodel = new List<Voorkeur>();
-
-            connectie.Open();
-            var cmd = new SqlCommand("SELECT * FROM Voorkeur where UserId  = @UserId", connectie);
-            /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
-                "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
-                "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
-            cmd.Parameters.AddWithValue("@UserId", id);
-            var reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                var voorkeur = new Voorkeur();
+                List<Voorkeur> vklistmodel = new List<Voorkeur>();
 
-                voorkeur.Id = (int)reader["Id"];
-                voorkeur.TrajectNaam = reader["Traject"]?.ToString();
-                voorkeur.EenheidNaam = reader["Eenheid"]?.ToString();
-                voorkeur.OnderdeelNaam = reader["Onderdeel"]?.ToString();
-                voorkeur.TaakNaam = reader["Taak"]?.ToString();
-                voorkeur.Prioriteit = (int)reader["Prioriteit"];
-                vklistmodel.Add(voorkeur);
+                connectie.Open();
+                var cmd = new SqlCommand("SELECT * FROM Voorkeur where UserId  = @UserId", connectie);
+                /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
+                    "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
+                    "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
+                cmd.Parameters.AddWithValue("@UserId", id);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var voorkeur = new Voorkeur();
+
+                    voorkeur.Id = (int)reader["Id"];
+                    voorkeur.TrajectNaam = reader["Traject"]?.ToString();
+                    voorkeur.EenheidNaam = reader["Eenheid"]?.ToString();
+                    voorkeur.OnderdeelNaam = reader["Onderdeel"]?.ToString();
+                    voorkeur.TaakNaam = reader["Taak"]?.ToString();
+                    voorkeur.Prioriteit = (int)reader["Prioriteit"];
+                    vklistmodel.Add(voorkeur);
+                }
+                connectie.Close();
+
+                return vklistmodel;
             }
-            connectie.Close();
-
-            return vklistmodel;
+            catch(SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                return null;
+            }
         }
 
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
@@ -112,110 +120,171 @@ namespace Data.Context
 
         public List<Traject> GetTrajecten()
         {
-            connectie.Open();
-
-            var cmd = new SqlCommand("Select * FROM dbo.Traject", connectie);
-            var reader = cmd.ExecuteReader();
-
-            var trajecten = new List<Traject>();
-
-            while (reader.Read())
+            try
             {
-                var traject = new Traject
+                connectie.Open();
+
+                var cmd = new SqlCommand("Select * FROM dbo.Traject", connectie);
+                var reader = cmd.ExecuteReader();
+
+                var trajecten = new List<Traject>();
+
+                while (reader.Read())
                 {
-                    TrajectId = (int)reader["TrajectId"],
-                    TrajectNaam = reader["TrajectNaam"]?.ToString(),
-                };
+                    var traject = new Traject
+                    {
+                        TrajectId = (int)reader["TrajectId"],
+                        TrajectNaam = reader["TrajectNaam"]?.ToString(),
+                    };
 
-                trajecten.Add(traject);
+                    trajecten.Add(traject);
+                }
+
+                connectie.Close();
+
+                return trajecten;
             }
-
-            connectie.Close();
-
-            return trajecten;
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                throw;
+            }
         }
 
         public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
         {
-            connectie.Open();
-
-            var cmd = new SqlCommand("SELECT * FROM dbo.Eenheid WHERE Eenheid.trajectId = @trajectid", connectie);
-            cmd.Parameters.AddWithValue("@trajectid", trajectId);
-            var reader = cmd.ExecuteReader();
-
-            var eenheden = new List<Eenheid>();
-
-            while (reader.Read())
+            try
             {
-                var eenheid = new Eenheid
+                connectie.Open();
+
+                var cmd = new SqlCommand("SELECT * FROM dbo.Eenheid WHERE Eenheid.trajectId = @trajectid", connectie);
+                cmd.Parameters.AddWithValue("@trajectid", trajectId);
+                var reader = cmd.ExecuteReader();
+
+                var eenheden = new List<Eenheid>();
+
+                while (reader.Read())
                 {
-                    EenheidId = (int)reader["EenheidId"],
-                    EenheidNaam = reader["EenheidNaam"]?.ToString(),
-                    TrajectId = (int)reader["TrajectId"],
+                    var eenheid = new Eenheid
+                    {
+                        EenheidId = (int)reader["EenheidId"],
+                        EenheidNaam = reader["EenheidNaam"]?.ToString(),
+                        TrajectId = (int)reader["TrajectId"],
 
-                };
+                    };
 
-                eenheden.Add(eenheid);
+                    eenheden.Add(eenheid);
+                }
+
+                connectie.Close();
+
+                return eenheden;
             }
-
-            connectie.Close();
-
-            return eenheden;
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                throw;
+            }
         }
 
         public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
         {
-            connectie.Open();
-
-            var cmd = new SqlCommand("SELECT * FROM dbo.Onderdeel WHERE Onderdeel.EenheidId = @eenheidId", connectie);
-            cmd.Parameters.AddWithValue("@eenheidId", eenheidId);
-            var reader = cmd.ExecuteReader();
-
-            var onderdelen = new List<Onderdeel>();
-
-            while (reader.Read())
+            try
             {
-                var onderdeel = new Onderdeel
+                connectie.Open();
+
+                var cmd = new SqlCommand("SELECT * FROM dbo.Onderdeel WHERE Onderdeel.EenheidId = @eenheidId", connectie);
+                cmd.Parameters.AddWithValue("@eenheidId", eenheidId);
+                var reader = cmd.ExecuteReader();
+
+                var onderdelen = new List<Onderdeel>();
+
+                while (reader.Read())
                 {
-                    OnderdeelId = (int)reader["OnderdeelId"],
-                    OnderdeelNaam = reader["OnderdeelNaam"]?.ToString(),
-                    EenheidId = (int)reader["EenheidId"],
-                };
+                    var onderdeel = new Onderdeel
+                    {
+                        OnderdeelId = (int)reader["OnderdeelId"],
+                        OnderdeelNaam = reader["OnderdeelNaam"]?.ToString(),
+                        EenheidId = (int)reader["EenheidId"],
+                    };
 
-                onderdelen.Add(onderdeel);
+                    onderdelen.Add(onderdeel);
+                }
+
+                connectie.Close();
+
+                return onderdelen;
             }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                throw;
 
-            connectie.Close();
-
-            return onderdelen;
+            }
         }
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
         {
-            connectie.Open();
-
-            var cmd = new SqlCommand("SELECT * FROM dbo.Taak WHERE Taak.OnderdeelId = @onderdeelId", connectie);
-            cmd.Parameters.AddWithValue("@onderdeelId", onderdeelId);
-            var reader = cmd.ExecuteReader();
-
-            var taken = new List<Taak>();
-
-            while (reader.Read())
+            try
             {
-                var taak = new Taak
+                connectie.Open();
+
+                var cmd = new SqlCommand("SELECT * FROM dbo.Taak WHERE Taak.OnderdeelId = @onderdeelId", connectie);
+                cmd.Parameters.AddWithValue("@onderdeelId", onderdeelId);
+                var reader = cmd.ExecuteReader();
+
+                var taken = new List<Taak>();
+
+                while (reader.Read())
                 {
-                    TaakId = (int)reader["TaakId"],
-                    TaakNaam = reader["TaakNaam"]?.ToString(),
-                    OnderdeelId = (int)reader["OnderdeelId"],
-                    Taak_info = reader["info"]?.ToString(),
-                };
+                    var taak = new Taak
+                    {
+                        TaakId = (int)reader["TaakId"],
+                        TaakNaam = reader["TaakNaam"]?.ToString(),
+                        OnderdeelId = (int)reader["OnderdeelId"],
+                        Taak_info = reader["info"]?.ToString(),
+                    };
 
-                taken.Add(taak);
+                    taken.Add(taak);
+                }
+
+                connectie.Close();
+
+                return taken;
             }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                throw;
 
-            connectie.Close();
+            }
+        }
 
-            return taken;
+        public string GetTaakInfo(int taakId)
+        {
+            try
+            {
+                connectie.Open();
+
+                var cmd = new SqlCommand("SELECT info FROM dbo.Taak WHERE Taak.TaakId = @taakId", connectie);
+                cmd.Parameters.AddWithValue("@taakId", taakId);
+                var reader = cmd.ExecuteReader();
+
+                string info = "";
+
+                if (reader.Read())
+                {
+                    info = reader["info"]?.ToString();
+                }
+
+                connectie.Close();
+                return info;   
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                throw;
+            }
         }
     }
 }

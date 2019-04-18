@@ -13,7 +13,7 @@ namespace ProjectinternDB.Models
         public int Prioriteit { get; set; }
         public string Semester { get; set; }
 
-        public string Taak_info { get; set; }
+        public string Taak_info { get; set; } = "Info";
         //public Onderdeel Onderdeel { get; set; }
         //public Taak Taak { get; set; }
     }

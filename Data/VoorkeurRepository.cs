@@ -27,6 +27,6 @@ namespace Data
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => IvoorkeurContext.GetTakenByOnderdeelId(onderdeelId);
 
-
+        public string GetTaakInfo(int taakId) => IvoorkeurContext.GetTaakInfo(taakId);
     }
 }

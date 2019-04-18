@@ -395,7 +395,7 @@ namespace Data.Context
                 connectie = dbconn.GetConnString();
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT DocentID, Naam, RuimteVoorInzet FROM Docent WHERE TeamID is null";
+                cmd.CommandText = "SELECT D.DocentID, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID WHERE D.TeamID is null";
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {

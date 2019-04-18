@@ -6,7 +6,6 @@ namespace ProjectinternDB.Models
     {
         public string TrajectId { get; set; }
 
-        [Required]
         public string TrajectNaam { get; set; }
 
         [Required]

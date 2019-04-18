@@ -10,6 +10,7 @@ namespace ProjectinternDB.Models
 {
     public class TakenAanmakenViewModel
     {
+
         [Required]
         public List<Traject> OnderwijsTrajecten { get; set; }
 
@@ -20,5 +21,6 @@ namespace ProjectinternDB.Models
         public List<Onderdeel> OnderwijsOnderdelen { get; set; }
 
         public List<Taak> OnderwijsTaken { get; set; }
+
     }
 }

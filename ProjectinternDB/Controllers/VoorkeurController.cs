@@ -57,6 +57,13 @@ namespace ProjectinternDB.Controllers
             return Json(new SelectList(Taken, "TaakId", "TaakNaam"));
         }
 
+        public JsonResult GetTaakInfo(int TaakId)
+        {
+            string taakinfo = _voorkeurLogic.GetTaakInfo(TaakId);
+
+            return Json(taakinfo);
+        }
+
         public IActionResult userInlog(string User_id)
         {
             User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);

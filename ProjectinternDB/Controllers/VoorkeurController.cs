@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Data;
+using Logic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Model.Onderwijsdelen;
+using ProjectinternDB.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Logic;
-using ProjectinternDB.Models;
 using System.Security.Claims;
-using Model.Onderwijsdelen;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Data;
-using Microsoft.AspNetCore.Http;
 
 namespace ProjectinternDB.Controllers
 {
@@ -39,8 +39,8 @@ namespace ProjectinternDB.Controllers
 
         public JsonResult GetOnderdeel(int EenheidId)
         {
-            List<Onderdeel  > Onderdelen = new List<Onderdeel>();
- 
+            List<Onderdeel> Onderdelen = new List<Onderdeel>();
+
             Onderdelen = _voorkeurLogic.GetOnderdelenByEenheidId(EenheidId);
             Onderdelen.Insert(0, new Onderdeel { OnderdeelId = 0, OnderdeelNaam = "Select" });
 
@@ -67,7 +67,7 @@ namespace ProjectinternDB.Controllers
         public IActionResult userInlog(string User_id)
         {
             User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _voorkeurLogic.krijgUser_id(User_id);
+            _voorkeurLogic.KrijgUser_id(User_id);
 
             return RedirectToAction("Index");
         }
@@ -86,6 +86,7 @@ namespace ProjectinternDB.Controllers
             _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
             return RedirectToAction("Index");
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,5 +1,4 @@
-﻿using Model.Onderwijsdelen;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ProjectinternDB.Models
 {
@@ -11,9 +10,10 @@ namespace ProjectinternDB.Models
 
         [Required]
         public int Prioriteit { get; set; }
+
         public string Semester { get; set; }
 
-        public string Taak_info { get; set; } = "Info";
+        public string Taak_info { get; set; }
         //public Onderdeel Onderdeel { get; set; }
         //public Taak Taak { get; set; }
     }

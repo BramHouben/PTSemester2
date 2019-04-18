@@ -119,7 +119,7 @@ namespace Data.Context
             return 1;
         }
 
-        public List<Docent> haalDocentenZonderTeamOp()
+        public List<Docent> HaalDocentenZonderTeamOp()
         {
             docenten = new List<Docent>
             {

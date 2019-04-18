@@ -4,20 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace ProjectinternDB.Models
 {
     public class TakenAanmakenViewModel
     {
-        [Required]
-        public List<Onderwijstraject> OnderwijsTrajecten { get; set; }
 
         [Required]
-        public List<Onderwijseenheid> OnderwijsEenheden { get; set; }
+        public List<Traject> OnderwijsTrajecten { get; set; }
 
         [Required]
-        public List<Onderwijsonderdeel> OnderwijsOnderdelen { get; set; }
+        public List<Eenheid> OnderwijsEenheden { get; set; }
 
-        public List<Onderwijstaak> OnderwijsTaken { get; set; }
+        [Required]
+        public List<Onderdeel> OnderwijsOnderdelen { get; set; }
+
+        public List<Taak> OnderwijsTaken { get; set; }
+
     }
 }

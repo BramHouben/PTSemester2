@@ -30,11 +30,11 @@ namespace Logic
         {
             VoorkeurRepo.DeleteVoorkeur(id);
         }
-        public Medewerker krijgUser_id(string user_id)
+        public Medewerker KrijgUser_id(string user_id)
         {
 
             
-            return sqlMedewerker.getmedewerkerid(user_id);
+            return sqlMedewerker.Getmedewerkerid(user_id);
         }
 
         public List<Voorkeur> OphalenVoorkeur(string id)

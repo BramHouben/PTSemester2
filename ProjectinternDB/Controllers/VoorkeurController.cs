@@ -67,7 +67,7 @@ namespace ProjectinternDB.Controllers
         public IActionResult userInlog(string User_id)
         {
             User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            _voorkeurLogic.krijgUser_id(User_id);
+            _voorkeurLogic.KrijgUser_id(User_id);
 
             return RedirectToAction("Index");
         }

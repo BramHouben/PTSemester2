@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace Data.Interfaces
 {
@@ -17,6 +18,7 @@ namespace Data.Interfaces
         string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId);
         int haalTeamIdOp(string id);
         List<Docent> haalDocentenZonderTeamOp();
+        List<Taak> GetTaken();
         //void VerwijderDocentUitTeam(int TeamID, int DocentID);
     }
 }

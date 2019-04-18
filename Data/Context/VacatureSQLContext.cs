@@ -83,5 +83,58 @@ namespace Data.Context
                 }
             }
         }
+
+        public void DeleteVacature(int id)
+        {
+            try
+            {
+                connectie = dbconn.GetConnString();
+                connectie.Open();
+                var command = connectie.CreateCommand();
+                command.Parameters.AddWithValue("@VacatureID", id);
+                command.CommandText = "Delete from Vacature where VacatureID=@VacatureID";
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+            }
+            finally
+            {
+                connectie.Close();
+            }
+        }
+
+        public Vacature VacatureOphalen(int id)
+        {
+            connectie = dbconn.GetConnString();
+            if (connectie.State != ConnectionState.Open)
+            {
+                connectie.Open();
+            }
+            var cmd = connectie.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Vacature WHERE VacatureID = @VacatureID";
+            cmd.Parameters.AddWithValue("@VacatureID", id);
+            SqlDataReader reader = cmd.ExecuteReader();
+            Vacature vacature = new Vacature();
+            if (reader.Read())
+            {
+
+                vacature.Omschrijving = (string) reader["Omschrijving"]?.ToString();
+                vacature.Naam = (string) reader["Vacature_Naam"];
+            
+                if (reader["OnderwijstaakID"] != DBNull.Value)
+                {
+                    vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
+                }
+
+                if (reader["VacatureID"] != DBNull.Value)
+                {
+                    vacature.VactureID = Convert.ToInt32(reader["VacatureID"]);
+                }
+            }
+            connectie.Close();
+            return vacature;
+        }
     }
 }

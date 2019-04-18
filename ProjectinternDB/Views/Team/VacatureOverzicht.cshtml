@@ -43,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.OnderwijstaakID)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {  id=item.VactureID  }) |
+                @Html.ActionLink("Details", "VacatureDetails", new { id=item.VactureID }) |
+                @Html.ActionLink("Delete", "DeleteVacature", new { id=item.VactureID  },new { onclick = "return confirm('Weet u zeker dat u deze vacature wilt verwijderen');", @class = "delete-button" })
             </td>
         </tr>
 }

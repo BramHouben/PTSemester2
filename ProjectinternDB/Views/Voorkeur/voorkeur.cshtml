@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
         $(document).ready(function () {
-            var items = "<option value='0'>Select</option>";
+            var items = "<option value=''disabled selected hidden>Select</option>";
             $('#EenheidId').html(items);
             $('#OnderdeelId').html(items);
             $('#TaakId').html(items);
@@ -73,8 +73,9 @@
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                 <label asp-for="TrajectNaam" class="control-label">Traject</label>
                 <select asp-for="TrajectId"
-                        class="form-control"
+                        class="form-control form-control-warning"
                         asp-items="@(new SelectList(@ViewBag.ListOfTraject,"TrajectId", "TrajectNaam"))"></select>
+                <span asp-validation-for="TrajectId" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -125,7 +126,7 @@
         <div class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-light" asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" />
+                <input type="submit" value="Invoeren voorkeur" class="btn btn-light" asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" />
             </div>
         </div>
     </div>

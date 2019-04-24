@@ -37,15 +37,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeamId)
-            </td>
+            @if (item.TeamId == 0)
+            {
+                <td>Deze persoon heeft nog geen Team</td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeamId)
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
             </td>
             <td>
                 @*<a asp-action="Edit" asp-route-id="@item.DocentId">Edit</a> |*@
-                <a asp-action="Details" asp-route-id="@item.DocentId">Details</a> |
+                <a asp-action="DetailsDocent" asp-route-id="@item.DocentId">Details</a> |
                 <a asp-action="VerwijderUitTeam" asp-route-id="@item.DocentId">Verwijder docent uit Team</a> |
                 @*<a>@Html.ActionLink("Fixeren", "Fixeren", new { /* */ })</a>*@
                 <a asp-action="Fixeren" asp-route-id="@item.DocentId">Fixeren</a>

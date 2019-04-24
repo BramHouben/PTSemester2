@@ -21,6 +21,5 @@ namespace ProjectinternDB.Models
         public List<Onderdeel> OnderwijsOnderdelen { get; set; }
 
         public List<Taak> OnderwijsTaken { get; set; }
-
     }
 }

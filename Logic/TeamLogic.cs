@@ -55,5 +55,10 @@ namespace Logic
         {
             return TeamRepo.HaalDocentenZonderTeamOp();
         }
+
+        public Docent HaalDocentOpMetID(int id)
+        {
+            return TeamRepo.HaalDocentOpMetID(id);
+        }
     }
 }

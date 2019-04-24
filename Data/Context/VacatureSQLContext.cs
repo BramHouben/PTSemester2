@@ -38,7 +38,7 @@ namespace Data.Context
 
                 if (reader["VacatureID"] != DBNull.Value)
                 {
-                    vacature.VactureID = Convert.ToInt32(reader["VacatureID"]);
+                    vacature.VacatureID = Convert.ToInt32(reader["VacatureID"]);
                 }
 
                 vacatures.Add(vacature);
@@ -123,10 +123,35 @@ namespace Data.Context
                 vacature.Omschrijving = (string)reader["Omschrijving"]?.ToString();
                 vacature.Naam = (string)reader["Vacature_Naam"];
                 vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
-                vacature.VactureID = Convert.ToInt32(reader["VacatureID"]);
+                vacature.VacatureID = Convert.ToInt32(reader["VacatureID"]);
             }
             connectie.Close();
             return vacature;
+        }
+
+        public void UpdateVacature(Vacature vac)
+        {
+            //TODO: Optie DBNULL VALUE voor OMschrijving
+            try
+            {
+                connectie = dbconn.GetConnString();
+                connectie.Open();
+                var command = connectie.CreateCommand();
+                command.Parameters.AddWithValue("@ID", vac.VacatureID);
+                command.Parameters.AddWithValue("@Naam", vac.Naam);
+                command.Parameters.AddWithValue("@Omschrijving", vac.Omschrijving);
+                command.Parameters.AddWithValue("@OnderwijstaakID", vac.OnderwijstaakID);
+                command.CommandText = "UPDATE [dbo].[Vacature] SET [Vacature_naam] = @Naam,[Omschrijving] = @Omschrijving,[OnderwijstaakID] = @OnderwijstaakID WHERE VacatureID = @ID";
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+            }
+            finally
+            {
+                connectie.Close();
+            }
         }
     }
 }

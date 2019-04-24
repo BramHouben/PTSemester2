@@ -144,5 +144,10 @@ namespace Data.Context
 
             return taken;
         }
+
+        public Docent HaalDocentOpMetID(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

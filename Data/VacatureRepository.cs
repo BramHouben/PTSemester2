@@ -32,5 +32,10 @@ namespace Data
         {
             return vacatureContext.VacatureOphalen(id);
         }
+
+        public void UpdateVacature(Vacature vac)
+        {
+            vacatureContext.UpdateVacature(vac);
+        }
     }
 }

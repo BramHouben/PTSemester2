@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "VacatureOverzicht";
+    // Todo: Dropdown Onderwijstaken
 }
 
 <h2>VacatureOverzicht</h2>
@@ -13,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.VactureID)
+                @Html.DisplayNameFor(model => model.VacatureID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Naam)
@@ -22,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Omschrijving)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OnderwijstaakID)
+                @Html.DisplayNameFor(model => model.OnderwijsTaakNaam)
             </th>
             <th></th>
         </tr>
@@ -31,7 +32,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.VactureID)
+                @Html.DisplayFor(modelItem => item.VacatureID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
@@ -40,12 +41,12 @@
                 @Html.DisplayFor(modelItem => item.Omschrijving)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OnderwijstaakID)
+                @Html.DisplayFor(modelItem => item.OnderwijsTaakNaam)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.VactureID  }) |
-                @Html.ActionLink("Details", "VacatureDetails", new { id=item.VactureID }) |
-                @Html.ActionLink("Delete", "DeleteVacature", new { id=item.VactureID  },new { onclick = "return confirm('Weet u zeker dat u deze vacature wilt verwijderen');", @class = "delete-button" })
+                @Html.ActionLink("Edit", "EditVacature", new {  id=item.VacatureID  }) |
+                @Html.ActionLink("Details", "VacatureDetails", new { id=item.VacatureID }) |
+                @Html.ActionLink("Delete", "DeleteVacature", new { id=item.VacatureID  },new { onclick = "return confirm('Weet u zeker dat u deze vacature wilt verwijderen');", @class = "delete-button" })
             </td>
         </tr>
 }

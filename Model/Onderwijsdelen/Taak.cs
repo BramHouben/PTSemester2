@@ -12,7 +12,7 @@ namespace Model.Onderwijsdelen
         public string TaakNaam { get; set; }
         public int OnderdeelId { get; set; }
 
-        public string Taak_info { get; set; }
+        public string Omschrijving { get; set; }
 
         public Taak()
         {

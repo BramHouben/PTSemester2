@@ -8,18 +8,18 @@ using Model.Onderwijsdelen;
 
 namespace ProjectinternDB.Models
 {
-    public class TakenAanmakenViewModel
+    public class BlokeigenaarViewModel
     {
-
-        [Required]
+        /*[Required]
         public List<Traject> OnderwijsTrajecten { get; set; }
 
         [Required]
-        public List<Eenheid> OnderwijsEenheden { get; set; }
+        public List<Eenheid> OnderwijsEenheden { get; set; }*/
 
         [Required]
         public List<Onderdeel> OnderwijsOnderdelen { get; set; }
 
         public List<Taak> OnderwijsTaken { get; set; }
+
     }
 }

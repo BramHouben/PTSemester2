@@ -1,0 +1,37 @@
+﻿@using Model
+@model IEnumerable<Model.GefixeerdeTaak>
+@{
+    ViewData["Title"] = "FixerenOverzicht";
+}
+
+<h2>FixerenOverzicht</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DocentNaam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Taak_id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocentNaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Taak_id)
+                </td>
+                <td>
+                    <a asp-action="VerwijderFix" asp-route-id="@item.DocentID">Verwijder Fixatie</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

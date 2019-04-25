@@ -15,7 +15,7 @@ namespace Model
         [Required]
         public string Naam { get; set; }
         public string Omschrijving { get; set; }
-        public int OnderwijstaakID { get; set; }
+        public int TaakID { get; set; }
         public string OnderwijsTaakNaam { get; set; }
     }
 }

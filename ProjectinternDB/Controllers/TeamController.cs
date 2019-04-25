@@ -24,6 +24,8 @@ namespace ProjectinternDB.Controllers
     {
         private TeamLogic _teamLogic = new TeamLogic();
         private VacatureLogic _vacatureLogic = new VacatureLogic();
+        private FixerenLogic _fixerenLogic = new FixerenLogic();
+        private OnderwijsLogic _onderwijsLogic = new OnderwijsLogic();
 
         //public IActionResult TeamOverzicht()
         //{
@@ -33,10 +35,30 @@ namespace ProjectinternDB.Controllers
         //    return View(teams);
         //}
 
-        public IActionResult Fixeren()
+        public IActionResult Fixeren(int id)
         {
-            IEnumerable<Taak> taken = _teamLogic.GetTaken();
-            return View(taken);
+            int ID = id;
+            var tupleData = new Tuple<IEnumerable<Taak>, int>(_teamLogic.GetTaken(), ID);
+            return View(tupleData);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TaakFixeren(int id)
+        {
+            var taak = HttpContext.Request.Form["TaakId"];
+            int taakid = Convert.ToInt32(taak);
+            _fixerenLogic.TaakFixerenMetDocentID(id, taakid);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult HaalGefixeerdeTakenOp()
+        {
+            int id = _teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var team = _teamLogic.TeamOphalenMetID(id);
+            var result = _fixerenLogic.HaalGefixeerdeTaakOpMetID(Convert.ToInt32(team));
+            return View(result);
         }
 
         public IActionResult DocentenInTeam()
@@ -162,14 +184,13 @@ namespace ProjectinternDB.Controllers
             {
                 vacature.Naam = form["Naam"];
             }
-            vacature.OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]);
+            vacature.TaakID = Convert.ToInt32(form["TaakID"]);
             _vacatureLogic.VacatureOpslaan(vacature);
             return RedirectToAction("Index");
         }
 
         public IActionResult VacatureOverzicht()
         {
-            // TODO Bram C Nog toe te voegen Edit
             // TODO Bram C Veranderen ID in Overzicht
             List<Vacature> vacatures;
             vacatures = _vacatureLogic.VacaturesOphalen();
@@ -192,7 +213,8 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult EditVacature(int id)
         {
-            
+            // TODO onderwijstaken ophalen
+            ViewBag.Onderwijstaken = _onderwijsLogic.TakenOphalen();
             return View(_vacatureLogic.VacatureOphalen(id));
         }
         [HttpPost]
@@ -203,12 +225,12 @@ namespace ProjectinternDB.Controllers
             {
                 Naam = form["Naam"],
                 Omschrijving = form["Omschrijving"],
-                OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]),
-           //     OnderwijsTaakNaam = form["OnderwijsTaakNaam"],
+                TaakID = Convert.ToInt32(form["TaakID"]),
+                //     OnderwijsTaakNaam = form["OnderwijsTaakNaam"],
                 VacatureID = id
             };
             _vacatureLogic.UpdateVacature(vacature);
-         return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
     }
 }

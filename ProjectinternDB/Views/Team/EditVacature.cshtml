@@ -29,15 +29,25 @@
                 <span asp-validation-for="Omschrijving" class="text-danger"></span>
             </div>          
             <div class="form-group">
-                <label asp-for="OnderwijstaakID" class="control-label"></label>
-                <input asp-for="OnderwijstaakID" class="form-control" />
-                <span asp-validation-for="OnderwijstaakID" class="text-danger"></span>
+                <label asp-for="TaakID" class="control-label"></label>
+                <input asp-for="TaakID" class="form-control" />
+                <span asp-validation-for="TaakID" class="text-danger"></span>
             </div>
             @*<div class="form-group">
                     <label asp-for="OnderwijsTaakNaam" class="control-label"></label>
                     <input asp-for="OnderwijsTaakNaam" class="form-control" />
                     <span asp-validation-for="OnderwijsTaakNaam" class="text-danger"></span>
-                </div>*@
+                </div>
+                // Laten staan test Bram C*@
+            
+            <select>
+                @foreach(var item in ViewBag.Onderwijstaken)
+                { }
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="vw">VW</option>
+                <option value="audi" selected>Audi</option>
+            </select>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

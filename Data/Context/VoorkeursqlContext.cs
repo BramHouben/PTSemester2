@@ -258,7 +258,7 @@ namespace Data.Context
                         TaakId = (int)reader["TaakId"],
                         TaakNaam = reader["TaakNaam"]?.ToString(),
                         OnderdeelId = (int)reader["OnderdeelId"],
-                        Taak_info = reader["Omschrijving"]?.ToString(),
+                        Taak_info = reader["info"]?.ToString(),
                     };
 
                     taken.Add(taak);

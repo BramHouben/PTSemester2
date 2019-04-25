@@ -9,23 +9,30 @@ namespace Data.Context
 {
     class FixerenSQLContext : IFixerenContext
     {
-        private SqlConnection connectie;
-
+        private SqlConnection connectie { get; }
         private DBconn dbconn = new DBconn();
+
+        public FixerenSQLContext()
+        {
+            connectie = dbconn.GetConnString();
+        }
 
         public void TaakFixerenMetDocentID(int docentID, int taakID)
         {
             try
             {
-                connectie = dbconn.GetConnString();
                 connectie.Open();
+                
+
                 var cmd = connectie.CreateCommand();
-                cmd.CommandText = "INSERT INTO [dbo].[GefixeerdeTaken] (DocentID, Taak_ID) VALUES (" + docentID +", " + taakID+")";
+                cmd.Parameters.AddWithValue("@docent", docentID);
+                cmd.Parameters.AddWithValue("@taak", taakID);
+                cmd.CommandText = "INSERT INTO [dbo].[GefixeerdeTaken] (DocentID, Taak_ID) VALUES (@docent, @taak)";
                 cmd.ExecuteNonQuery();
             }
-            catch
+            catch (SqlException ex)
             {
-                // TODO: Fill Catch
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -37,7 +44,6 @@ namespace Data.Context
         {
             try
             {
-                connectie = dbconn.GetConnString();
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
                 cmd.CommandText = "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id ="+fixID+")";
@@ -45,7 +51,7 @@ namespace Data.Context
             }
             catch
             {
-                // TODO: Fill Catch
+                Console.WriteLine("De gefixeerdetaak kan niet worden verwijderd, mogelijk is deze al verwijderd");
             }
             finally
             {
@@ -57,7 +63,6 @@ namespace Data.Context
         {
             try
             {
-                connectie = dbconn.GetConnString();
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
                 cmd.CommandText = "UPDATE [dbo].[GefixeerdeTaken] SET Taak_id = " + taakID + ", DocentID =" + docentID + ")";
@@ -78,7 +83,6 @@ namespace Data.Context
             List<GefixeerdeTaak> GefixeerdeTaken = null;
             try
             {
-                connectie = dbconn.GetConnString();
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
                 cmd.CommandText = "SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id";
@@ -104,15 +108,15 @@ namespace Data.Context
             }
         }
 
-        public GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int Fix_id)
+        public GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int teamid)
         {
             GefixeerdeTaak taak = new GefixeerdeTaak();
             try
             {
-                connectie = dbconn.GetConnString();
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id WHERE F.Fix_id = " + Fix_id + ")";
+                cmd.CommandText = "SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN [dbo].[TeamLeider] TL ON D.DocentID=TL.MedewerkerID INNER JOIN [dbo].[Team] T ON TL.TeamleiderID=T.TeamLeiderID WHERE T.TeamID = " + teamid + ")";
+                //TODO SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN [dbo].[TeamLeider] TL ON D.DocentID=TL.MedewerkerID INNER JOIN [dbo].[Team] T ON TL.TeamleiderID=T.TeamLeiderID WHERE T.TeamID = 5
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -121,17 +125,16 @@ namespace Data.Context
                     taak.DocentNaam = (string)reader["Naam"];
                     taak.Taak_id = (int)reader["Taak_id"];
                 }
-                return taak;
             }
-            catch
+            catch (SqlException ex)
             {
-                // TODO: Exception Handling!
-                return null;
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 connectie.Close();
             }
+            return taak;
         }
     }
 }

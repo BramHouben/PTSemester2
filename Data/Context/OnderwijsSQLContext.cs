@@ -21,13 +21,13 @@ namespace Data.Context
                 connectie.Open();
             }
             var cmd = connectie.CreateCommand();
-            cmd.CommandText = "SELECT Omschrijving FROM OnderwijsTaak WHERE OnderwijsTaakID = @OnderwijsTaakID";
-            cmd.Parameters.AddWithValue("@OnderwijsTaakID", id);
+            cmd.CommandText = "SELECT TaakNaam FROM Taak WHERE TaakID = @TaakID";
+            cmd.Parameters.AddWithValue("@TaakID", id);
             SqlDataReader reader = cmd.ExecuteReader();
             string result = "";
             if (reader.Read())
             {
-                result = reader["Omschrijving"].ToString();
+                result = reader["TaakNaam"].ToString();
             }
             connectie.Close();
             return result;

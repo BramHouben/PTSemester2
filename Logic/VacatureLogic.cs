@@ -36,7 +36,7 @@ namespace Logic
             List<Vacature> vacatures = _vacatureRepository.VacaturesOphalen();
             foreach (Vacature vacature in vacatures)
             {
-                vacature.OnderwijsTaakNaam = _onderwijsLogic.OnderwijstaakNaam(vacature.OnderwijstaakID);
+                vacature.OnderwijsTaakNaam = _onderwijsLogic.OnderwijstaakNaam(vacature.TaakID);
             }
             return vacatures;
         }
@@ -49,7 +49,7 @@ namespace Logic
         public Vacature VacatureOphalen(int id)
         {
             Vacature vacature = _vacatureRepository.VacatureOphalen(id);
-            vacature.OnderwijsTaakNaam = _onderwijsLogic.OnderwijstaakNaam(vacature.OnderwijstaakID);
+            vacature.OnderwijsTaakNaam = _onderwijsLogic.OnderwijstaakNaam(vacature.TaakID);
             return vacature;
         }
 

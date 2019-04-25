@@ -51,7 +51,7 @@ namespace Data.Context
             }
             catch
             {
-                // TODO: Fill Catch
+                Console.WriteLine("De gefixeerdetaak kan niet worden verwijderd, mogelijk is deze al verwijderd");
             }
             finally
             {
@@ -125,17 +125,16 @@ namespace Data.Context
                     taak.DocentNaam = (string)reader["Naam"];
                     taak.Taak_id = (int)reader["Taak_id"];
                 }
-                return taak;
             }
-            catch
+            catch (SqlException ex)
             {
-                // TODO: Exception Handling!
-                return null;
+                Console.WriteLine(ex.Message);
             }
             finally
             {
                 connectie.Close();
             }
+            return taak;
         }
     }
 }

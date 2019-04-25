@@ -31,9 +31,10 @@ namespace Data.Context
                     Omschrijving = (string)reader["Omschrijving"]?.ToString(),
                     Naam = (string)reader["Vacature_Naam"]
                 };
-                if (reader["OnderwijstaakID"] != DBNull.Value)
+
+                if (reader["TaakID"] != DBNull.Value)
                 {
-                    vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
+                    vacature.TaakID = Convert.ToInt32(reader["TaakID"]);
                 }
 
                 if (reader["VacatureID"] != DBNull.Value)
@@ -67,8 +68,8 @@ namespace Data.Context
                 {
                     cmd.Parameters.AddWithValue("@Omschrijving", vac.Omschrijving);
                 }
-                cmd.Parameters.AddWithValue("@OnderwijstaakID", vac.OnderwijstaakID);
-                cmd.CommandText = "INSERT INTO [dbo].[Vacature]([Vacature_naam],[Omschrijving],[OnderwijstaakID]) VALUES (@VacatureNaam,@Omschrijving,@OnderwijstaakID)";
+                cmd.Parameters.AddWithValue("@TaakID", vac.TaakID);
+                cmd.CommandText = "INSERT INTO [dbo].[Vacature]([Vacature_naam],[Omschrijving],[TaakID]) VALUES (@VacatureNaam,@Omschrijving,@TaakID)";
                 cmd.ExecuteNonQuery();
             }
             catch (SqlException Fout)
@@ -119,10 +120,9 @@ namespace Data.Context
             Vacature vacature = new Vacature();
             if (reader.Read())
             {
-
                 vacature.Omschrijving = (string)reader["Omschrijving"]?.ToString();
                 vacature.Naam = (string)reader["Vacature_Naam"];
-                vacature.OnderwijstaakID = Convert.ToInt32(reader["OnderwijstaakID"]);
+                vacature.TaakID = Convert.ToInt32(reader["TaakID"]);
                 vacature.VacatureID = Convert.ToInt32(reader["VacatureID"]);
             }
             connectie.Close();
@@ -131,7 +131,6 @@ namespace Data.Context
 
         public void UpdateVacature(Vacature vac)
         {
-            //TODO: Optie DBNULL VALUE voor OMschrijving
             try
             {
                 connectie = dbconn.GetConnString();
@@ -139,9 +138,17 @@ namespace Data.Context
                 var command = connectie.CreateCommand();
                 command.Parameters.AddWithValue("@ID", vac.VacatureID);
                 command.Parameters.AddWithValue("@Naam", vac.Naam);
-                command.Parameters.AddWithValue("@Omschrijving", vac.Omschrijving);
-                command.Parameters.AddWithValue("@OnderwijstaakID", vac.OnderwijstaakID);
-                command.CommandText = "UPDATE [dbo].[Vacature] SET [Vacature_naam] = @Naam,[Omschrijving] = @Omschrijving,[OnderwijstaakID] = @OnderwijstaakID WHERE VacatureID = @ID";
+                // TODO Testen DBNUll Value + SQL Aanpassen.
+                if (string.IsNullOrEmpty(vac.Omschrijving))
+                {
+                    command.Parameters.AddWithValue("@Omschrijving", DBNull.Value);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@Omschrijving", vac.Omschrijving);
+                }
+                command.Parameters.AddWithValue("@TaakID", vac.TaakID);
+                command.CommandText = "UPDATE [dbo].[Vacature] SET [Vacature_naam] = @Naam,[Omschrijving] = @Omschrijving,[TaakID] = @TaakID WHERE VacatureID = @ID";
                 command.ExecuteNonQuery();
             }
             catch (SqlException fout)

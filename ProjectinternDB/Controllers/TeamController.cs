@@ -183,14 +183,13 @@ namespace ProjectinternDB.Controllers
             {
                 vacature.Naam = form["Naam"];
             }
-            vacature.OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]);
+            vacature.TaakID = Convert.ToInt32(form["TaakID"]);
             _vacatureLogic.VacatureOpslaan(vacature);
             return RedirectToAction("Index");
         }
 
         public IActionResult VacatureOverzicht()
         {
-            // TODO Bram C Nog toe te voegen Edit
             // TODO Bram C Veranderen ID in Overzicht
             List<Vacature> vacatures;
             vacatures = _vacatureLogic.VacaturesOphalen();
@@ -224,7 +223,7 @@ namespace ProjectinternDB.Controllers
             {
                 Naam = form["Naam"],
                 Omschrijving = form["Omschrijving"],
-                OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]),
+                TaakID = Convert.ToInt32(form["TaakID"]),
                 //     OnderwijsTaakNaam = form["OnderwijsTaakNaam"],
                 VacatureID = id
             };

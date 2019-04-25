@@ -13,9 +13,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.VacatureID)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Naam)
             </th>
@@ -31,9 +31,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.VacatureID)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Naam)
             </td>

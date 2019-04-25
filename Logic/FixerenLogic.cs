@@ -7,14 +7,10 @@ using Model;
 
 namespace Logic
 {
-    class FixerenLogic
+    public class FixerenLogic
     {
-        private FixerenRepository FixerenRepo;
-
-        public FixerenLogic(IFixerenContext Context)
-        {
-            FixerenRepo = new FixerenRepository(Context);
-        }
+        private FixerenRepository FixerenRepo = new FixerenRepository();
+        
 
         public void TaakFixerenMetDocentID(int docentID, int taakID)
         {

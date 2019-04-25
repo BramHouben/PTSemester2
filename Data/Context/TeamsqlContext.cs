@@ -435,7 +435,7 @@ namespace Data.Context
             {
                 connectie.Open();
 
-                var cmd = new SqlCommand("SELECT COUNT(TaakId) AS TaakId, TaakNaam FROM dbo.Taak GROUP BY TaakNaam", connectie);
+                var cmd = new SqlCommand("SELECT TaakId, TaakNaam FROM dbo.Taak", connectie);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())

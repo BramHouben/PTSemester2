@@ -1,4 +1,5 @@
-﻿using Data.Interfaces;
+﻿using Data.Context;
+using Data.Interfaces;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace Data
     public class FixerenRepository
     {
         private readonly IFixerenContext FixerenContext;
-        public FixerenRepository(IFixerenContext context)
+        public FixerenRepository()
         {
-            FixerenContext = context;
+            FixerenContext = new FixerenSQLContext();
         }
         public void TaakFixerenMetDocentID(int docentID, int taakID) => FixerenContext.TaakFixerenMetDocentID(docentID, taakID);
         public void VerwijderGefixeerdeTaak(int taakID) => FixerenContext.VerwijderGefixeerdeTaak(taakID);

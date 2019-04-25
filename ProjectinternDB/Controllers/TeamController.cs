@@ -24,6 +24,7 @@ namespace ProjectinternDB.Controllers
     {
         private TeamLogic _teamLogic = new TeamLogic();
         private VacatureLogic _vacatureLogic = new VacatureLogic();
+        private FixerenLogic _fixerenLogic = new FixerenLogic();
 
         public IActionResult Index()
         {
@@ -33,10 +34,30 @@ namespace ProjectinternDB.Controllers
             return View(teams);
         }
 
-        public IActionResult Fixeren()
+        public IActionResult Fixeren(int id)
         {
-            IEnumerable<Taak> taken = _teamLogic.GetTaken();
-            return View(taken);
+            int ID = id;
+            var tupleData = new Tuple<IEnumerable<Taak>, int>(_teamLogic.GetTaken(), ID);
+            return View(tupleData);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TaakFixeren(int id)
+        {
+            var taak = HttpContext.Request.Form["TaakId"];
+            int taakid = Convert.ToInt32(taak);
+            _fixerenLogic.TaakFixerenMetDocentID(id, taakid);
+
+            return RedirectToAction("TeamOverzicht");
+        }
+
+        public ActionResult HaalGefixeerdeTakenOp()
+        {
+            int id = _teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var team = _teamLogic.TeamOphalenMetID(id);
+            var result = _fixerenLogic.HaalGefixeerdeTaakOpMetID(Convert.ToInt32(team));
+            return View(result);
         }
 
         public IActionResult DocentenInTeam()
@@ -181,6 +202,11 @@ namespace ProjectinternDB.Controllers
            // TODO: Opmaak Pagina Details aanpassen.
             Vacature vacature = _vacatureLogic.VacatureOphalen(id);
             return View(vacature);
+        }
+
+        public IActionResult FixerenOverzicht()
+        {
+            return View();
         }
     }
 }

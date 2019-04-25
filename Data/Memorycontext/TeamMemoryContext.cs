@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Model;
 using Model.Onderwijsdelen;
+using System;
+using System.Collections.Generic;
 
 namespace Data.Context
 {
@@ -11,11 +11,11 @@ namespace Data.Context
         private List<Taak> taken;
         private List<Docent> docenten;
         private List<Team> teams;
+
         private List<Docent> docenten1 = new List<Docent>() {
                 new Docent(1, 1, 600, "Jan"),
                 new Docent(2, 1, 500, "Kees"),
                 new Docent(3, 2, 550, "Klaas")
-
     };
 
         public List<Team> TeamsOphalen()
@@ -59,11 +59,12 @@ namespace Data.Context
             {
                 case 1:
                     return "Jantje de Boer";
+
                 case 2:
                     return "Bram de Coenerguy";
+
                 default:
                     return "Teamleider niet gevonden";
-
             }
         }
 
@@ -73,8 +74,10 @@ namespace Data.Context
             {
                 case 1:
                     return "Hans Klok";
+
                 case 2:
                     return "Freek Vonk";
+
                 default:
                     return "Curriculum Eigenaar Niet Gevonden";
             }
@@ -100,9 +103,9 @@ namespace Data.Context
             List<Docent> docenten = docenten1;
             try
             {
-                for(int i = 0; i < docenten.Count; i++)
+                for (int i = 0; i < docenten.Count; i++)
                 {
-                    if(docenten[i].DocentId == DocentID)
+                    if (docenten[i].DocentId == DocentID)
                     {
                         docenten.RemoveAt(i);
                     }
@@ -140,6 +143,11 @@ namespace Data.Context
             }
 
             return taken;
+        }
+
+        public Docent HaalDocentOpMetID(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

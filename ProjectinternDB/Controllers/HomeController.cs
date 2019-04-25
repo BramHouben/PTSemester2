@@ -41,25 +41,7 @@ namespace ProjectinternDB.Controllers
         {
             return View();
         }
-
-        public IActionResult Voorkeur()
-        {
-            List<Traject> TrajectLijst = new List<Traject>();
-
-            TrajectLijst = _voorkeurLogic.GetTrajecten();
-
-            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
-
-            ViewBag.ListOfTraject = TrajectLijst;
-            return View();
-        }
-
-        public IActionResult VoorkeurUitslag()
-        {
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            return View(_voorkeurLogic.OphalenVoorkeur(id));
-        }
+    
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,11 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectinternDB.Models
 {
     public class VoorkeurViewModel
     {
+        //[Required(ErrorMessage ="Selecteer een Traject")]
+        [Range(1, Int32.MaxValue, ErrorMessage = "Selecteer een Traject")]
         public string TrajectId { get; set; }
-
+        [Required]
         public string TrajectNaam { get; set; }
 
         [Required]
@@ -14,7 +17,5 @@ namespace ProjectinternDB.Models
         public string Semester { get; set; }
 
         public string Taak_info { get; set; }
-        //public Onderdeel Onderdeel { get; set; }
-        //public Taak Taak { get; set; }
     }
 }

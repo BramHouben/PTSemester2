@@ -20,5 +20,6 @@ namespace Data.Interfaces
         List<Docent> HaalDocentenZonderTeamOp();
         List<Taak> GetTaken();
         //void VerwijderDocentUitTeam(int TeamID, int DocentID);
+        Docent HaalDocentOpMetID(int id);
     }
 }

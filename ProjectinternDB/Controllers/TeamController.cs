@@ -26,13 +26,13 @@ namespace ProjectinternDB.Controllers
         private VacatureLogic _vacatureLogic = new VacatureLogic();
         private FixerenLogic _fixerenLogic = new FixerenLogic();
 
-        public IActionResult Index()
-        {
-            IEnumerable<Team> teams = _teamLogic.TeamsOphalen();
-            IEnumerable<Docent> docenten = _teamLogic.DocentenOphalen(1);
+        //public IActionResult TeamOverzicht()
+        //{
+        //    IEnumerable<Team> teams = _teamLogic.TeamsOphalen();
+        //    IEnumerable<Docent> docenten = _teamLogic.DocentenOphalen(1);
 
-            return View(teams);
-        }
+        //    return View(teams);
+        //}
 
         public IActionResult Fixeren(int id)
         {
@@ -76,12 +76,13 @@ namespace ProjectinternDB.Controllers
         //    }
         //    return RedirectToAction("Index");
         //}
-        public IActionResult TeamOverzicht()
+      
+        public IActionResult Index()
         {
-            var teamLogic = new TeamLogic();
+           
             var teams = new List<TeamViewModel>();
-            int id = teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var team = teamLogic.TeamOphalenMetID(id);
+            int id = _teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var team = _teamLogic.TeamOphalenMetID(id);
             return View(team);
         }
 
@@ -101,6 +102,12 @@ namespace ProjectinternDB.Controllers
             }
 
             return View(geselecteerdTeam);
+        }
+
+        public IActionResult DetailsDocent(int id)
+        {
+            Docent docent = _teamLogic.HaalDocentOpMetID(id);
+            return View(docent);
         }
 
         public IActionResult Details(int id)
@@ -133,7 +140,7 @@ namespace ProjectinternDB.Controllers
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int teamid = _teamLogic.HaalTeamIDOpMetString(id);
             List<Docent> docentenZonderTeam = _teamLogic.HaalDocentenZonderTeamOp();
-            var teams = new TeamViewModel {DocentenZonderTeam = docentenZonderTeam};
+            var teams = new TeamViewModel { DocentenZonderTeam = docentenZonderTeam };
             Team team = _teamLogic.TeamOphalenMetID(teamid);
             teams.TeamID = teamid;
             return View(teams);
@@ -150,7 +157,7 @@ namespace ProjectinternDB.Controllers
             try
             {
                 _teamLogic.VerwijderDocentUitTeam(id);
-                return RedirectToAction(nameof(TeamOverzicht));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -167,7 +174,7 @@ namespace ProjectinternDB.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult MaakVacature(IFormCollection form)
         {
-            Vacature vacature = new Vacature {Omschrijving = form["Omschrijving"]};
+            Vacature vacature = new Vacature { Omschrijving = form["Omschrijving"] };
             if (form["naam"] == "")
             {
                 vacature.Naam = null;
@@ -193,20 +200,15 @@ namespace ProjectinternDB.Controllers
         public IActionResult DeleteVacature(int id)
         {
             //Delete Vacature van Db zonder view
-           _vacatureLogic.DeleteVacature(id);
-          return RedirectToAction("VacatureOverzicht");
+            _vacatureLogic.DeleteVacature(id);
+            return RedirectToAction("VacatureOverzicht");
         }
 
         public IActionResult VacatureDetails(int id)
         {
-           // TODO: Opmaak Pagina Details aanpassen.
+            // TODO: Opmaak Pagina Details aanpassen.
             Vacature vacature = _vacatureLogic.VacatureOphalen(id);
             return View(vacature);
-        }
-
-        public IActionResult FixerenOverzicht()
-        {
-            return View();
         }
     }
 }

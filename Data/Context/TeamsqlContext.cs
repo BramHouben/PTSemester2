@@ -462,5 +462,42 @@ namespace Data.Context
 
             return taken;
         }
+
+        public Docent HaalDocentOpMetID(int id)
+        {
+            Docent docent = new Docent();
+            try
+            {
+                connectie = dbconn.GetConnString();
+                connectie.Open();
+                var cmd = connectie.CreateCommand();
+                cmd.Parameters.AddWithValue("@DocentID", id);
+                cmd.CommandText = "SELECT D.DocentID, D.TeamID, D.RuimteVoorInzet,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where d.DocentID = @DocentID";
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
+                    if (!(DBNull.Value.Equals(reader["TeamID"])))
+                    {
+                        docent.TeamId = (int)reader["TeamID"];
+                    }
+
+                    if (!(DBNull.Value.Equals(reader["RuimteVoorInzet"])))
+                    {
+                        docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                    }
+                }
+                return docent;
+            }
+            catch (SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+                return null;
+            }
+            finally
+            {
+                connectie.Close();
+            }
+        }
     }
 }

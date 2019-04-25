@@ -26,6 +26,25 @@ namespace ProjectinternDB.Controllers
         {
             return View();
         }
+      
+        public IActionResult Voorkeur()
+        {
+            List<Traject> TrajectLijst = new List<Traject>();
+
+            TrajectLijst = _voorkeurLogic.GetTrajecten();
+
+            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
+
+            ViewBag.ListOfTraject = TrajectLijst;
+            return View();
+        }
+
+        public IActionResult VoorkeurUitslag()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            return View(_voorkeurLogic.OphalenVoorkeur(id));
+        }
 
         public JsonResult GetEenheid(int TrajectId)
         {
@@ -75,6 +94,7 @@ namespace ProjectinternDB.Controllers
         [HttpPost]
         public IActionResult InvoegenVoorkeur(VoorkeurViewModel objTraject, IFormCollection formCollection)
         {
+
             var Prioriteit = HttpContext.Request.Form["Prioriteit"];
             var EenheidId = HttpContext.Request.Form["EenheidId"];
             var OnderdeelId = HttpContext.Request.Form["OnderdeelId"];
@@ -83,8 +103,17 @@ namespace ProjectinternDB.Controllers
             string eenheid = EenheidId;
             string onderdeel = OnderdeelId;
             string taak = TaakId;
-            _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return RedirectToAction("Index");
+            if (objTraject.TrajectId == "0")
+            {
+                ModelState.AddModelError("TrajectId", "Geef een traject aan!");
+                return RedirectToAction("Voorkeur", objTraject);
+            }
+            else
+            {
+                _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return RedirectToAction("Index");
+            }
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

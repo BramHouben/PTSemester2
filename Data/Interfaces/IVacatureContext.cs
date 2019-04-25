@@ -11,6 +11,6 @@ namespace Data.Interfaces
         void VacatureOpslaan(Vacature vac);
         void DeleteVacature(int id);
         Vacature VacatureOphalen(int id);
-
+        void UpdateVacature(Vacature vac);
     }
 }

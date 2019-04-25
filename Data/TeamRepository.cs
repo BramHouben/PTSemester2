@@ -57,5 +57,10 @@ namespace Data
         {
             return IteamContext.HaalDocentenZonderTeamOp();
         }
+
+        public Docent HaalDocentOpMetID(int id)
+        {
+            return IteamContext.HaalDocentOpMetID(id);
+        }
     }
 }

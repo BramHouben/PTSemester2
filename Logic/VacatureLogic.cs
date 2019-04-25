@@ -11,10 +11,12 @@ namespace Logic
 {
     public class VacatureLogic
     {
-        private VacatureRepository vacatureRepository;
+        private VacatureRepository _vacatureRepository;
+        private OnderwijsLogic _onderwijsLogic;
         public VacatureLogic()
         {
-            vacatureRepository = new VacatureRepository();
+            _vacatureRepository = new VacatureRepository();
+            _onderwijsLogic = new OnderwijsLogic();
         }
         public void VacatureOpslaan(Vacature vacature)
         {
@@ -27,21 +29,33 @@ namespace Logic
             {
                 vacature.Omschrijving = null;
             }
-            vacatureRepository.VacatureOpslaan(vacature);
+            _vacatureRepository.VacatureOpslaan(vacature);
         }
         public List<Vacature> VacaturesOphalen()
         {
-            return vacatureRepository.VacaturesOphalen();
+            List<Vacature> vacatures = _vacatureRepository.VacaturesOphalen();
+            foreach (Vacature vacature in vacatures)
+            {
+                vacature.OnderwijsTaakNaam = _onderwijsLogic.OnderwijstaakNaam(vacature.OnderwijstaakID);
+            }
+            return vacatures;
         }
 
         public void DeleteVacature(int id)
         {
-          vacatureRepository.DeleteVacature(id);
+          _vacatureRepository.DeleteVacature(id);
         }
 
         public Vacature VacatureOphalen(int id)
         {
-            return vacatureRepository.VacatureOphalen(id);
+            Vacature vacature = _vacatureRepository.VacatureOphalen(id);
+            vacature.OnderwijsTaakNaam = _onderwijsLogic.OnderwijstaakNaam(vacature.OnderwijstaakID);
+            return vacature;
+        }
+
+        public void UpdateVacature(Vacature vac)
+        {
+            _vacatureRepository.UpdateVacature(vac);
         }
     }
 }

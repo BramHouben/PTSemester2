@@ -1,10 +1,11 @@
-﻿@model Model.Team
-
+﻿@using Model
+@model IEnumerable<Model.Team>
 @{
-    ViewData["Title"] = "TeamOverzicht";
+    ViewData["Title"] = "Index";
+    // oud kan indien nodig weg
 }
 
-<h2>TeamOverzicht</h2>
+<h2>Index</h2>
 
 <div class="row">
     <div class="col-xs-6 col-sm-3">
@@ -35,7 +36,7 @@
             
         </div>
         <div class="col-xs-6 col-sm-3">
-            @Html.ActionLink("Edit", "Edit", new {  id=Model.TeamId}) |
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Bekijk Team", "DocentenInTeam", new { id = Model.TeamId })
         </div>
 

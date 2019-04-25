@@ -11,7 +11,7 @@ namespace Model
         {
 
         }
-        public int VactureID { get; set; }
+        public int VacatureID { get; set; }
         [Required]
         public string Naam { get; set; }
         public string Omschrijving { get; set; }

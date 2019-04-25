@@ -58,5 +58,40 @@ namespace Data.Context
             connectie.Close();
             return taken;
         }
+
+        public void TaakToevoegen(Taak taak)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TaakVerwijderen(int taakId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Taak TaakOphalen(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Traject> GetTrajecten()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -6,16 +6,27 @@ namespace Logic
 {
     public class BlokeigenaarLogic
     {
-        private static BlokeigenaarRepository TaakRepos = new BlokeigenaarRepository();
+        private static OnderwijsRepository OnderwijsRepos = new OnderwijsRepository();
 
         public void TaakAanmaken(Taak taak)
         {
-            TaakRepos.TaakOpslaan(taak);
+            OnderwijsRepos.TaakOpslaan(taak);
         }
 
         public List<Taak> TakenOphalen()
         {
-            return TaakRepos.TakenOphalen();
+            return OnderwijsRepos.TakenOphalen();
+        }
+
+        public Taak TaakOphalen(int id)
+        {
+            Taak taak = OnderwijsRepos.TaakOphalen(id);
+            return taak;
+        }
+
+        public void TaakVerwijderen(int id)
+        {
+            OnderwijsRepos.TaakVerwijderen(id);
         }
     }
 }

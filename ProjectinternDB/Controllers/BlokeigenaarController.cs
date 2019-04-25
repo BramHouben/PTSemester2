@@ -31,7 +31,7 @@ namespace ProjectinternDB.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult TaakToevoegen(IFormCollection form)
         {
-            Taak taak = new Taak { Taak_info = form["Taak_info"] };
+            Taak taak = new Taak { Omschrijving = form["Taak_info"] };
             if (form["TaakNaam"] == "")
             {
                 taak.TaakNaam = null;
@@ -44,5 +44,24 @@ namespace ProjectinternDB.Controllers
             _taakLogic.TaakAanmaken(taak);
             return RedirectToAction("Index");
         }
+
+
+        //public IActionResult DetailsTaak(int id)
+        //{
+        //    Taak taak = _taakLogic.TaakOphalen(id);
+        //    return View(taak);
+        //}
+
+        public IActionResult VerwijderTaak(int id)
+        {
+            _taakLogic.TaakVerwijderen(id);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult EditTaak(int id)
+        {
+            return View(_taakLogic.TaakOphalen(id));
+        }
+
     }
 }

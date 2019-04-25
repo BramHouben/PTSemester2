@@ -10,39 +10,65 @@
 <h4>Overzicht Taken</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        @*<form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TaakId" class="control-label"></label>
-                <input asp-for="TaakId" class="form-control" />
-                <span asp-validation-for="TaakId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OnderdeelId" class="control-label"></label>
-                <input asp-for="OnderdeelId" class="form-control" />
-                <span asp-validation-for="OnderdeelId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TaakNaam" class="control-label"></label>
-                <input asp-for="TaakNaam" class="form-control" />
-                <span asp-validation-for="TaakNaam" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Taak_info" class="control-label"></label>
-                <input asp-for="Taak_info" class="form-control" />
-                <span asp-validation-for="Taak_info" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>*@
-        <select class="form-control" id="TaakId" name="TaakId" style="border-radius: 15px; background-color: darkgrey; color: white;">
+    <div class="col-md-8">
+        
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaakId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaakNaam)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OnderdeelId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Omschrijving)
+                </th>
+            
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaakId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaakNaam)
+                    </td>
+                    @if (item.OnderdeelId == 0)
+                    {
+                        <td>Deze taak heeft nog geen onderdeel</td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OnderdeelId)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Omschrijving)
+                    </td>
+                    <td>
+                        <a asp-action="EditTaak" asp-route-id="@item.TaakId">Edit</a> |
+                        <a asp-action="DetailsTaak" asp-route-id="@item.TaakId">Details Taak</a> |
+                        <a asp-action="VerwijderTaak" asp-route-id="@item.TaakId">Verwijder Taak</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        
+        @*<select class="form-control" id="TaakId" name="TaakId" style="border-radius: 15px; background-color: darkgrey; color: white;">
             @foreach (var taak in Model)
             {
                 <option value="@taak.TaakId">@taak.TaakNaam</option>
             }
-        </select>
+        </select>*@
         <a asp-action="TaakToevoegen">Taak Toevoegen</a>
     </div>
 </div>

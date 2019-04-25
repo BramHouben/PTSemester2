@@ -1,0 +1,53 @@
+﻿@using Model.Onderwijsdelen
+@model IEnumerable<Taak>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<h4>Overzicht Taken</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @*<form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TaakId" class="control-label"></label>
+                <input asp-for="TaakId" class="form-control" />
+                <span asp-validation-for="TaakId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OnderdeelId" class="control-label"></label>
+                <input asp-for="OnderdeelId" class="form-control" />
+                <span asp-validation-for="OnderdeelId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaakNaam" class="control-label"></label>
+                <input asp-for="TaakNaam" class="form-control" />
+                <span asp-validation-for="TaakNaam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Taak_info" class="control-label"></label>
+                <input asp-for="Taak_info" class="form-control" />
+                <span asp-validation-for="Taak_info" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>*@
+        <select class="form-control" id="TaakId" name="TaakId" style="border-radius: 15px; background-color: darkgrey; color: white;">
+            @foreach (var taak in Model)
+            {
+                <option value="@taak.TaakId">@taak.TaakNaam</option>
+            }
+        </select>
+        <a asp-action="TaakToevoegen">Taak Toevoegen</a>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

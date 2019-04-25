@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Model;
 using Model.Onderwijsdelen;
 
 namespace Data.Interfaces
 {
-    public interface ITaakContext
+    public interface IBlokeigenaarContext
     {
         List<Taak> TakenOphalen();
 

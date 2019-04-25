@@ -6,13 +6,13 @@ using Model.Onderwijsdelen;
 
 namespace Data
 {
-    public class TaakRepository
+    public class BlokeigenaarRepository
     {
-        private ITaakContext taakContext;
+        private IBlokeigenaarContext taakContext;
 
-        public TaakRepository()
+        public BlokeigenaarRepository()
         {
-            taakContext = new TaakMemoryContext();
+            taakContext = new BlokeigenaarMemoryContext();
         }
 
         public void TaakOpslaan(Taak taak)
@@ -20,7 +20,7 @@ namespace Data
             taakContext.TaakToevoegen(taak);
         }
 
-        public List<Taak> VacaturesOphalen()
+        public List<Taak> TakenOphalen()
         {
             return taakContext.TakenOphalen();
         }

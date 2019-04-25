@@ -5,7 +5,7 @@ using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
-    public class TaakMemoryContext : ITaakContext
+    public class BlokeigenaarMemoryContext : IBlokeigenaarContext
     {
         private List<Traject> _trajecten = new List<Traject>();
         private List<Eenheid> _eenheden = new List<Eenheid>();

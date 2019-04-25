@@ -37,7 +37,17 @@
                     <label asp-for="OnderwijsTaakNaam" class="control-label"></label>
                     <input asp-for="OnderwijsTaakNaam" class="form-control" />
                     <span asp-validation-for="OnderwijsTaakNaam" class="text-danger"></span>
-                </div>*@
+                </div>
+                // Laten staan test Bram C*@
+            
+            <select>
+                @foreach(var item in ViewBag.Onderwijstaken)
+                { }
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="vw">VW</option>
+                <option value="audi" selected>Audi</option>
+            </select>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

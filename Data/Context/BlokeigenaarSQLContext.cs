@@ -30,7 +30,7 @@ namespace Data.Context
             {
                 Taak taak = new Taak
                 {
-                    Taak_info = reader["Taak_info"]?.ToString(),
+                    Omschrijving = reader["Taak_info"]?.ToString(),
                     TaakNaam = (string)reader["TaakNaam"]
                 };
                 if (reader["TaakId"] != DBNull.Value)

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using Data.Interfaces;
 using Model;
+using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
@@ -31,6 +32,31 @@ namespace Data.Context
             }
             connectie.Close();
             return result;
+        }
+
+        public List<Taak> TakenOphalen()
+        {
+            List<Taak> taken = new List<Taak>();
+            connectie = dbconn.GetConnString();
+            if (connectie.State != ConnectionState.Open)
+            {
+                connectie.Open();
+            }
+            var cmd = connectie.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Taak";
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Taak taak = new Taak
+                {
+                    TaakNaam = reader["TaakNaam"].ToString(),
+                    TaakId = Convert.ToInt32(reader["TaakId"]),
+                    OnderdeelId = Convert.ToInt32(reader["OnderdeelId"]),
+                    Omschrijving = reader["Omschrijving"].ToString()
+                };
+            }
+            connectie.Close();
+            return taken;
         }
     }
 }

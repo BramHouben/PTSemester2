@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Data.Context;
 using Data.Interfaces;
+using Model.Onderwijsdelen;
 
 namespace Data
 {
@@ -20,5 +21,9 @@ namespace Data
            return _onderwijsContext.OnderwijstaakNaam(id);
        }
 
+       public List<Taak> TakenOphalen()
+       {
+           return _onderwijsContext.TakenOphalen();
+       }
     }
 }

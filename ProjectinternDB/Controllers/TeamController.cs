@@ -25,6 +25,7 @@ namespace ProjectinternDB.Controllers
         private TeamLogic _teamLogic = new TeamLogic();
         private VacatureLogic _vacatureLogic = new VacatureLogic();
         private FixerenLogic _fixerenLogic = new FixerenLogic();
+        private OnderwijsLogic _onderwijsLogic = new OnderwijsLogic();
 
         //public IActionResult TeamOverzicht()
         //{
@@ -212,7 +213,8 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult EditVacature(int id)
         {
-
+            // TODO onderwijstaken ophalen
+            ViewBag.Onderwijstaken = _onderwijsLogic.TakenOphalen();
             return View(_vacatureLogic.VacatureOphalen(id));
         }
         [HttpPost]

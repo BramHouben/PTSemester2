@@ -205,7 +205,7 @@ namespace ProjectinternDB.Controllers
                 Omschrijving = form["Omschrijving"],
                 OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]),
            //     OnderwijsTaakNaam = form["OnderwijsTaakNaam"],
-                VacatureID = Convert.ToInt32(form["VacatureID"])
+                VacatureID = id
             };
             _vacatureLogic.UpdateVacature(vacature);
          return RedirectToAction("Index");

@@ -9,21 +9,21 @@ namespace Model
 
         }
 
-        public Voorkeur(string trajectNaam, string eenheidNaam, string onderdeelNaam, string taakNaam, int prioriteit)
+        public Voorkeur(string trajectNaam, string eenheidNaam, string onderdeelNaam, string taakNaam/*, int prioriteit*/)
         {
             TrajectNaam = trajectNaam;
             EenheidNaam = eenheidNaam;
             OnderdeelNaam = onderdeelNaam;
             TaakNaam = taakNaam;
-            Prioriteit = prioriteit;
+            //Prioriteit = prioriteit;
          
         }
 
-        public Voorkeur(int id, string vak_naam, int prioriteit)
+        public Voorkeur(int id, string vak_naam/*, int prioriteit*/)
         {
             Id = id;
             TaakNaam = vak_naam;
-            Prioriteit = prioriteit;
+            //Prioriteit = prioriteit;
         }
 
         public int Id { get; set; }
@@ -36,7 +36,7 @@ namespace Model
 
         public string EenheidNaam { get; set; }
 
-        public int Prioriteit { get; set; }
+        //public int Prioriteit { get; set; }
 
         public string Taak_info { get; set; }
     }

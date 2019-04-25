@@ -17,13 +17,13 @@ namespace Logic
             VoorkeurRepo = new VoorkeurRepository(context);
         }
 
-        public void AddVoorkeur(string traject, string eenheid, string onderdeel, string taak, int prioriteit, string id)
+        public void AddVoorkeur(string traject, string eenheid, string onderdeel, string taak, string id)
         {
-            if (prioriteit > 5 || prioriteit < 0)
-            {
-                throw new ArgumentException("Iets Fout met het proces, Probeer opnieuw"); //Melding sturen naar de gebruiker!                   
-            }
-            VoorkeurRepo.AddVoorkeur(new Voorkeur(traject, eenheid, onderdeel, taak, prioriteit),id);
+            //if (prioriteit > 5 || prioriteit < 0)
+            //{
+            //    throw new ArgumentException("Iets Fout met het proces, Probeer opnieuw"); //Melding sturen naar de gebruiker!                   
+            //}
+            VoorkeurRepo.AddVoorkeur(new Voorkeur(traject, eenheid, onderdeel, taak),id);
         }
 
         public void DeleteVoorkeur(int id)
@@ -35,6 +35,11 @@ namespace Logic
 
             
             return sqlMedewerker.Getmedewerkerid(user_id);
+        }
+
+        public List<Medewerker> GetDocentenList(string user_id)
+        {
+            return VoorkeurRepo.GetDocentenList(user_id);
         }
 
         public List<Voorkeur> OphalenVoorkeur(string id)
@@ -55,5 +60,10 @@ namespace Logic
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => VoorkeurRepo.GetTakenByOnderdeelId(onderdeelId);
 
         public string GetTaakInfo(int taakId) => VoorkeurRepo.GetTaakInfo(taakId);
+
+        public bool KijkenVoorDubbel(string trajectId, string eenheid, string onderdeel, string taak, string id)
+        {
+         return   VoorkeurRepo.KijkenVoorDubbel(new Voorkeur(trajectId, eenheid, onderdeel, taak), id);
+        }
     }
 }

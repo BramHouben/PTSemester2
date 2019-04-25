@@ -26,7 +26,7 @@ namespace ProjectinternDB.Controllers
         {
             return View();
         }
-      
+
         public IActionResult Voorkeur()
         {
             List<Traject> TrajectLijst = new List<Traject>();
@@ -36,7 +36,12 @@ namespace ProjectinternDB.Controllers
             TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
 
             ViewBag.ListOfTraject = TrajectLijst;
-            return View();
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            VoorkeurViewModel VKVmodel = new VoorkeurViewModel();
+            VKVmodel.MedewerkerList = _voorkeurLogic.GetDocentenList(User_id);
+
+            return View(VKVmodel);
         }
 
         public IActionResult VoorkeurUitslag()
@@ -94,25 +99,28 @@ namespace ProjectinternDB.Controllers
         [HttpPost]
         public IActionResult InvoegenVoorkeur(VoorkeurViewModel objTraject, IFormCollection formCollection)
         {
-
+            var persid = HttpContext.Request.Form["Docent"];
             var Prioriteit = HttpContext.Request.Form["Prioriteit"];
             var EenheidId = HttpContext.Request.Form["EenheidId"];
             var OnderdeelId = HttpContext.Request.Form["OnderdeelId"];
             var TaakId = HttpContext.Request.Form["TaakId"];
-            int prioriteit = Convert.ToInt32(Prioriteit);
+         
             string eenheid = EenheidId;
             string onderdeel = OnderdeelId;
             string taak = TaakId;
-            if (objTraject.TrajectId == "0")
-            {
-                ModelState.AddModelError("TrajectId", "Geef een traject aan!");
-                return RedirectToAction("Voorkeur", objTraject);
-            }
-            else
-            {
-                _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, prioriteit, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                return RedirectToAction("Index");
-            }
+            string id = persid;
+   
+          
+                if(_voorkeurLogic.KijkenVoorDubbel(objTraject.TrajectId, eenheid, onderdeel, taak, id)) {
+                return View();//todo error handling met tempdata
+                }
+                else
+                {
+                    _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, id);
+                    return RedirectToAction("Index");
+                }
+                
+             
             
         }
 

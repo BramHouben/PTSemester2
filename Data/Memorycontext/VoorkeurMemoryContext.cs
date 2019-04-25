@@ -68,5 +68,15 @@ namespace Data.Context
         {
             throw new NotImplementedException();
         }
+
+        public List<Medewerker> GetDocentenList(string user_id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool KijkVoorDubbel(Voorkeur voorkeur, string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

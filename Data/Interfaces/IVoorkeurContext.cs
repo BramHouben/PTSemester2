@@ -22,5 +22,7 @@ namespace Data
         List<Taak> GetTakenByOnderdeelId(int onderdeelId);
 
         string GetTaakInfo(int taakId);
+        List<Medewerker> GetDocentenList(string user_id);
+        bool KijkVoorDubbel(Voorkeur voorkeur, string id);
     }
 }   

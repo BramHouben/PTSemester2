@@ -49,7 +49,7 @@ namespace ProjectinternDB.Controllers
             int taakid = Convert.ToInt32(taak);
             _fixerenLogic.TaakFixerenMetDocentID(id, taakid);
 
-            return RedirectToAction("TeamOverzicht");
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult HaalGefixeerdeTakenOp()
@@ -209,6 +209,27 @@ namespace ProjectinternDB.Controllers
             // TODO: Opmaak Pagina Details aanpassen.
             Vacature vacature = _vacatureLogic.VacatureOphalen(id);
             return View(vacature);
+        }
+
+        public IActionResult EditVacature(int id)
+        {
+
+            return View(_vacatureLogic.VacatureOphalen(id));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditVacature(int id, IFormCollection form)
+        {
+            Vacature vacature = new Vacature()
+            {
+                Naam = form["Naam"],
+                Omschrijving = form["Omschrijving"],
+                OnderwijstaakID = Convert.ToInt32(form["OnderwijstaakID"]),
+                //     OnderwijsTaakNaam = form["OnderwijsTaakNaam"],
+                VacatureID = id
+            };
+            _vacatureLogic.UpdateVacature(vacature);
+            return RedirectToAction("Index");
         }
     }
 }

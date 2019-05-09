@@ -40,7 +40,7 @@ namespace Data
             return IvoorkeurContext.KijkVoorDubbel( voorkeur, id);
         }
 
-        public List<Traject> GetTrajectenInzetbaar(string user_id)=> IvoorkeurContext.GetTrajectenInzetbaar(user_id)
+        public List<Traject> GetTrajectenInzetbaar(string user_id) => IvoorkeurContext.GetTrajectenInzetbaar(user_id);
  
     }
 }

@@ -19,7 +19,8 @@ using Model.Onderwijsdelen;
 
 namespace ProjectinternDB.Controllers
 {
-    [Authorize(Roles = "Teamleider")]
+    [Authorize(Roles = "Teamleider,Blokeigenaar")]
+
     public class TeamController : Controller
     {
         private TeamLogic _teamLogic = new TeamLogic();
@@ -34,7 +35,7 @@ namespace ProjectinternDB.Controllers
 
         //    return View(teams);
         //}
-
+    
         public IActionResult Fixeren(int id)
         {
             int ID = id;
@@ -44,6 +45,7 @@ namespace ProjectinternDB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+ 
         public ActionResult TaakFixeren(int id)
         {
             var taak = HttpContext.Request.Form["TaakId"];

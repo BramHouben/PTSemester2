@@ -433,6 +433,7 @@ namespace Data.Context
 
             try
             {
+                connectie = dbconn.GetConnString();
                 connectie.Open();
 
                 var cmd = new SqlCommand("SELECT TaakId, TaakNaam FROM dbo.Taak", connectie);

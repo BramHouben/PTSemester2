@@ -10,7 +10,7 @@ namespace Logic
     public class VoorkeurLogic
     {
         private VoorkeurRepository VoorkeurRepo;
-        private MedewerkerSQL sqlMedewerker = new MedewerkerSQL();
+        private MedewerkerRepository MedewerkerRepo;
 
         public VoorkeurLogic(IVoorkeurContext context)
         {
@@ -31,10 +31,8 @@ namespace Logic
             VoorkeurRepo.DeleteVoorkeur(id);
         }
         public Medewerker KrijgUser_id(string user_id)
-        {
-
-            
-            return sqlMedewerker.Getmedewerkerid(user_id);
+        {          
+            return MedewerkerRepo.GetMedewerkerId(user_id);
         }
 
         public List<Voorkeur> OphalenVoorkeur(string id)

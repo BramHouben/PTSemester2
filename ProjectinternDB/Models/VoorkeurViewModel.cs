@@ -21,7 +21,7 @@ namespace ProjectinternDB.Models
 
         public string Taak_info { get; set; }
 
-        [Required(ErrorMessage = "Selecteer een misdaad!")]
+        [Required(ErrorMessage = "Selecteer een medewerker!")]
         public List<Medewerker> MedewerkerList { get; set; }
 
     }

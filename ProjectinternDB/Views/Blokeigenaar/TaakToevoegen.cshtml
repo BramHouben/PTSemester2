@@ -1,17 +1,89 @@
-﻿@using Model.Onderwijsdelen
-@model Taak
+﻿@*@model Model.Onderwijsdelen.Taak*@
+@model BlokeigenaarViewModel
 
 @{
     ViewBag.Title = "Taak Toevoegen";
     Layout = "_Layout";
 }
-
+@{
+    // TODO: oude uitgecommente code opschonen/verwijderen
+    // TODO: Javascript gebruikt nu nog dingen van Voorkeur -> omzetten/maken voor Blokeigenaar
+}
 <h2>Taak Toevoegen</h2>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var items = "<option value=''disabled selected hidden>Select</option>";
+        $('#EenheidId').html(items);
+        $('#OnderdeelId').html(items);
+        $('#TaakId').html(items);
+    });
+
+    $(document).ready(function () {
+        $('#TrajectId').change(function () {
+            var url = '@Url.Content("~/")' + "Voorkeur/GetEenheid";
+            var ddlsource = "#TrajectId";
+            $.getJSON(url, { TrajectId: $(ddlsource).val() }, function (data) {
+                var items = '';
+                $("#EenheidId").empty();
+                $.each(data, function (i, eenheid) {
+                    items += "<option value='" + eenheid.value + "'>" + eenheid.text + "</option>";
+                });
+                $('#EenheidId').html(items);
+            });
+        });
+
+        $('#EenheidId').change(function () {
+            var url = '@Url.Content("~/")' + "Voorkeur/GetOnderdeel";
+            var ddlsource = "#EenheidId";
+            $.getJSON(url, { EenheidId: $(ddlsource).val() }, function (data) {
+                var items = '';
+                $('#OnderdeelId').empty();
+                $.each(data, function (i, onderdeel) {
+                    items += "<option value='" + onderdeel.value + "'>" + onderdeel.text + "</option>";
+                });
+                $('#OnderdeelId').html(items);
+            });
+        });
+
+    });
+</script>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="TaakToevoegen">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                    <label asp-for="TrajectNaam" class="control-label">Traject</label>
+                    <select asp-for="TrajectId"
+                            class="form-control form-control-warning"
+                            asp-items="@(new SelectList(@ViewBag.ListOfTraject,"TrajectId", "TrajectNaam"))"></select>
+                    <span asp-validation-for="TrajectId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label">Eenheid</label>
+                    <select class="form-control" id="EenheidId" name="EenheidId"
+                            asp-items="@(new SelectList(string.Empty,"EenheidId", "EenheidNaam"))"></select>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label">Onderdeel</label>
+                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
+                            asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
+
+                </div>
+            </div>
+
             <div class="form-group">
                 <label asp-for="TaakNaam" class="control-label"></label>
                 <input asp-for="TaakNaam" class="form-control" />

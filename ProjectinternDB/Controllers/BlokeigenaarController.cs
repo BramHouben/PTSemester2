@@ -25,14 +25,31 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult TaakToevoegen()
         {
-            return View();
+            List<Traject> TrajectLijst = new List<Traject>();
+
+            TrajectLijst = _blokeigenaarLogic.GetTrajecten();
+
+            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
+
+            ViewBag.ListOfTraject = TrajectLijst;
+            //string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
+
+            return View(BEVmodel);
+            //return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult TaakToevoegen(IFormCollection form)
         {
-            Taak taak = new Taak { Omschrijving = form["Omschrijving"] };
+            Taak taak = new Taak
+            {
+                Omschrijving = form["Omschrijving"],
+                OnderdeelNaam = form["OnderdeelNaam"],
+                OnderdeelId = Int32.Parse(form["OnderdeelId"])
+            };
             if (form["TaakNaam"] == "")
             {
                 taak.TaakNaam = null;
@@ -73,15 +90,12 @@ namespace ProjectinternDB.Controllers
             TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
 
             ViewBag.ListOfTraject = TrajectLijst;
-            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
-            //BEVmodel.OnderwijsOnderdelen = _blokeigenaarLogic.GetOnderdelenByEenheidId();
             BEVmodel.Taak = _blokeigenaarLogic.TaakOphalen(id);
 
             return View(BEVmodel);
-
-            //return View(_blokeigenaarLogic.TaakOphalen(id));
         }
 
         [HttpPost]
@@ -93,8 +107,12 @@ namespace ProjectinternDB.Controllers
                 TaakNaam = form["Taak.TaakNaam"],
                 Omschrijving = form["Taak.Omschrijving"],
                 //OnderdeelId = Int32.Parse(form["OnderdeelId"]),
-                OnderdeelNaam = form["Taak.OnderdeelNaam"],
+                OnderdeelNaam = form["OnderdeelNaam"],
+                OnderdeelId = Int32.Parse(form["OnderdeelId"]),
+
+
                 TaakId = id,
+                
             };
             _blokeigenaarLogic.UpdateTaak(taak);
             return RedirectToAction("Index");

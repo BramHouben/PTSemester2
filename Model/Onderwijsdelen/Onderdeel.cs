@@ -13,10 +13,11 @@ namespace Model.Onderwijsdelen
 
         }
 
-        public Onderdeel(int onderdeelId, string onderdeelNaam)
+        public Onderdeel(int onderdeelId, string onderdeelNaam, int eenheidId)
         {
             OnderdeelId = onderdeelId;
             OnderdeelNaam = onderdeelNaam;
+            EenheidId = eenheidId;
         }
     }
 }

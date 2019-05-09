@@ -9,5 +9,14 @@ namespace Model.Onderwijsdelen
         public string TrajectNaam { get; set; }
 
         public int Prioriteit { get; set; }
+
+        public Traject()
+        {
+        }
+        public Traject(int trajectId, string trajectNaam)
+        {
+            TrajectId = trajectId;
+            TrajectNaam = trajectNaam;
+        }
     }
 }

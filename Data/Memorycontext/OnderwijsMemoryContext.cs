@@ -8,14 +8,41 @@ namespace Data.Context
 {
     public class OnderwijsMemoryContext : IOnderwijsContext
     {
-        private List<Traject> _trajecten = new List<Traject>();
-        private List<Eenheid> _eenheden = new List<Eenheid>();
+        private List<Traject> _trajecten = new List<Traject>()
+        {
+            new Traject(1, "Software"),
+            new Traject(2, "Media"),
+            new Traject(3, "Business"),
+            new Traject(4, "Technology"),
+            new Traject(5, "Start Semester")
+        };
+
+        private List<Eenheid> _eenheden = new List<Eenheid>()
+        {
+            new Eenheid(1, "Semester 1", 1),
+            new Eenheid(2, "Semester 2", 1),
+            new Eenheid(3, "Semester 3", 1),
+            new Eenheid(4, "Semester 4", 1),
+            new Eenheid(5, "Semester 1", 2),
+            new Eenheid(6, "Semester 2", 2),
+            new Eenheid(7, "Semester 3", 2),
+            new Eenheid(8, "Semester 4", 2),
+            new Eenheid(9, "Semester 1", 3),
+            new Eenheid(10, "Semester 2", 3),
+            new Eenheid(11, "Semester 3", 3),
+            new Eenheid(12, "Semester 4", 3),
+            new Eenheid(13, "Semester 1", 4),
+            new Eenheid(14, "Semester 2", 4),
+            new Eenheid(15, "Semester 3", 4),
+            new Eenheid(16, "Semester 4", 4),
+            new Eenheid(17, "Semester 1", 5)
+        };
         private List<Onderdeel> _onderdelen = new List<Onderdeel>()
         {
-            new Onderdeel(1,"LP"),
-            new Onderdeel(2, "Proftaak"),
-            new Onderdeel(3, "OIB"),
-            new Onderdeel(4, "OIS")
+            new Onderdeel(1,"LP", 1),
+            new Onderdeel(2, "Proftaak", 1),
+            new Onderdeel(3, "OIB",17),
+            new Onderdeel(4, "OIS",17)
         };
         private List<Taak> _taken = new List<Taak>() {
             new Taak(1,"LP-Coach", 1, "Het Coachen bij een LP project", "SoftWare", "LP", "Semester 2"),
@@ -38,6 +65,16 @@ namespace Data.Context
 
         public void TaakToevoegen(Taak taak)
         {
+            string correcteOnderdeelNaam = null;
+            foreach (Onderdeel currentOnderdeel in _onderdelen)
+            {
+                if (currentOnderdeel.OnderdeelId == taak.OnderdeelId)
+                {
+                    correcteOnderdeelNaam = currentOnderdeel.OnderdeelNaam;
+                    break;
+                }
+            }
+            taak.OnderdeelNaam = correcteOnderdeelNaam;
             _taken.Add(taak);
         }
 
@@ -62,24 +99,6 @@ namespace Data.Context
 
         public Taak TaakOphalen(int id)
         {
-            //List<Taak> taken1 = _taken;
-
-            //switch (id)
-            //{
-            //    case 1:
-            //        return taken1[0];
-            //    case 2:
-            //        return taken1[1];
-            //    case 3:
-            //        return taken1[2];
-            //    case 4:
-            //        return taken1[3];
-            //    case 5:
-            //        return taken1[4];
-            //    default:
-            //        throw new NotImplementedException();
-            //}
-
             Taak correcteTaak = null;
             foreach (Taak currentTaak in _taken)
             {
@@ -97,7 +116,18 @@ namespace Data.Context
             Taak taakToUpdate = TaakOphalen(taak.TaakId);
             taakToUpdate.Omschrijving = taak.Omschrijving;
             taakToUpdate.TaakNaam = taak.TaakNaam;
-            taakToUpdate.OnderdeelNaam = taak.OnderdeelNaam;
+            //taakToUpdate.OnderdeelNaam = taak.OnderdeelNaam;
+            string correcteOnderdeelNaam = null;
+            foreach (Onderdeel currentOnderdeel in _onderdelen)
+            {
+                if (currentOnderdeel.OnderdeelId == taak.OnderdeelId)
+                {
+                    correcteOnderdeelNaam = currentOnderdeel.OnderdeelNaam;
+                    break;
+                }
+            }
+            taakToUpdate.OnderdeelNaam = correcteOnderdeelNaam;
+            taakToUpdate.OnderdeelId = taak.OnderdeelId;
             // TODO: neem OnderwijsID over en sla op
         }
 

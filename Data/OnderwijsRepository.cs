@@ -9,51 +9,51 @@ namespace Data
 {
    public class OnderwijsRepository
     {
-        private IOnderwijsContext _onderwijsContext;
+        private IOnderwijsContext _iOnderwijsContext;
 
        public OnderwijsRepository()
         {
-            _onderwijsContext = new OnderwijsMemoryContext();
+            _iOnderwijsContext = new OnderwijsMemoryContext();
         }
 
        public string OnderwijstaakNaam(int id)
        {
-           return _onderwijsContext.OnderwijstaakNaam(id);
+           return _iOnderwijsContext.OnderwijstaakNaam(id);
        }
 
        public List<Taak> TakenOphalen()
        {
-           return _onderwijsContext.TakenOphalen();
+           return _iOnderwijsContext.TakenOphalen();
        }
 
        public void TaakToevoegen(Taak taak)
        {
-           _onderwijsContext.TaakToevoegen(taak);
+           _iOnderwijsContext.TaakToevoegen(taak);
        }
 
        public void TaakVerwijderen(int taakId)
        {
-           _onderwijsContext.TaakVerwijderen(taakId);
+           _iOnderwijsContext.TaakVerwijderen(taakId);
        }
 
        public void TaakOpslaan(Taak taak)
        {
-           _onderwijsContext.TaakToevoegen(taak);
+           _iOnderwijsContext.TaakToevoegen(taak);
        }
 
        public void UpdateTaak(Taak taak)
        {
-           _onderwijsContext.UpdateTaak(taak);
+           _iOnderwijsContext.UpdateTaak(taak);
        }
 
         public Taak TaakOphalen(int id)
        {
-          return _onderwijsContext.TaakOphalen(id);
+          return _iOnderwijsContext.TaakOphalen(id);
        }
 
        //public List<Traject> GetTrajecten()
        //{
-       //  return  _onderwijsContext.GetTrajecten();
+       //  return  _iOnderwijsContext.GetTrajecten();
        //}
 
        //public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
@@ -71,14 +71,14 @@ namespace Data
        //  return  GetTakenByOnderdeelId(onderdeelId);
        //}
 
-       public List<Traject> GetTrajecten() => _onderwijsContext.GetTrajecten();
+       public List<Traject> GetTrajecten() => _iOnderwijsContext.GetTrajecten();
 
-       public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => _onderwijsContext.GetEenhedenByTrajectId(trajectId);
+       public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => _iOnderwijsContext.GetEenhedenByTrajectId(trajectId);
 
-       public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => _onderwijsContext.GetOnderdelenByEenheidId(eenheidId);
+       public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => _iOnderwijsContext.GetOnderdelenByEenheidId(eenheidId);
 
-       public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => _onderwijsContext.GetTakenByOnderdeelId(onderdeelId);
+       public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => _iOnderwijsContext.GetTakenByOnderdeelId(onderdeelId);
 
-       //public string GetTaakInfo(int taakId) => _onderwijsContext.GetTaakInfo(taakId);
+       //public string GetTaakInfo(int taakId) => _iOnderwijsContext.GetTaakInfo(taakId);
     }
 }

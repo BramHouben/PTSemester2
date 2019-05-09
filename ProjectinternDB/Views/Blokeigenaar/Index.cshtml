@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@{
+    // TODO: oude uitgecommente code opschonen/verwijderen
+}
 <h2>Index</h2>
 
 <h4>Overzicht Taken</h4>
@@ -15,14 +17,14 @@
         <table class="table">
             <thead>
             <tr>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.TaakId)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.TaakNaam)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.OnderdeelId)
+                    @Html.DisplayNameFor(model => model.OnderdeelNaam)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Omschrijving)
@@ -34,9 +36,9 @@
             <tbody>
             @foreach (var item in Model) {
                 <tr>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.TaakId)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.TaakNaam)
                     </td>
@@ -47,15 +49,26 @@
                     else
                     {
                         <td>
-                            @Html.DisplayFor(modelItem => item.OnderdeelId)
+                            @Html.DisplayFor(modelItem => item.OnderdeelNaam)
                         </td>
                     }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Omschrijving)
-                    </td>
+                    @if (item.Omschrijving == null)
+                    {
+                        <td>Deze taak heeft nog geen omschrijving</td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Omschrijving)
+                        </td>
+                    }
+                    
                     <td>
                         <a asp-action="EditTaak" asp-route-id="@item.TaakId">Edit</a> |
-                        <a asp-action="DetailsTaak" asp-route-id="@item.TaakId">Details Taak</a> |
+                        @*<a asp-action="DetailsTaak" asp-route-id="@item.TaakId">Details Taak</a> |*@
+                        @{
+                            // TODO: Popup: weet je zeker dat je deze taak wilt verwijderen etc...
+                        }
                         <a asp-action="VerwijderTaak" asp-route-id="@item.TaakId">Verwijder Taak</a>
                     </td>
                 </tr>

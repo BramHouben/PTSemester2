@@ -17,9 +17,23 @@ namespace ProjectinternDB.Models
         public List<Eenheid> OnderwijsEenheden { get; set; }*/
 
         [Required]
+        public string TaakNaam { get; set; }
+
+        [Required]
+        public string OnderdeelNaam { get; set; }
+
+        [Required]
+        public string Omschrijving { get; set; }
+        [Required]
+        public Taak Taak { get; set; }
+
+
+        [Required]
         public List<Onderdeel> OnderwijsOnderdelen { get; set; }
 
-        public List<Taak> OnderwijsTaken { get; set; }
+        [Required]
+        public string TrajectNaam { get; set; }
 
+        public string TrajectId { get; set; }
     }
 }

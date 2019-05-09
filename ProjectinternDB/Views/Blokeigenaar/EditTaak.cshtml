@@ -2,14 +2,13 @@
 @model BlokeigenaarViewModel
 
 @{
-    ViewBag.Title = "Taak Toevoegen";
-    Layout = "_Layout";
+    ViewData["Title"] = "EditTaak";
 }
 @{
     // TODO: oude uitgecommente code opschonen/verwijderen
     // TODO: Javascript gebruikt nu nog dingen van Voorkeur -> omzetten/maken voor Blokeigenaar
 }
-<h2>Taak Toevoegen</h2>
+<h2>EditTaak</h2>
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
@@ -51,12 +50,16 @@
     });
 </script>
 
+
+<h4>Taak</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="TaakToevoegen">
+        <form asp-action="EditTaak">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            @{
+                // TODO: Automatisch huidige traject/eenheid/onderdeel laten zien/inladen op de pagina
+            }
             <div class="form-group">
                 <div class="row">
                     <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
@@ -84,19 +87,26 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="TaakNaam" class="control-label"></label>
-                <input asp-for="TaakNaam" class="form-control" />
-                <span asp-validation-for="TaakNaam" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Omschrijving" class="control-label"></label>
-                <input asp-for="Omschrijving" class="form-control" />
-                <span asp-validation-for="Omschrijving" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="@Model.Taak.OnderdeelNaam" class="control-label"></label>
+                    <input asp-for="@Model.Taak.OnderdeelNaam" class="form-control" />
+                    <span asp-validation-for="@Model.Taak.OnderdeelNaam" class="text-danger"></span>
+                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
+                            asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
+                </div>*@
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <label asp-for="@Model.Taak.TaakNaam" class="control-label"></label>
+                <input asp-for="@Model.Taak.TaakNaam" class="form-control" />
+                <span asp-validation-for="@Model.Taak.TaakNaam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Taak.Omschrijving" class="control-label"></label>
+                <input asp-for="@Model.Taak.Omschrijving" class="form-control" />
+                <span asp-validation-for="@Model.Taak.Omschrijving" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
     </div>
@@ -105,3 +115,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

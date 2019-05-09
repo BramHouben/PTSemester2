@@ -16,6 +16,8 @@ namespace Data.Interfaces
 
        Taak TaakOphalen(int id);
 
+       void UpdateTaak(Taak taak);
+
        List<Traject> GetTrajecten();
 
        List<Eenheid> GetEenhedenByTrajectId(int trajectId);

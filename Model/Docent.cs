@@ -11,7 +11,7 @@ namespace Model
             DocentId = docentId;
             TeamId = teamId;
             RuimteVoorInzet = ruimteVoorInzet;
-            naam = Naam;
+            Naam = naam;
         }
 
         public Docent()
@@ -20,6 +20,6 @@ namespace Model
         public int DocentId { get; set; }
         public int TeamId { get; set; }
         public int RuimteVoorInzet { get; set; }
-        public string Naam { get; set; }
+        //public string Naam { get; set; }
     }
 }

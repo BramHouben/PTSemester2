@@ -440,7 +440,7 @@ namespace Data.Context
 
                 while (reader.Read())
                 {
-                    var taak = new Taak
+                    var taak = new Taak()
                     {
                         TaakId = (int)reader["TaakId"],
                         TaakNaam = reader["TaakNaam"]?.ToString(),

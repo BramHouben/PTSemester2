@@ -1,5 +1,6 @@
 ﻿using Model;
 using Model.Onderwijsdelen;
+using System;
 using System.Collections.Generic;
 
 namespace Data
@@ -28,5 +29,15 @@ namespace Data
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => IvoorkeurContext.GetTakenByOnderdeelId(onderdeelId);
 
         public string GetTaakInfo(int taakId) => IvoorkeurContext.GetTaakInfo(taakId);
+
+        public List<Medewerker> GetDocentenList(string user_id)
+        {
+            return IvoorkeurContext.GetDocentenList(user_id);
+        }
+
+        public bool KijkenVoorDubbel(Voorkeur voorkeur, string id)
+        {
+            return IvoorkeurContext.KijkVoorDubbel( voorkeur, id);
+        }
     }
 }

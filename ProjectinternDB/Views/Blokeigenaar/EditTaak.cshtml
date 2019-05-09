@@ -1,0 +1,44 @@
+﻿@*@model Model.Onderwijsdelen.Taak*@
+@model BlokeigenaarViewModel
+
+@{
+    ViewData["Title"] = "EditTaak";
+}
+
+<h2>EditTaak</h2>
+
+<h4>Taak</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditTaak">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Taak.TaakNaam" class="control-label"></label>
+                <input asp-for="@Model.Taak.TaakNaam" class="form-control" />
+                <span asp-validation-for="@Model.Taak.TaakNaam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Taak.OnderdeelNaam" class="control-label"></label>
+                <input asp-for="@Model.Taak.OnderdeelNaam" class="form-control" />
+                <span asp-validation-for="@Model.Taak.OnderdeelNaam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Taak.Omschrijving" class="control-label"></label>
+                <input asp-for="@Model.Taak.Omschrijving" class="form-control" />
+                <span asp-validation-for="@Model.Taak.Omschrijving" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

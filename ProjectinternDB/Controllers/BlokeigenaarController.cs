@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Logic;
 using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Model;
 using Model.Onderwijsdelen;
+using ProjectinternDB.Models;
 
 namespace ProjectinternDB.Controllers
 {
@@ -13,17 +15,16 @@ namespace ProjectinternDB.Controllers
     public class BlokeigenaarController : Controller
     {
 
-        private BlokeigenaarLogic _taakLogic = new BlokeigenaarLogic();
+        private BlokeigenaarLogic _blokeigenaarLogic = new BlokeigenaarLogic();
 
         public IActionResult Index()
         {
-            IEnumerable<Taak> taken = _taakLogic.TakenOphalen();
+            IEnumerable<Taak> taken = _blokeigenaarLogic.TakenOphalen();
             return View(taken);
         }
 
         public IActionResult TaakToevoegen()
         {
-            //throw new System.NotImplementedException();
             return View();
         }
 
@@ -31,7 +32,7 @@ namespace ProjectinternDB.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult TaakToevoegen(IFormCollection form)
         {
-            Taak taak = new Taak { Omschrijving = form["Taak_info"] };
+            Taak taak = new Taak { Omschrijving = form["Omschrijving"] };
             if (form["TaakNaam"] == "")
             {
                 taak.TaakNaam = null;
@@ -40,28 +41,66 @@ namespace ProjectinternDB.Controllers
             {
                 taak.TaakNaam = form["TaakNaam"];
             }
-            taak.TaakId = Convert.ToInt32(form["TaakId"]);
-            _taakLogic.TaakAanmaken(taak);
+
+            // AI TaakId
+            List<Taak> alleTaken = _blokeigenaarLogic.TakenOphalen();
+            int autoIncrementHoogsteId = 1;
+            foreach (Taak eenTaak in alleTaken)
+            {
+                if (eenTaak.TaakId > autoIncrementHoogsteId)
+                {
+                    autoIncrementHoogsteId = eenTaak.TaakId + 1;
+                }
+            }
+            taak.TaakId = autoIncrementHoogsteId;
+
+            _blokeigenaarLogic.TaakAanmaken(taak);
             return RedirectToAction("Index");
         }
-
-
-        //public IActionResult DetailsTaak(int id)
-        //{
-        //    Taak taak = _taakLogic.TaakOphalen(id);
-        //    return View(taak);
-        //}
 
         public IActionResult VerwijderTaak(int id)
         {
-            _taakLogic.TaakVerwijderen(id);
+            _blokeigenaarLogic.TaakVerwijderen(id);
+            return RedirectToAction("Index");
+        }
+        
+        public IActionResult EditTaak(int id)
+        {
+            List<Traject> TrajectLijst = new List<Traject>();
+
+            TrajectLijst = _blokeigenaarLogic.GetTrajecten();
+
+            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
+
+            ViewBag.ListOfTraject = TrajectLijst;
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
+            //BEVmodel.OnderwijsOnderdelen = _blokeigenaarLogic.GetOnderdelenByEenheidId();
+            BEVmodel.Taak = _blokeigenaarLogic.TaakOphalen(id);
+
+            return View(BEVmodel);
+
+            //return View(_blokeigenaarLogic.TaakOphalen(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditTaak(int id, IFormCollection form)
+        {
+            Taak taak = new Taak()
+            {
+                TaakNaam = form["Taak.TaakNaam"],
+                Omschrijving = form["Taak.Omschrijving"],
+                //OnderdeelId = Int32.Parse(form["OnderdeelId"]),
+                OnderdeelNaam = form["Taak.OnderdeelNaam"],
+                TaakId = id,
+            };
+            _blokeigenaarLogic.UpdateTaak(taak);
             return RedirectToAction("Index");
         }
 
-        public IActionResult EditTaak(int id)
-        {
-            return View(_taakLogic.TaakOphalen(id));
-        }
+
 
     }
 }

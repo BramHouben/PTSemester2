@@ -41,29 +41,44 @@ namespace Data
            _onderwijsContext.TaakToevoegen(taak);
        }
 
-       public Taak TaakOphalen(int id)
+       public void UpdateTaak(Taak taak)
+       {
+           _onderwijsContext.UpdateTaak(taak);
+       }
+
+        public Taak TaakOphalen(int id)
        {
           return _onderwijsContext.TaakOphalen(id);
        }
 
-       public List<Traject> GetTrajecten()
-       {
-         return  _onderwijsContext.GetTrajecten();
-       }
+       //public List<Traject> GetTrajecten()
+       //{
+       //  return  _onderwijsContext.GetTrajecten();
+       //}
 
-       public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
-       {
-         return  GetEenhedenByTrajectId(trajectId);
-       }
+       //public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
+       //{
+       //  return  GetEenhedenByTrajectId(trajectId);
+       //}
 
-       public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
-       {
-         return  GetOnderdelenByEenheidId(eenheidId);
-       }
+       //public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
+       //{
+       //  return  GetOnderdelenByEenheidId(eenheidId);
+       //}
 
-       public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
-       {
-         return  GetTakenByOnderdeelId(onderdeelId);
-       }
+       //public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
+       //{
+       //  return  GetTakenByOnderdeelId(onderdeelId);
+       //}
+
+       public List<Traject> GetTrajecten() => _onderwijsContext.GetTrajecten();
+
+       public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => _onderwijsContext.GetEenhedenByTrajectId(trajectId);
+
+       public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => _onderwijsContext.GetOnderdelenByEenheidId(eenheidId);
+
+       public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => _onderwijsContext.GetTakenByOnderdeelId(onderdeelId);
+
+       //public string GetTaakInfo(int taakId) => _onderwijsContext.GetTaakInfo(taakId);
     }
 }

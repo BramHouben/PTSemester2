@@ -28,5 +28,20 @@ namespace Logic
         {
             OnderwijsRepos.TaakVerwijderen(id);
         }
+
+        public void UpdateTaak(Taak taak)
+        {
+            OnderwijsRepos.UpdateTaak(taak);
+        }
+
+        public List<Traject> GetTrajecten() => OnderwijsRepos.GetTrajecten();
+
+        public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => OnderwijsRepos.GetEenhedenByTrajectId(trajectId);
+
+        public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId) => OnderwijsRepos.GetOnderdelenByEenheidId(eenheidId);
+
+        public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => OnderwijsRepos.GetTakenByOnderdeelId(onderdeelId);
+
+        //public string GetTaakInfo(int taakId) => OnderwijsRepos.GetTaakInfo(taakId);
     }
 }

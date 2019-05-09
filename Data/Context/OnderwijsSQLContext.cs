@@ -74,6 +74,11 @@ namespace Data.Context
             throw new NotImplementedException();
         }
 
+        public void UpdateTaak(Taak taak)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Traject> GetTrajecten()
         {
             throw new NotImplementedException();

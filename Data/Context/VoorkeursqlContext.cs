@@ -23,18 +23,26 @@ namespace Data.Context
                 List<Voorkeur> vklistmodel = new List<Voorkeur>();
 
                 connectie.Open();
-                var cmd = new SqlCommand("SELECT * FROM Bekwaamheid where UserId  = @UserId", connectie);
+
+                var cmdid = connectie.CreateCommand();
+                cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
+                var ResultId = cmdid.ExecuteScalar();
+
+
+
+
+                var cmd = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", connectie);
                 /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
                     "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
                     "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
-                cmd.Parameters.AddWithValue("@UserId", id);
+                cmd.Parameters.AddWithValue("@UserId", ResultId);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
                     var voorkeur = new Voorkeur();
 
-                    voorkeur.Id = (int)reader["Id"];
+                    voorkeur.Id = (int)reader["Bekwaam_Id"];
                     voorkeur.TrajectNaam = reader["Traject"]?.ToString();
                     voorkeur.EenheidNaam = reader["Eenheid"]?.ToString();
                     voorkeur.OnderdeelNaam = reader["Onderdeel"]?.ToString();
@@ -75,6 +83,12 @@ namespace Data.Context
                 cmdTaak.CommandText = "SELECT TaakNaam FROM Taak WHERE TaakId = '" + voorkeur.TaakNaam + "'";
                 var resultTaak = cmdTaak.ExecuteScalar();
 
+                var cmdid = connectie.CreateCommand();
+                cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
+                var ResultId = cmdid.ExecuteScalar();
+
+
+
                 if (voorkeur.EenheidNaam == "0")
                 {
                     resultEenheid = DBNull.Value.ToString();
@@ -97,9 +111,9 @@ namespace Data.Context
                 command.Parameters.AddWithValue("@OnderdeelNaam", resultOnderdeel);
                 command.Parameters.AddWithValue("@TaakNaam", resultTaak);
                 //command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
-                command.Parameters.AddWithValue("@UserId", id);
+                command.Parameters.AddWithValue("@UserId", ResultId);
 
-                command.CommandText = "INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, UserId) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId)";
+                command.CommandText = "INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, Docent_id) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId)";
                 command.ExecuteNonQuery();
 
             }
@@ -120,7 +134,7 @@ namespace Data.Context
                 connectie.Open();
                 var command = connectie.CreateCommand();
                 command.Parameters.AddWithValue("@voorkeur_id", id);
-                command.CommandText = "Delete from Bekwaamheid where id=@voorkeur_id";
+                command.CommandText = "Delete from Bekwaamheid where Bekwaam_Id=@voorkeur_id";
                 command.ExecuteNonQuery();
 
             }
@@ -258,7 +272,7 @@ namespace Data.Context
                         TaakId = (int)reader["TaakId"],
                         TaakNaam = reader["TaakNaam"]?.ToString(),
                         OnderdeelId = (int)reader["OnderdeelId"],
-                        Omschrijving = reader["info"]?.ToString(),
+                        Omschrijving = reader["Omschrijving"]?.ToString(),
                     };
 
                     taken.Add(taak);
@@ -366,8 +380,12 @@ namespace Data.Context
                 cmdTaak.CommandText = "SELECT TaakNaam FROM Taak WHERE TaakId = '" + voorkeur.TaakNaam + "'";
                 var resultTaak = cmdTaak.ExecuteScalar();
 
-                var cmd = new SqlCommand("SELECT Count(*) FROM Bekwaamheid where UserId = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak" , connectie);
-                cmd.Parameters.AddWithValue("@User_id", id);
+                var cmdid = connectie.CreateCommand();
+                cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
+                var ResultId = cmdid.ExecuteScalar();
+
+                var cmd = new SqlCommand("SELECT Count(*) FROM Bekwaamheid where Docent_id = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak", connectie);
+                cmd.Parameters.AddWithValue("@User_id", ResultId);
                 cmd.Parameters.AddWithValue("@traject", resultTraject);
                 cmd.Parameters.AddWithValue("@eenheid", resultEenheid);
                 cmd.Parameters.AddWithValue("@onderdeel", resultOnderdeel);
@@ -392,6 +410,39 @@ namespace Data.Context
             finally
             {
                 connectie.Close();
+            }
+        }
+
+        public List<Traject> GetTrajectenInzetbaar(string user_id)
+        {
+            try
+            {
+                connectie.Open();
+
+                var cmd = new SqlCommand("Select * FROM dbo.Traject", connectie);
+                var reader = cmd.ExecuteReader();
+
+                var trajecten = new List<Traject>();
+
+                while (reader.Read())
+                {
+                    var traject = new Traject
+                    {
+                        TrajectId = (int)reader["TrajectId"],
+                        TrajectNaam = reader["TrajectNaam"]?.ToString(),
+                    };
+
+                    trajecten.Add(traject);
+                }
+
+                connectie.Close();
+
+                return trajecten;
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+                throw;
             }
         }
     }

@@ -111,7 +111,7 @@ namespace ProjectinternDB.Controllers
             string id = persid;
    
           
-                if(_voorkeurLogic.KijkenVoorDubbel(objTraject.TrajectId, eenheid, onderdeel, taak, id)) {
+                if(_voorkeurLogic.KijkenVoorDubbel(objTraject.TrajectId, eenheid, onderdeel, taak, id)!= true) {
                 return View();//todo error handling met tempdata
                 }
                 else
@@ -134,6 +134,26 @@ namespace ProjectinternDB.Controllers
         {
             _voorkeurLogic.DeleteVoorkeur(id);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult PrioriteitGeven()
+        {
+            VoorkeurViewModel VKVmodel = new VoorkeurViewModel();
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            VKVmodel.MedewerkerList = _voorkeurLogic.GetDocentenList(User_id);
+
+            List<Traject> TrajectLijst = new List<Traject>();
+
+            TrajectLijst = _voorkeurLogic.GetTrajectenInzetbaar(User_id);
+
+            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
+
+            ViewBag.ListOfTraject = TrajectLijst;
+    
+           
+          
+
+            return View(VKVmodel);
         }
     }
 }

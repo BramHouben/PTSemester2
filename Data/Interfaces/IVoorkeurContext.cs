@@ -24,5 +24,6 @@ namespace Data
         string GetTaakInfo(int taakId);
         List<Medewerker> GetDocentenList(string user_id);
         bool KijkVoorDubbel(Voorkeur voorkeur, string id);
+        List<Traject> GetTrajectenInzetbaar(string user_id);
     }
 }   

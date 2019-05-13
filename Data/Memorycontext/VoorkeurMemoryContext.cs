@@ -83,5 +83,15 @@ namespace Data.Context
         {
             throw new NotImplementedException();
         }
+
+        public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Voorkeur GetVoorkeurInfo(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

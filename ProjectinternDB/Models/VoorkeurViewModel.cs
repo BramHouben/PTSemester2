@@ -24,5 +24,10 @@ namespace ProjectinternDB.Models
         [Required(ErrorMessage = "Selecteer een medewerker!")]
         public List<Medewerker> MedewerkerList { get; set; }
 
+        public int BekwaamheidId { get; set; }
+
+        public string Taak_naam { get; set; }
+
+        public string Onderdeel_naam { get; set; }
     }
 }

@@ -445,5 +445,87 @@ namespace Data.Context
                 throw;
             }
         }
+
+        public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
+        {
+         
+            string constring = connectie.ConnectionString;
+            try
+            {
+                using (SqlConnection connectie = new SqlConnection(constring))
+                {
+                    connectie.Open();
+                    var cmdid = connectie.CreateCommand();
+                    cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + User_id + "'";
+                    var ResultId = cmdid.ExecuteScalar();
+
+
+
+
+                    using (SqlCommand command = new SqlCommand("insert into DocentVoorkeur values(@user_id, @Prioriteit, @Bekwaamheid_id)"))
+                    {
+                        command.Connection = connectie;
+                        command.Parameters.Add(new SqlParameter("user_id", ResultId));
+                        command.Parameters.Add(new SqlParameter("Prioriteit", prioriteit));
+                        command.Parameters.Add(new SqlParameter("Bekwaamheid_id", id));
+
+                        command.ExecuteNonQuery();
+
+                    }
+
+
+                }
+            }
+            catch (SqlException error)
+            {
+                Console.WriteLine(error.Message);
+            }
+
+        }
+
+        public Voorkeur GetVoorkeurInfo(int id)
+        {
+            Voorkeur voorkeur = new Voorkeur();
+            string constring = connectie.ConnectionString;
+            try
+            {
+                using (SqlConnection connectie = new SqlConnection(constring))
+                {
+                    connectie.Open();
+                    var cmdid = connectie.CreateCommand();
+                    cmdid.CommandText = "SELECT * FROM Bekwaamheid WHERE Bekwaam_Id = '" + id + "'";
+                    var ResultId = cmdid.ExecuteScalar();
+
+
+
+
+                    using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid WHERE Bekwaam_Id = @id", connectie))
+                    {
+
+
+                        command.Parameters.Add(new SqlParameter("id", id));
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                voorkeur.TrajectNaam = (string)reader["Traject"];
+                                voorkeur.EenheidNaam = (string)reader["Eenheid"];
+                                voorkeur.OnderdeelNaam = (string)reader["Onderdeel"];
+                                voorkeur.TaakNaam = (string)reader["Taak"];
+                            }
+                        }
+
+                    }
+
+
+                }
+
+            }
+            catch (SqlException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            } 
+            return voorkeur;
+        }
     }
 }

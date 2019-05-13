@@ -27,7 +27,7 @@ namespace Data.Context
                 var cmdid = connectie.CreateCommand();
                 cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
                 var ResultId = cmdid.ExecuteScalar();
-
+                //TODO Parameter toevoegen
 
 
 

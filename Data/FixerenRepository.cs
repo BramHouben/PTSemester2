@@ -15,7 +15,7 @@ namespace Data
             FixerenContext = new FixerenSQLContext();
         }
         public void TaakFixerenMetDocentID(int docentID, int taakID) => FixerenContext.TaakFixerenMetDocentID(docentID, taakID);
-        public void VerwijderGefixeerdeTaak(int taakID) => FixerenContext.VerwijderGefixeerdeTaak(taakID);
+        public void VerwijderGefixeerdeTaak(int fid) => FixerenContext.VerwijderGefixeerdeTaak(fid);
         public void VeranderGefixeerdeTaak(int taakID, int docentID) => FixerenContext.VeranderGefixeerdeTaak(taakID, docentID);
         public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp() => FixerenContext.HaalAlleGefixeerdeTakenOp();
         public GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int Fix_id) => FixerenContext.HaalGefixeerdeTaakOpMetID(Fix_id);

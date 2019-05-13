@@ -63,6 +63,19 @@ namespace ProjectinternDB.Controllers
             return View(result);
         }
 
+        public IActionResult VerwijderGefixeerdeTaak(int fid)
+        {
+            //TODO ID meegeven, werkt op een of andere fiets niet!
+            _fixerenLogic.VerwijderGefixeerdeTaak(fid);
+            return View("FixerenOverzicht");
+        }
+
+        public ActionResult FixerenOverzicht()
+        {
+            var result = _fixerenLogic.HaalAlleGefixeerdeTakenOp();
+            return View(result);
+        }
+
         public IActionResult DocentenInTeam()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);

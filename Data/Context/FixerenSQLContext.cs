@@ -40,13 +40,14 @@ namespace Data.Context
             }
         }
 
-        public void VerwijderGefixeerdeTaak(int fixID)
+        public void VerwijderGefixeerdeTaak(int fid)
         {
             try
             {
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
-                cmd.CommandText = "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id ="+fixID+")";
+                cmd.Parameters.AddWithValue("@fid", fid);
+                cmd.CommandText = "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id = @fid)";
                 cmd.ExecuteNonQuery();
             }
             catch
@@ -80,12 +81,12 @@ namespace Data.Context
 
         public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp()
         {
-            List<GefixeerdeTaak> GefixeerdeTaken = null;
+            List<GefixeerdeTaak> GefixeerdeTaken = new List<GefixeerdeTaak>();
             try
             {
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id";
+                cmd.CommandText = "SELECT F.*, T.TaakNaam, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN Taak T ON T.TaakId = F.Taak_id ORDER BY F.DocentID ASC";
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -94,6 +95,7 @@ namespace Data.Context
                     taak.DocentID = (int)reader["DocentID"];
                     taak.DocentNaam = (string)reader["Naam"];
                     taak.Taak_id = (int)reader["Taak_id"];
+                    taak.TaakNaam = (string)reader["TaakNaam"];
                     GefixeerdeTaken.Add(taak);
                 }
                 return GefixeerdeTaken;

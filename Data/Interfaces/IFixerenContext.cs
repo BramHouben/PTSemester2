@@ -8,7 +8,7 @@ namespace Data.Interfaces
     public interface IFixerenContext
     {
         void TaakFixerenMetDocentID(int docentID, int taakID);
-        void VerwijderGefixeerdeTaak(int taakID);
+        void VerwijderGefixeerdeTaak(int fid);
         void VeranderGefixeerdeTaak(int taakID, int docentID);
         List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp();
         GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int Fix_id);

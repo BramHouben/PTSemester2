@@ -10,28 +10,35 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Fix_id)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DocentNaam)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Taak_id)
+                @Html.DisplayNameFor(model => model.TaakNaam)
             </th>
-            <th></th>
+            <th>Opties</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocentNaam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Taak_id)
-                </td>
-                <td>
-                    <a asp-action="VerwijderFix" asp-route-id="@item.DocentID">Verwijder Fixatie</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fix_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DocentNaam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaakNaam)
+            </td>
+            <td>
+                <a asp-action="VerwijderGefixeerdeTaak" asp-route-id="@item.Fix_id">Verwijder fixatie</a>
+                @Html.ActionLink("Fixatie verwijderen", "VerwijderGefixeerdeTaak", "Team", new { id = item.Fix_id }, new { onclick = "return confirm('Weet u zeker dat u deze fixatie wilt verwijderen?');", @class = "delete-button" })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

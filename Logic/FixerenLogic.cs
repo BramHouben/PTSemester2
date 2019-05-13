@@ -17,9 +17,9 @@ namespace Logic
             FixerenRepo.TaakFixerenMetDocentID(docentID, taakID);
         }
 
-        public void VerwijderGefixeerdeTaak(int taakID)
+        public void VerwijderGefixeerdeTaak(int fid)
         {
-            FixerenRepo.VerwijderGefixeerdeTaak(taakID);
+            FixerenRepo.VerwijderGefixeerdeTaak(fid);
         }
 
         public void VeranderGefixeerdeTaak(int taakID, int docentID)

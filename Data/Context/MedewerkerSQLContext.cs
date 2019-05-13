@@ -1,14 +1,15 @@
-﻿using Model;
+﻿using Data.Interfaces;
+using Model;
 using System.Data.SqlClient;
 
 namespace Data.Context
 {
-    public class MedewerkerSQL
+    public class MedewerkerSQLContext : IMedewerkerContext
     {
         private SqlConnection conn;
         private DBconn dbconn = new DBconn();
 
-        public Medewerker Getmedewerkerid(string id)
+        public Medewerker GetMedewerkerId(string id)
         {
             conn = dbconn.GetConnString();
             conn.Open();

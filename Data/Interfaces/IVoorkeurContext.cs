@@ -25,5 +25,7 @@ namespace Data
         List<Medewerker> GetDocentenList(string user_id);
         bool KijkVoorDubbel(Voorkeur voorkeur, string id);
         List<Traject> GetTrajectenInzetbaar(string user_id);
+        void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id);
+        Voorkeur GetVoorkeurInfo(int id);
     }
 }   

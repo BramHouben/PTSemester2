@@ -66,5 +66,11 @@ namespace Logic
 
         public List<Traject> GetTrajectenInzetbaar(string user_id) => VoorkeurRepo.GetTrajectenInzetbaar(user_id);
 
+        public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
+        {
+            VoorkeurRepo.InvoegenTaakVoorkeur(id, prioriteit, User_id);
+        }
+
+        public Voorkeur GetVoorkeurInfo(int id) => VoorkeurRepo.GetVoorkeurInfo(id);
     }
 }

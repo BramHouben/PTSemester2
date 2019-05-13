@@ -3,6 +3,7 @@ using Logic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Model;
 using Model.Onderwijsdelen;
 using ProjectinternDB.Models;
 using System;
@@ -136,24 +137,32 @@ namespace ProjectinternDB.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult PrioriteitGeven()
+
+        public IActionResult PrioriteitGeven(int id)
         {
-            VoorkeurViewModel VKVmodel = new VoorkeurViewModel();
+
+            VoorkeurViewModel VkModel = new VoorkeurViewModel();
+            VkModel.BekwaamheidId = id;
+            Voorkeur voorkeur = _voorkeurLogic.GetVoorkeurInfo(id);
+            VkModel.Semester = voorkeur.EenheidNaam;
+            VkModel.TrajectNaam = voorkeur.TrajectNaam;
+            VkModel.Taak_naam = voorkeur.TaakNaam;
+            VkModel.Onderdeel_naam = voorkeur.OnderdeelNaam;
+             //_voorkeurLogic.BekwaamInfo(id, BKModel);
+            //var tupleData = new Tuple<int, Taak>(id, );
+
+
+            return View(VkModel);
+        }
+        public IActionResult InvoegenVoorkeurDocent( int prioriteit, int id)
+        {
+            
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            VKVmodel.MedewerkerList = _voorkeurLogic.GetDocentenList(User_id);
+            //int id = VKVmodel.Bekwaam_id;
 
-            List<Traject> TrajectLijst = new List<Traject>();
+            _voorkeurLogic.InvoegenTaakVoorkeur(id, prioriteit, User_id);
 
-            TrajectLijst = _voorkeurLogic.GetTrajectenInzetbaar(User_id);
-
-            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
-
-            ViewBag.ListOfTraject = TrajectLijst;
-    
-           
-          
-
-            return View(VKVmodel);
+            return RedirectToAction("VoorkeurUitslag");
         }
     }
 }

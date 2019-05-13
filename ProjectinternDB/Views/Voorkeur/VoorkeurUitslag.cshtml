@@ -2,10 +2,10 @@
 @model List<Voorkeur>
 
 @{
-    ViewData["Title"] = "VoorkeurUitslag";
+    ViewData["Title"] = "Bekwaam voor";
 }
 
-<h2>Voorkeur uitslag</h2>
+<h2>Bekwaam Voor:</h2>
 
 <div>
     <table>
@@ -21,22 +21,24 @@
         </tr>
         @foreach (Voorkeur vk in Model)
         {
-        <tr>
-            <td>@vk.TrajectNaam</td>
-            <td>@vk.EenheidNaam</td>
-            <td>@vk.OnderdeelNaam</td>
-            <td>@vk.TaakNaam</td>
-            @*<td>@vk.Prioriteit</td>*@
-            <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }, new { onclick = "return confirm('Weet u zeker dat deze voorkeur verwijderd moet worden ?');" })) | </td>
-            <td>
-                <div class="img-hover">
-                    <a href="#">
-                        <img src="~/images/info.png" style="height:20px; align-content: flex-start; display:block;" class="imgNavbar" />
-                        <span>Informatie over het vak...</span>
-                    </a>
-                </div>
-            </td>
-        </tr>
+    <tr>
+        <td>@vk.TrajectNaam</td>
+        <td>@vk.EenheidNaam</td>
+        <td>@vk.OnderdeelNaam</td>
+        <td>@vk.TaakNaam</td>
+
+        <td>@Html.ActionLink("Prioriteit", "PrioriteitGeven", "Voorkeur", new { id = vk.Id })  </td>
+        @*<td>@vk.Prioriteit</td>*@
+        <td>@Html.ActionLink("Delete", "Delete", "Voorkeur", new { id = vk.Id }, new { onclick = "return confirm('Weet u zeker dat deze voorkeur verwijderd moet worden ?');" })) </td>
+        <td>
+            <div class="img-hover">
+                <a href="#">
+                    <img src="~/images/info.png" style="height:20px; align-content: flex-start; display:block;" class="imgNavbar" />
+                    <span>Informatie over het vak...</span>
+                </a>
+            </div>
+        </td>
+    </tr>
         }
     </table>
 </div>

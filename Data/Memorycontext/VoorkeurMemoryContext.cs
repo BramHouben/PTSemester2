@@ -78,5 +78,10 @@ namespace Data.Context
         {
             throw new NotImplementedException();
         }
+
+        public List<Traject> GetTrajectenInzetbaar(string user_id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

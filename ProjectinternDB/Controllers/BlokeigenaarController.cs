@@ -11,7 +11,7 @@ using ProjectinternDB.Models;
 
 namespace ProjectinternDB.Controllers
 {
-    //[Authorize(Roles = "Blokeigenaar")]
+    [Authorize(Roles = "Blokeigenaar")]
     public class BlokeigenaarController : Controller
     {
 

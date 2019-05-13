@@ -63,5 +63,8 @@ namespace Logic
         {
          return   VoorkeurRepo.KijkenVoorDubbel(new Voorkeur(trajectId, eenheid, onderdeel, taak), id);
         }
+
+        public List<Traject> GetTrajectenInzetbaar(string user_id) => VoorkeurRepo.GetTrajectenInzetbaar(user_id);
+
     }
 }

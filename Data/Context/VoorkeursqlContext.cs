@@ -18,7 +18,7 @@ namespace Data.Context
 
         public List<Voorkeur> VoorkeurenOphalen(string id)
         {
-            int ResultId = -1;
+            int ResultId;
             List<Voorkeur> vklistmodel = new List<Voorkeur>();
             try
             {
@@ -60,9 +60,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException error)
             {
-                return new List<Voorkeur>();
+                Console.WriteLine(error.Message);
             }
 
             return vklistmodel;

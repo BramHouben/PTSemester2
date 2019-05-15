@@ -133,7 +133,7 @@ namespace Data.Context
             return docenten;
         }
 
-        public List<Taak> GetTaken()
+        public List<Taak> GetTaken(int docentid)
         {
             taken = new List<Taak>();
             {

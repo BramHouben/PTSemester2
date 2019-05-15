@@ -15,9 +15,9 @@ namespace Logic
             return TeamRepo.Teams;
         }
 
-        public List<Taak> GetTaken()
+        public List<Taak> GetTaken(int docentid)
         {
-            return TeamRepo.Taken;
+            return TeamRepo.Taken(docentid);
         }
 
         public List<Docent> DocentenOphalen(int teamid)

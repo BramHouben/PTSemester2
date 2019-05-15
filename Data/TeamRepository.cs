@@ -17,7 +17,7 @@ namespace Data
 
         public List<Team> Teams => IteamContext.TeamsOphalen();
 
-        public List<Taak> Taken => IteamContext.GetTaken();
+        public List<Taak> Taken(int docentid) => IteamContext.GetTaken(docentid);
 
         public List<Docent> DocentenInTeamOphalen(int teamid)
         {

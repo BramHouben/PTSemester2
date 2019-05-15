@@ -427,7 +427,7 @@ namespace Data.Context
             }
         }
 
-        public List<Taak> GetTaken()
+        public List<Taak> GetTaken(int docentid)
         {
             var taken = new List<Taak>();
 
@@ -436,7 +436,8 @@ namespace Data.Context
                 connectie = dbconn.GetConnString();
                 connectie.Open();
 
-                var cmd = new SqlCommand("SELECT TaakId, TaakNaam FROM dbo.Taak", connectie);
+                var cmd = new SqlCommand("SELECT TaakId, TaakNaam FROM Taak T WHERE NOT EXISTS(SELECT Taak_id, DocentID FROM GefixeerdeTaken GT WHERE T.TaakId=GT.Taak_id AND GT.DocentID = @did)", connectie);
+                cmd.Parameters.AddWithValue("@did", docentid);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())

@@ -67,7 +67,7 @@ namespace ProjectinternDB.Controllers
         {
             //TODO ID meegeven, werkt op een of andere fiets niet!
             _fixerenLogic.VerwijderGefixeerdeTaak(id);
-            return View("FixerenOverzicht");
+            return RedirectToAction("FixerenOverzicht");
         }
 
         public ActionResult FixerenOverzicht()

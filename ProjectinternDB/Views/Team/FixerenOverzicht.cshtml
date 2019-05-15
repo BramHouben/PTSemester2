@@ -35,7 +35,6 @@
                 @Html.DisplayFor(modelItem => item.TaakNaam)
             </td>
             <td>
-                <a asp-action="VerwijderGefixeerdeTaak" asp-route-id="@item.Fix_id">Verwijder fixatie</a>
                 @Html.ActionLink("Fixatie verwijderen", "VerwijderGefixeerdeTaak", "Team", new { id = item.Fix_id }, new { onclick = "return confirm('Weet u zeker dat u deze fixatie wilt verwijderen?');", @class = "delete-button" })
             </td>
         </tr>

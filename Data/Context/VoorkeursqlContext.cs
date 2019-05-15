@@ -18,7 +18,7 @@ namespace Data.Context
 
         public List<Voorkeur> VoorkeurenOphalen(string id)
         {
-            int ResultId = 0;
+            int ResultId;
             List<Voorkeur> vklistmodel = new List<Voorkeur>();
             try
             {
@@ -283,7 +283,8 @@ namespace Data.Context
             var taken = new List<Taak>();
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                SqlConnection constring = dbconn.GetConnString();   
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =
@@ -352,38 +353,37 @@ namespace Data.Context
 
         public List<Medewerker> GetDocentenList(string user_id)
         {
+            var List = new List<Medewerker>();
             try
             {
-
-                connectie.Open();
-
-                var getteam = new SqlCommand("select TeamID from Docent where MedewerkerID = @user_id",
-                    connectie);
-                getteam.Parameters.AddWithValue("@user_id", user_id);
-
-                int team_id = (int) getteam.ExecuteScalar();
-
-
-                var cmd = new SqlCommand("SELECT * FROM Docent where TeamID = @TeamID", connectie);
-                cmd.Parameters.AddWithValue("@TeamID", team_id);
-                var reader = cmd.ExecuteReader();
-
-                var List = new List<Medewerker>();
-
-                while (reader.Read())
+                string constring = dbconn.ReturnConnectionString();
+                using(SqlConnection connectie = new SqlConnection(constring))
                 {
-                    var Info = new Medewerker
+                    connectie.Open();
+                    using(SqlCommand getteam = new SqlCommand("select TeamID from Docent where MedewerkerID = @user_id", connectie))
                     {
-                        MedewerkerId = (string) reader["MedewerkerID"],
-                        Naam = (string) reader["Naam"],
+                        getteam.Parameters.AddWithValue("@user_id", user_id);
+                        int team_id = (int)getteam.ExecuteScalar();
+                        using(SqlCommand cmd = new SqlCommand("SELECT * FROM Docent where TeamID = @TeamID", connectie))
+                        {
+                            cmd.Parameters.AddWithValue("@TeamID", team_id);
+                            using(SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var Info = new Medewerker
+                                    {
+                                        MedewerkerId = (string)reader["MedewerkerID"],
+                                        Naam = (string)reader["Naam"],
 
-                    };
+                                    };
 
-                    List.Add(Info);
+                                    List.Add(Info);
+                                }
+                            }
+                        }
+                    }
                 }
-
-                connectie.Close();
-
                 return List;
             }
             catch (SqlException fout)

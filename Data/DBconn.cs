@@ -17,5 +17,10 @@ namespace Data
         {
             return SqlConnectie;
         }
+
+        public string ReturnConnectionString()
+        {
+            return _connectieString;
+        }
     }
 }

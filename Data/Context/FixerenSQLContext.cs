@@ -47,7 +47,7 @@ namespace Data.Context
                 connectie.Open();
                 var cmd = connectie.CreateCommand();
                 cmd.Parameters.AddWithValue("@fid", fid);
-                cmd.CommandText = "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id = @fid)";
+                cmd.CommandText = "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id = @fid";
                 cmd.ExecuteNonQuery();
             }
             catch

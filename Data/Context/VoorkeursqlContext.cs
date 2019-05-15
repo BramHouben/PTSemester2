@@ -30,6 +30,27 @@ namespace Data.Context
                         cmd.Parameters.AddWithValue("@MedewerkerID", id);
                         ResultId = (int) cmd.ExecuteScalar();
                     }
+                    using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id = @UserId", connectie))
+                    {
+                            command.Parameters.AddWithValue("@UserID", ResultId);
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var voorkeur = new Voorkeur
+                                    {
+                                        Id = (int)reader["Bekwaam_Id"],
+                                        TrajectNaam = reader["Traject"]?.ToString(),
+                                        EenheidNaam = reader["Eenheid"]?.ToString(),
+                                        OnderdeelNaam = reader["Onderdeel"]?.ToString(),
+                                        TaakNaam = reader["Taak"]?.ToString()
+                                    };
+                                    //voorkeur.Prioriteit = (int)reader["Prioriteit"];
+                                    vklistmodel.Add(voorkeur);
+                                }
+                            }
+                    }
+                    
 
 
                     /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
@@ -37,28 +58,13 @@ namespace Data.Context
                     "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
 
 
-                    //cmd = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", connectie);
-                
-                    //{
-                    //    cmd.Parameters.AddWithValue("@UserID", ResultId);
-                    //    using (SqlDataReader reader = cmd.ExecuteReader())
-                    //    {
-                    //        while (reader.Read())
-                    //        {
-                    //            var voorkeur = new Voorkeur
-                    //            {
-                    //                Id = (int) reader["Bekwaam_Id"],
-                    //                TrajectNaam = reader["Traject"]?.ToString(),
-                    //                EenheidNaam = reader["Eenheid"]?.ToString(),
-                    //                OnderdeelNaam = reader["Onderdeel"]?.ToString(),
-                    //                TaakNaam = reader["Taak"]?.ToString()
-                    //            };
-                    //            //voorkeur.Prioriteit = (int)reader["Prioriteit"];
-                    //            vklistmodel.Add(voorkeur);
-                    //        }
-                    //    }
-                    //}
+                    
+
+                    {
+                        
+                        
                 }
+            }
             }
             catch (SqlException error)
             {

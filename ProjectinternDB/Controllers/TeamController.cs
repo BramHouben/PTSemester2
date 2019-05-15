@@ -39,7 +39,7 @@ namespace ProjectinternDB.Controllers
         public IActionResult Fixeren(int id)
         {
             int ID = id;
-            var tupleData = new Tuple<IEnumerable<Taak>, int>(_teamLogic.GetTaken(), ID);
+            var tupleData = new Tuple<IEnumerable<Taak>, int>(_teamLogic.GetTaken(ID), ID);
             return View(tupleData);
         }
 

@@ -58,11 +58,28 @@ namespace Data.Context
                     "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
 
 
-                    
+
+                    using (SqlCommand cmd2= new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", con)) 
 
                     {
-                        
-                        
+                        cmd2.Parameters.AddWithValue("@UserID", ResultId);
+                        using (SqlDataReader reader = cmd2.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var voorkeur = new Voorkeur
+                                {
+                                    Id = (int)reader["Bekwaam_Id"],
+                                    TrajectNaam = reader["Traject"]?.ToString(),
+                                    EenheidNaam = reader["Eenheid"]?.ToString(),
+                                    OnderdeelNaam = reader["Onderdeel"]?.ToString(),
+                                    TaakNaam = reader["Taak"]?.ToString()
+                                };
+                                //voorkeur.Prioriteit = (int)reader["Prioriteit"];
+                                vklistmodel.Add(voorkeur);
+                            }
+                        }
+                    }
                 }
             }
             }
@@ -130,9 +147,10 @@ namespace Data.Context
                 command.Parameters.AddWithValue("@TaakNaam", resultTaak);
                 //command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
                 command.Parameters.AddWithValue("@UserId", ResultId);
+                command.Parameters.AddWithValue("@taakId", voorkeur.TaakNaam);
 
                 command.CommandText =
-                    "INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, Docent_id) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId)";
+                    "INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, Docent_id, TaakID) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId, @taakId)";
                 command.ExecuteNonQuery();
 
             }
@@ -430,14 +448,19 @@ namespace Data.Context
                 cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
                 var ResultId = cmdid.ExecuteScalar();
 
+
+
+
+
                 var cmd = new SqlCommand(
-                    "SELECT Count(*) FROM Bekwaamheid where Docent_id = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak",
+                    "SELECT Count(*) FROM Bekwaamheid where Docent_id = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak and TaakID= @taakId",
                     connectie);
                 cmd.Parameters.AddWithValue("@User_id", ResultId);
                 cmd.Parameters.AddWithValue("@traject", resultTraject);
                 cmd.Parameters.AddWithValue("@eenheid", resultEenheid);
                 cmd.Parameters.AddWithValue("@onderdeel", resultOnderdeel);
                 cmd.Parameters.AddWithValue("@taak", resultTaak);
+                cmd.Parameters.AddWithValue("@taakId", voorkeur.TaakNaam);
                 int uitslag = (int) cmd.ExecuteScalar();
 
                 if (uitslag == 1)

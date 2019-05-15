@@ -30,11 +30,33 @@ namespace Data.Context
                         cmd.Parameters.AddWithValue("@MedewerkerID", id);
                         ResultId = (int) cmd.ExecuteScalar();
                     }
+                    using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id = @UserId", connectie))
+                    {
+                            command.Parameters.AddWithValue("@UserID", ResultId);
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var voorkeur = new Voorkeur
+                                    {
+                                        Id = (int)reader["Bekwaam_Id"],
+                                        TrajectNaam = reader["Traject"]?.ToString(),
+                                        EenheidNaam = reader["Eenheid"]?.ToString(),
+                                        OnderdeelNaam = reader["Onderdeel"]?.ToString(),
+                                        TaakNaam = reader["Taak"]?.ToString()
+                                    };
+                                    //voorkeur.Prioriteit = (int)reader["Prioriteit"];
+                                    vklistmodel.Add(voorkeur);
+                                }
+                            }
+                    }
+                    
 
 
                     /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
                     "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
                     "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
+
 
 
                     using (SqlCommand cmd2= new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", con)) 
@@ -59,6 +81,7 @@ namespace Data.Context
                         }
                     }
                 }
+            }
             }
             catch (SqlException error)
             {

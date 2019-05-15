@@ -106,15 +106,20 @@ namespace Data.Context
                     resultEenheid = DBNull.Value.ToString();
                     resultOnderdeel = DBNull.Value.ToString();
                     resultTaak = DBNull.Value.ToString();
+                    voorkeur.TaakNaam = DBNull.Value.ToString();
                 }
                 else if (voorkeur.OnderdeelNaam == "0")
                 {
                     resultOnderdeel = DBNull.Value.ToString();
                     resultTaak = DBNull.Value.ToString();
+
+                    voorkeur.TaakNaam = DBNull.Value.ToString();
                 }
                 else if (voorkeur.TaakNaam == "0")
                 {
                     resultTaak = DBNull.Value.ToString();
+
+                    voorkeur.TaakNaam = DBNull.Value.ToString();
                 }
 
                 var command = connectie.CreateCommand();
@@ -426,7 +431,25 @@ namespace Data.Context
                 var ResultId = cmdid.ExecuteScalar();
 
 
-
+                if (voorkeur.EenheidNaam == "0")
+                {
+                    resultEenheid = DBNull.Value.ToString();
+                    resultOnderdeel = DBNull.Value.ToString();
+                    resultTaak = DBNull.Value.ToString();
+                    voorkeur.TaakNaam = DBNull.Value.ToString();
+                }
+                else if (voorkeur.OnderdeelNaam == "0")
+                {
+                    resultOnderdeel = DBNull.Value.ToString();
+                    resultTaak = DBNull.Value.ToString();
+                    voorkeur.TaakNaam = DBNull.Value.ToString();
+                }
+                else if (voorkeur.TaakNaam == "0")
+                {
+                    resultTaak = DBNull.Value.ToString();
+                    voorkeur.TaakNaam = DBNull.Value.ToString();
+                }
+          
 
 
                 var cmd = new SqlCommand(

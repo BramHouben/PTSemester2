@@ -18,53 +18,46 @@ namespace Data.Context
 
         public List<Voorkeur> VoorkeurenOphalen(string id)
         {
-            int ResultId;
+            int ResultId = 0;
             List<Voorkeur> vklistmodel = new List<Voorkeur>();
             try
             {
                 using (SqlConnection con = dbconn.SqlConnectie)
                 {
                     con.Open();
-                    using (SqlCommand cmd =
-                        new SqlCommand("SELECT DocentID FROM Docent WHERE MedewerkerID = @MedewerkerID", con)
-                    )
+                    using(SqlCommand cmd = new SqlCommand("SELECT DocentID FROM Docent WHERE MedewerkerID = @MedewerkerID", con))
                     {
                         cmd.Parameters.AddWithValue("@MedewerkerID", id);
                         ResultId = (int) cmd.ExecuteScalar();
                     }
 
-                connectie.Open();
 
-                var cmdid = connectie.CreateCommand();
-                cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
-                var ResultId = cmdid.ExecuteScalar();
-
-
-
-
-                var cmd = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", connectie);
-                /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
+                    /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
                     "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
                     "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
-                    {
-                        cmd.Parameters.AddWithValue("@UserID", ResultId);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var voorkeur = new Voorkeur
-                                {
-                                    Id = (int) reader["Bekwaam_Id"],
-                                    TrajectNaam = reader["Traject"]?.ToString(),
-                                    EenheidNaam = reader["Eenheid"]?.ToString(),
-                                    OnderdeelNaam = reader["Onderdeel"]?.ToString(),
-                                    TaakNaam = reader["Taak"]?.ToString()
-                                };
-                                //voorkeur.Prioriteit = (int)reader["Prioriteit"];
-                                vklistmodel.Add(voorkeur);
-                            }
-                        }
-                    }
+
+
+                    //cmd = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", connectie);
+                
+                    //{
+                    //    cmd.Parameters.AddWithValue("@UserID", ResultId);
+                    //    using (SqlDataReader reader = cmd.ExecuteReader())
+                    //    {
+                    //        while (reader.Read())
+                    //        {
+                    //            var voorkeur = new Voorkeur
+                    //            {
+                    //                Id = (int) reader["Bekwaam_Id"],
+                    //                TrajectNaam = reader["Traject"]?.ToString(),
+                    //                EenheidNaam = reader["Eenheid"]?.ToString(),
+                    //                OnderdeelNaam = reader["Onderdeel"]?.ToString(),
+                    //                TaakNaam = reader["Taak"]?.ToString()
+                    //            };
+                    //            //voorkeur.Prioriteit = (int)reader["Prioriteit"];
+                    //            vklistmodel.Add(voorkeur);
+                    //        }
+                    //    }
+                    //}
                 }
             }
             catch (SqlException error)

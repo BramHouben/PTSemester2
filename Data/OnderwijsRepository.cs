@@ -8,13 +8,13 @@ using Model.Onderwijsdelen;
 namespace Data
 {
    public class OnderwijsRepository
-    {
-        private IOnderwijsContext _iOnderwijsContext;
+   {
+       private IOnderwijsContext _iOnderwijsContext;
 
        public OnderwijsRepository()
-        {
-            _iOnderwijsContext = new OnderwijsMemoryContext();
-        }
+       {
+            _iOnderwijsContext = new OnderwijsSQLContext();
+       }
 
        public string OnderwijstaakNaam(int id)
        {
@@ -80,5 +80,5 @@ namespace Data
        public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => _iOnderwijsContext.GetTakenByOnderdeelId(onderdeelId);
 
        //public string GetTaakInfo(int taakId) => _iOnderwijsContext.GetTaakInfo(taakId);
-    }
+   }
 }

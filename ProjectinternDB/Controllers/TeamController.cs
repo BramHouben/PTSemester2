@@ -63,10 +63,10 @@ namespace ProjectinternDB.Controllers
             return View(result);
         }
 
-        public IActionResult VerwijderGefixeerdeTaak(int fid)
+        public IActionResult VerwijderGefixeerdeTaak(int id)
         {
             //TODO ID meegeven, werkt op een of andere fiets niet!
-            _fixerenLogic.VerwijderGefixeerdeTaak(fid);
+            _fixerenLogic.VerwijderGefixeerdeTaak(id);
             return View("FixerenOverzicht");
         }
 

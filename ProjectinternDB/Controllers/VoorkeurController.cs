@@ -113,7 +113,7 @@ namespace ProjectinternDB.Controllers
    
           
                 if(_voorkeurLogic.KijkenVoorDubbel(objTraject.TrajectId, eenheid, onderdeel, taak, id)!= true) {
-                return View();//todo error handling met tempdata
+                return RedirectToAction("Voorkeur");
                 }
                 else
                 {

@@ -119,14 +119,11 @@ namespace Data.Context
                 using (SqlConnection con = dbconn.SqlConnectie)
                 {
                     con.Open();
-                    using (SqlCommand cmd =
-                        new SqlCommand("SELECT * FROM Vacature WHERE VacatureID = @VacatureID", con)
-                    )
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM Vacature WHERE VacatureID = @VacatureID", con))
                     {
+                        cmd.Parameters.AddWithValue("@VacatureID", id);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            cmd.Parameters.AddWithValue("@VacatureID", id);
-
                             Vacature vacature = new Vacature();
                             if (reader.Read())
                             {

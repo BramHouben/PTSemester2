@@ -30,7 +30,7 @@ namespace Data.Context
                         cmd.Parameters.AddWithValue("@MedewerkerID", id);
                         ResultId = (int)cmd.ExecuteScalar();
                     }
-                    using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id = @UserId", con))
+                    using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id = @UserId ORDER BY Traject", con))
                     {
                         command.Parameters.AddWithValue("@UserID", ResultId);
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -393,7 +393,7 @@ namespace Data.Context
                     {
                         getteam.Parameters.AddWithValue("@user_id", user_id);
                         int team_id = (int)getteam.ExecuteScalar();
-                        using (SqlCommand cmd = new SqlCommand("SELECT * FROM Docent where TeamID = @TeamID", connectie))
+                        using (SqlCommand cmd = new SqlCommand("SELECT D.DocentID, D.TeamID, D.RuimteVoorInzet, D.MedewerkerID , (Asp.Voornaam + ' ' + Asp.Achternaam) AS Naam  FROM Docent D inner join AspNetUsers Asp ON D.MedewerkerID = Asp.Id where TeamID = @TeamID", connectie))
                         {
                             cmd.Parameters.AddWithValue("@TeamID", team_id);
                             using (SqlDataReader reader = cmd.ExecuteReader())

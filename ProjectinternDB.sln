@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{6F7C1C2D-3957-47B7-97BD-011FAD7153B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{653E71C7-F248-4478-9A3A-0C97B02D742B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,26 @@ Global
 		{6F7C1C2D-3957-47B7-97BD-011FAD7153B7}.Release|x64.Build.0 = Release|Any CPU
 		{6F7C1C2D-3957-47B7-97BD-011FAD7153B7}.Release|x86.ActiveCfg = Release|Any CPU
 		{6F7C1C2D-3957-47B7-97BD-011FAD7153B7}.Release|x86.Build.0 = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|x64.Build.0 = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Debug|x86.Build.0 = Debug|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|ARM.Build.0 = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|ARM64.Build.0 = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|x64.ActiveCfg = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|x64.Build.0 = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|x86.ActiveCfg = Release|Any CPU
+		{653E71C7-F248-4478-9A3A-0C97B02D742B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

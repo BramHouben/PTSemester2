@@ -436,7 +436,7 @@ namespace Data.Context
                 connectie = dbconn.GetConnString();
                 connectie.Open();
 
-                var cmd = new SqlCommand("SELECT TaakId, TaakNaam FROM Taak T WHERE NOT EXISTS(SELECT Taak_id, DocentID FROM GefixeerdeTaken GT WHERE T.TaakId=GT.Taak_id AND GT.DocentID = @did)", connectie);
+                var cmd = new SqlCommand("SELECT T.TaakId, T.TaakNaam FROM Taak T WHERE NOT EXISTS(SELECT Taak_id, DocentID FROM GefixeerdeTaken GT WHERE T.TaakId=GT.Taak_id AND GT.DocentID = @did) AND EXISTS (SELECT TaakID FROM Bekwaamheid B WHERE T.TaakId=B.TaakID AND B.Docent_id = @did)", connectie);
                 cmd.Parameters.AddWithValue("@did", docentid);
                 var reader = cmd.ExecuteReader();
 

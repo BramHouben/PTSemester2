@@ -142,7 +142,11 @@ namespace Data.Context
                 {
                     resultTaak = DBNull.Value.ToString();
 
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
+                    voorkeur.TaakNaam = DBNull.Value.ToString();\
+
+                    InsertAllesVanTraject(voorkeur.TrajectNaam);
+
+
                 }
 
                 var command = connectie.CreateCommand();
@@ -166,6 +170,37 @@ namespace Data.Context
             finally
             {
                 connectie.Close();
+            }
+        }
+
+        private void InsertAllesVanTraject(string trajectNaam)
+        {
+            try
+            {
+                using (SqlConnection conn = dbconn.SqlConnectie)
+                {
+                    conn.Open();
+                    List<Taak> taken = new List<Taak>();
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM Taak WHERE OnderdeelId =(select )", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var traject = new Taak
+                                {
+                                    TrajectId = (int)reader["TrajectId"],
+                                    TrajectNaam = reader["TrajectNaam"]?.ToString(),
+                                };
+
+                                taken.Add(traject);
+                            }
+                        }
+                    }
+                }
+            }catch(SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
             }
         }
 

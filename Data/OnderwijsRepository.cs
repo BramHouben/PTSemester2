@@ -13,7 +13,7 @@ namespace Data
 
        public OnderwijsRepository()
        {
-            _iOnderwijsContext = new OnderwijsMemoryContext();
+            _iOnderwijsContext = new OnderwijsSQLContext();
        }
 
        public string OnderwijstaakNaam(int id)

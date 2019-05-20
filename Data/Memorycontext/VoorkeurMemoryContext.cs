@@ -93,5 +93,10 @@ namespace Data.Context
         {
             throw new NotImplementedException();
         }
+
+        public int GetTaakTijd(int taakId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

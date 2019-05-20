@@ -72,5 +72,7 @@ namespace Logic
         }
 
         public Voorkeur GetVoorkeurInfo(int id) => VoorkeurRepo.GetVoorkeurInfo(id);
+
+        public int GetTaakTijd(int taakId) => VoorkeurRepo.getTaakTijd(taakId);
     }
 }

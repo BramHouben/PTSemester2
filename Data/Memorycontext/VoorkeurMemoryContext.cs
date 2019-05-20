@@ -3,60 +3,96 @@ using System.Collections.Generic;
 using System.Text;
 using Model;
 using Model.Onderwijsdelen;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Data.Context
 {
-    class VoorkeurMemoryContext : IVoorkeurContext
+    public class VoorkeurMemoryContext : IVoorkeurContext
     {
-        private static List<Voorkeur> voorkeuren = new List<Voorkeur>();
+        private List<Docent> docenten;
+        private List<Traject> trajecten;
+        private List<Eenheid> eenheden;
+        private List<Onderdeel> onderdelen;
+        public VoorkeurMemoryContext()
+        {
+            trajecten = new List<Traject>();
+            docenten = new List<Docent>();
+            eenheden = new List<Eenheid>()
+            {
+                new Eenheid(1, "Eenheid1", 1)
+            };
+            onderdelen = new List<Onderdeel>()
+            {
+                new Onderdeel(1, "OnderdeelTest", 1)
+            };
+           
+            Docent docent1 = new Docent(1, 1, 400, "User1");
+            docent1.MedewerkerId = "User1";
+            docenten.Add(docent1);
+        }
 
-        //public VoorkeurMemoryContext()
-        //{
-        //    if (voorkeuren.Count == 0)
-        //    {
-        //        voorkeuren.Add(new Voorkeur(1, "LP", 3));
-        //        voorkeuren.Add(new Voorkeur(2, "Vak2", 3));
-        //        voorkeuren.Add(new Voorkeur(3, "Vak3", 3));
-        //        voorkeuren.Add(new Voorkeur(4, "Vak4", 3));
-        //    }
-        //}
 
         public List<Voorkeur> VoorkeurenOphalen(string id)
         {
-            return voorkeuren;
+            foreach (Docent docent in docenten)
+            {
+                if (docent.MedewerkerId == id)
+                {
+                    return docent.Voorkeuren;
+                }
+            }
+            return null;
         }
 
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
-            voorkeuren.Add(voorkeur);
+            foreach (Docent docent in docenten)
+            {
+                if (docent.MedewerkerId == id)
+                {
+                    docent.Voorkeuren.Add(voorkeur);
+                }
+            }
         }
-
-        //public void TestDataAanmaken()
-        //{
-        //    voorkeuren.Add(new Voorkeur(1, "LP", 3));
-        //    voorkeuren.Add(new Voorkeur(2, "Vak2", 3));
-        //    voorkeuren.Add(new Voorkeur(3, "Vak3", 3));
-        //    voorkeuren.Add(new Voorkeur(4, "Vak4", 3));
-        //}
 
         public void DeleteVoorkeur(int id)
         {
-            throw new NotImplementedException();
+            foreach (Docent docent in docenten)
+            {
+                docent.Voorkeuren.RemoveAll(X => X.Id == id);
+            }
         }
 
         public List<Traject> GetTrajecten()
         {
-            throw new NotImplementedException();
+            return trajecten;
         }
 
         public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
         {
-            throw new NotImplementedException();
+            List<Eenheid> eenhedenList = new List<Eenheid>();
+            foreach (Eenheid eenheid in eenheden)
+            {
+                if (eenheid.TrajectId == trajectId)
+                {
+                   eenhedenList.Add(eenheid);
+                }
+            }
+            return eenhedenList;
         }
 
-        public List<Onderdeel> GetOnderdelenByEenheidId(int onderdeelId)
+        public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
         {
-            throw new NotImplementedException();
+            List<Onderdeel> OnderdelenList = new List<Onderdeel>();
+            foreach (Onderdeel onderdeel in onderdelen)
+            {
+                if (onderdeel.EenheidId == eenheidId)
+                {
+                    OnderdelenList.Add(onderdeel);
+                }
+            }
+            return OnderdelenList;
         }
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
@@ -64,7 +100,7 @@ namespace Data.Context
             throw new NotImplementedException();
         }
 
-        string IVoorkeurContext.GetTaakInfo(int taakId)
+        public string GetTaakInfo(int taakId)
         {
             throw new NotImplementedException();
         }

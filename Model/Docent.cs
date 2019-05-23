@@ -21,6 +21,6 @@ namespace Model
         public int TeamId { get; set; }
         public int RuimteVoorInzet { get; set; }
         //public string Naam { get; set; }
-        public List<Voorkeur> Voorkeuren { get; set; } = new List<Voorkeur>();
+       
     }
 }

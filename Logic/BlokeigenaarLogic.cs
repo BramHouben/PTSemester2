@@ -42,6 +42,9 @@ namespace Logic
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => OnderwijsRepos.GetTakenByOnderdeelId(onderdeelId);
 
-        //public string GetTaakInfo(int taakId) => OnderwijsRepos.GetTaakInfo(taakId);
+        public List<Eenheid> OphalenEenhedenBlokeigenaar(string blokeigenaarId)
+        {
+            return OnderwijsRepos.OphalenEenhedenBlokeigenaar(blokeigenaarId);
+        }
     }
 }

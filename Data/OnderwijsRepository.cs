@@ -13,7 +13,7 @@ namespace Data
 
        public OnderwijsRepository()
        {
-            _iOnderwijsContext = new OnderwijsMemoryContext();
+            _iOnderwijsContext = new OnderwijsSQLContext();
        }
 
        public string OnderwijstaakNaam(int id)
@@ -51,26 +51,6 @@ namespace Data
           return _iOnderwijsContext.TaakOphalen(id);
        }
 
-       //public List<Traject> GetTrajecten()
-       //{
-       //  return  _iOnderwijsContext.GetTrajecten();
-       //}
-
-       //public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
-       //{
-       //  return  GetEenhedenByTrajectId(trajectId);
-       //}
-
-       //public List<Onderdeel> GetOnderdelenByEenheidId(int eenheidId)
-       //{
-       //  return  GetOnderdelenByEenheidId(eenheidId);
-       //}
-
-       //public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
-       //{
-       //  return  GetTakenByOnderdeelId(onderdeelId);
-       //}
-
        public List<Traject> GetTrajecten() => _iOnderwijsContext.GetTrajecten();
 
        public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => _iOnderwijsContext.GetEenhedenByTrajectId(trajectId);
@@ -79,6 +59,6 @@ namespace Data
 
        public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => _iOnderwijsContext.GetTakenByOnderdeelId(onderdeelId);
 
-       //public string GetTaakInfo(int taakId) => _iOnderwijsContext.GetTaakInfo(taakId);
-   }
+       public List<Eenheid> OphalenEenhedenBlokeigenaar(string blokeigenaarId) => _iOnderwijsContext.OphalenEenhedenBlokeigenaar(blokeigenaarId);
+    }
 }

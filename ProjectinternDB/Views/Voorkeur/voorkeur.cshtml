@@ -63,6 +63,13 @@
                     $("#Info").text(info);
                 });
             });
+              $('#TaakId').change(function () {
+                var url = '@Url.Content("~/")' + "Voorkeur/GetTaaktijd";
+                var ddlsource = "#TaakId";
+                $.getJSON(url, { TaakId: $(ddlsource).val() }, function (tijd) {
+                    $("#Tijd").text(tijd);
+                });
+            });
         });
 </script>
 
@@ -130,21 +137,6 @@
         </div>
     </div>
 
-    @*<div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <div class="form-group">
-                    <label asp-for="Prioriteit" class="control-label"></label>
-                    <select class="form-control" asp-for="Prioriteit">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                    <span asp-validation-for="Prioriteit" class="text-danger"></span>
-                </div>
-            </div>
-        </div>*@
-
     <div class="form-group">
         <div class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -160,10 +152,17 @@
     <p id="Info"></p>
 </div>
 
+<div class="row col-md-auto">
+    <p id="Tijd"></p>
+</div>
+
 <div class="col-md-12">
     <div class="alert alert-info alert-primary text-center">
         <strong>Je hebt nog:</strong> <a class="alert-link">600</a> uur.
     </div>
 </div>
+
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

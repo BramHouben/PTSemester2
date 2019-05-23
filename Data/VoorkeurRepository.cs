@@ -45,5 +45,7 @@ namespace Data
         public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id) => IvoorkeurContext.InvoegenTaakVoorkeur(id, prioriteit, User_id);
 
         public Voorkeur GetVoorkeurInfo(int id) => IvoorkeurContext.GetVoorkeurInfo(id);
+
+        public int getTaakTijd(int taakId) => IvoorkeurContext.GetTaakTijd(taakId);
     }
 }

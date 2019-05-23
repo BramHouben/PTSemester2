@@ -27,5 +27,6 @@ namespace Data
         List<Traject> GetTrajectenInzetbaar(string user_id);
         void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id);
         Voorkeur GetVoorkeurInfo(int id);
+        int GetTaakTijd(int taakId);
     }
 }   

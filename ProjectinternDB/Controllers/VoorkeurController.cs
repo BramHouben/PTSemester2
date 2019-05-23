@@ -88,6 +88,12 @@ namespace ProjectinternDB.Controllers
 
             return Json(taakinfo);
         }
+        public JsonResult GetTaakTijd(int TaakId)
+        {
+            int Taaktijd = _voorkeurLogic.GetTaakTijd(TaakId);
+
+            return Json(Taaktijd);
+        }
 
         public IActionResult userInlog(string User_id)
         {

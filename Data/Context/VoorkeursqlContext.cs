@@ -51,15 +51,11 @@ namespace Data.Context
                         }
                     }
 
-
-
                     /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
                     "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
                     "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
 
-
-
-                    //using (SqlCommand cmd2= new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", con)) 
+                    //using (SqlCommand cmd2= new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", con))
 
                     //{
                     //    cmd2.Parameters.AddWithValue("@UserID", ResultId);
@@ -82,7 +78,6 @@ namespace Data.Context
                     //}
                 }
             }
-
             catch (SqlException error)
             {
                 Console.WriteLine(error.Message);
@@ -122,8 +117,6 @@ namespace Data.Context
                 cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
                 var ResultId = cmdid.ExecuteScalar();
 
-
-
                 if (voorkeur.EenheidNaam == "0")
                 {
                     resultEenheid = DBNull.Value.ToString();
@@ -143,6 +136,8 @@ namespace Data.Context
                     resultTaak = DBNull.Value.ToString();
 
                     voorkeur.TaakNaam = DBNull.Value.ToString();
+
+                    InsertAllesVanTraject(voorkeur.TrajectNaam);
                 }
 
                 var command = connectie.CreateCommand();
@@ -157,7 +152,6 @@ namespace Data.Context
                 command.CommandText =
                     "INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, Docent_id, TaakID) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId, @taakId)";
                 command.ExecuteNonQuery();
-
             }
             catch (SqlException fout)
             {
@@ -166,6 +160,29 @@ namespace Data.Context
             finally
             {
                 connectie.Close();
+            }
+        }
+
+       
+        private void InsertAllesVanTraject(string trajectNaam)
+        {
+            try
+            {
+                using (SqlConnection conn = dbconn.SqlConnectie)
+                {
+                    conn.Open();
+                    List<Taak> taken = new List<Taak>();
+                    using (SqlCommand cmd = new SqlCommand("SELECT  Taak.TaakId, taak.TaakNaam from Taak inner join Onderdeel on Onderdeel.OnderdeelId = taak.OnderdeelId inner join Eenheid on Onderdeel.EenheidId = Eenheid.EenheidId  inner join Traject on Eenheid.TrajectId = Traject.TrajectId where Traject.TrajectNaam =@trajectnaam ", conn))
+                    {
+
+                        cmd.Parameters.AddWithValue("@TrajectNaam", trajectNaam);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
             }
         }
 
@@ -187,7 +204,6 @@ namespace Data.Context
             }
             catch (SqlException)
             {
-
             }
         }
 
@@ -221,11 +237,9 @@ namespace Data.Context
             }
             catch (SqlException)
             {
-
             }
 
             return trajecten;
-
         }
 
         public List<Eenheid> GetEenhedenByTrajectId(int trajectId)
@@ -251,7 +265,6 @@ namespace Data.Context
                                     EenheidId = (int)reader["EenheidId"],
                                     EenheidNaam = reader["EenheidNaam"]?.ToString(),
                                     TrajectId = (int)reader["TrajectId"],
-
                                 };
 
                                 eenheden.Add(eenheid);
@@ -374,9 +387,10 @@ namespace Data.Context
 
                 return info;
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
-                return null;
+                Console.WriteLine(fout.Message);
+                return "";
             }
         }
 
@@ -404,7 +418,6 @@ namespace Data.Context
                                     {
                                         MedewerkerId = (string)reader["MedewerkerID"],
                                         Naam = (string)reader["Naam"],
-
                                     };
 
                                     List.Add(Info);
@@ -419,7 +432,6 @@ namespace Data.Context
             {
                 Console.WriteLine(fout.Message);
                 throw;
-
             }
         }
 
@@ -453,7 +465,6 @@ namespace Data.Context
                 cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
                 var ResultId = cmdid.ExecuteScalar();
 
-
                 if (voorkeur.EenheidNaam == "0")
                 {
                     resultEenheid = DBNull.Value.ToString();
@@ -472,8 +483,6 @@ namespace Data.Context
                     resultTaak = DBNull.Value.ToString();
                     voorkeur.TaakNaam = DBNull.Value.ToString();
                 }
-
-
 
                 var cmd = new SqlCommand(
                     "SELECT Count(*) FROM Bekwaamheid where Docent_id = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak and TaakID= @taakId",
@@ -499,7 +508,6 @@ namespace Data.Context
             {
                 Console.WriteLine(fout.Message);
                 throw;
-
             }
             finally
             {
@@ -545,7 +553,6 @@ namespace Data.Context
 
         public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
         {
-
             string constring = connectie.ConnectionString;
             try
             {
@@ -556,9 +563,6 @@ namespace Data.Context
                     cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + User_id + "'";
                     var ResultId = cmdid.ExecuteScalar();
 
-
-
-
                     using (SqlCommand command = new SqlCommand("insert into DocentVoorkeur values(@user_id, @Prioriteit, @Bekwaamheid_id)"))
                     {
                         command.Connection = connectie;
@@ -567,17 +571,13 @@ namespace Data.Context
                         command.Parameters.Add(new SqlParameter("Bekwaamheid_id", id));
 
                         command.ExecuteNonQuery();
-
                     }
-
-
                 }
             }
             catch (SqlException error)
             {
                 Console.WriteLine(error.Message);
             }
-
         }
 
         public Voorkeur GetVoorkeurInfo(int id)
@@ -593,13 +593,8 @@ namespace Data.Context
                     cmdid.CommandText = "SELECT * FROM Bekwaamheid WHERE Bekwaam_Id = '" + id + "'";
                     var ResultId = cmdid.ExecuteScalar();
 
-
-
-
                     using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid WHERE Bekwaam_Id = @id", connectie))
                     {
-
-
                         command.Parameters.Add(new SqlParameter("id", id));
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -611,18 +606,48 @@ namespace Data.Context
                                 voorkeur.TaakNaam = (string)reader["Taak"];
                             }
                         }
-
                     }
-
-
                 }
-
             }
             catch (SqlException Ex)
             {
                 Console.WriteLine(Ex.Message);
             }
             return voorkeur;
+        }
+
+        public int GetTaakTijd(int taakId)
+        {
+            int tijd =0;
+            try
+            {
+                using (SqlConnection con = dbconn.SqlConnectie)
+                {
+                    con.Open();
+                    using (SqlCommand cmd =
+                        new SqlCommand("SELECT BenodigdeUren FROM dbo.Taak WHERE Taak.TaakId = @taakId",
+                            con)
+                    )
+                    {
+                        cmd.Parameters.AddWithValue("@taakId", taakId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                tijd = (int)reader["BenodigdeUren"];
+                            }
+                        }
+                    }
+                }
+
+               
+            }
+            catch (SqlException fout)
+            {
+                Console.WriteLine(fout.Message);
+            
+            }
+            return tijd;
         }
     }
 }

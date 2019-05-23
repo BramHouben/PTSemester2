@@ -29,11 +29,19 @@
             <ul class="nav navbar-nav mr-auto">
                 @if (User.IsInRole("Teamleider"))
                 {
-                    <li class="nav-item"><a asp-area="" asp-controller="Voorkeur" asp-action="Voorkeur" class="nav-link">Bekwaamheid Toevoegen</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Teamleider functies<span></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="Index" class="nav-link">Team Overzicht</a></li>
+                            <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a></li>
+                            <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a></li>
+                            <li class="nav-item"><a asp-area="" asp-controller="Voorkeur" asp-action="Voorkeur" class="nav-link">Bekwaamheid Toevoegen</a></li>
+                        </ul>
+                    </li>
+                    
                     <li class="nav-item"><a asp-area="" asp-controller="Voorkeur" asp-action="VoorkeurUitslag" class="nav-link">Bekwaam Voor</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="Index" class="nav-link">Team Overzicht</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="VoegDocentToe" class="nav-link">Docent Toevoegen</a></li>
-                    <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="DocentenInTeam" class="nav-link">Docenten in Team</a></li>
+                    
+                    
                     <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="VacatureOverzicht" class="nav-link">Vacatures</a></li>
                     <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="FixerenOverzicht" class="nav-link">Fixeren overzicht</a></li>
 

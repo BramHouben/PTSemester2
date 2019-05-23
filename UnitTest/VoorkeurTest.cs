@@ -29,10 +29,17 @@ namespace UnitTest
                 TaakNaam = "Proftaak Begeleider",
                 Id = 1,
             };
-
+            Voorkeur voorkeur = new Voorkeur();
             voorkeurLogic.AddVoorkeur(presetVoorkeur.TrajectNaam, presetVoorkeur.EenheidNaam, presetVoorkeur.OnderdeelNaam, presetVoorkeur.TaakNaam, "User1");
             //Act
-            Voorkeur voorkeur = voorkeurLogic.OphalenVoorkeur("User1")[0];
+            foreach (Voorkeur voorkeurtemp in voorkeurLogic.OphalenVoorkeur("User1"))
+            {
+                if (voorkeurtemp.TaakNaam == presetVoorkeur.TaakNaam)
+                {
+                    voorkeur = voorkeurtemp;
+                }
+            }
+            
             //Assert
             Assert.AreEqual(presetVoorkeur.EenheidNaam, voorkeur.EenheidNaam);
             Assert.AreEqual(presetVoorkeur.OnderdeelNaam, voorkeur.OnderdeelNaam);

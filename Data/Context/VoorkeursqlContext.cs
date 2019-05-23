@@ -163,6 +163,7 @@ namespace Data.Context
             }
         }
 
+       
         private void InsertAllesVanTraject(string trajectNaam)
         {
             try
@@ -171,21 +172,11 @@ namespace Data.Context
                 {
                     conn.Open();
                     List<Taak> taken = new List<Taak>();
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM Taak WHERE OnderdeelId =(select )", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT  Taak.TaakId, taak.TaakNaam from Taak inner join Onderdeel on Onderdeel.OnderdeelId = taak.OnderdeelId inner join Eenheid on Onderdeel.EenheidId = Eenheid.EenheidId  inner join Traject on Eenheid.TrajectId = Traject.TrajectId where Traject.TrajectNaam =@trajectnaam ", conn))
                     {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var traject = new Taak
-                                {
-                                    TaakId = (int)reader["TrajectId"],
-                                    TaakNaam = reader["TrajectNaam"]?.ToString(),
-                                };
 
-                                taken.Add(traject);
-                            }
-                        }
+                        cmd.Parameters.AddWithValue("@TrajectNaam", trajectNaam);
+                        cmd.ExecuteNonQuery();
                     }
                 }
             }

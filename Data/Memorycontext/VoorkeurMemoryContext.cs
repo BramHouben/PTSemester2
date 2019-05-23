@@ -10,12 +10,17 @@ namespace Data.Context
 {
     public class VoorkeurMemoryContext : IVoorkeurContext
     {
-        private List<Docent> docenten;
+        private List<Docent> docenten = new List<Docent>();
+        
         private List<Traject> trajecten;
         private List<Eenheid> eenheden;
         private List<Onderdeel> onderdelen;
+        private List<Taak> taken;
+        private List<Voorkeur> voorkeuren;
         public VoorkeurMemoryContext()
         {
+            Docent docent1 = new Docent(1, 1, 400, "User1") {MedewerkerId = "User1"};
+            docenten.Add(docent1);
             trajecten = new List<Traject>();
             docenten = new List<Docent>();
             eenheden = new List<Eenheid>()
@@ -26,42 +31,31 @@ namespace Data.Context
             {
                 new Onderdeel(1, "OnderdeelTest", 1)
             };
-           
-            Docent docent1 = new Docent(1, 1, 400, "User1");
-            docent1.MedewerkerId = "User1";
-            docenten.Add(docent1);
+            taken = new List<Taak>()
+            {
+                new Taak(1, "TaakTest",1,"TaakTestOmschrijving","TrajectTest","OnderdeelTest","EenheidTest")
+            };
+            voorkeuren = new List<Voorkeur>()
+            {
+                new Voorkeur(1, "TestVoorkeur")
+            };
+
         }
 
 
         public List<Voorkeur> VoorkeurenOphalen(string id)
         {
-            foreach (Docent docent in docenten)
-            {
-                if (docent.MedewerkerId == id)
-                {
-                    return docent.Voorkeuren;
-                }
-            }
-            return null;
+            return voorkeuren;
         }
 
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
-            foreach (Docent docent in docenten)
-            {
-                if (docent.MedewerkerId == id)
-                {
-                    docent.Voorkeuren.Add(voorkeur);
-                }
-            }
+           voorkeuren.Add(voorkeur);
         }
 
         public void DeleteVoorkeur(int id)
         {
-            foreach (Docent docent in docenten)
-            {
-                docent.Voorkeuren.RemoveAll(X => X.Id == id);
-            }
+             voorkeuren.RemoveAll(X => X.Id == id);
         }
 
         public List<Traject> GetTrajecten()
@@ -76,7 +70,7 @@ namespace Data.Context
             {
                 if (eenheid.TrajectId == trajectId)
                 {
-                   eenhedenList.Add(eenheid);
+                    eenhedenList.Add(eenheid);
                 }
             }
             return eenhedenList;
@@ -97,22 +91,43 @@ namespace Data.Context
 
         public List<Taak> GetTakenByOnderdeelId(int onderdeelId)
         {
-            throw new NotImplementedException();
+            List<Taak> TakenList = new List<Taak>();
+
+            foreach (Taak taak in taken)
+            {
+                if (taak.OnderdeelId == onderdeelId)
+                {
+                    TakenList.Add(taak);
+                }
+            }
+            return TakenList;
         }
 
         public string GetTaakInfo(int taakId)
         {
-            throw new NotImplementedException();
+
+            foreach (Taak taak in taken)
+            {
+                if (taak.TaakId == taakId)
+                {
+                    return taak.Omschrijving;
+                }
+            }
+            return null;
         }
 
         public List<Medewerker> GetDocentenList(string user_id)
         {
-            throw new NotImplementedException();
+            List<Medewerker> medewerkers = new List<Medewerker>()
+            {
+                new Medewerker("1", "testMedewerker")
+            };
+            return medewerkers;
         }
 
         public bool KijkVoorDubbel(Voorkeur voorkeur, string id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO afmaken voorkeur Memory Context
         }
 
         public List<Traject> GetTrajectenInzetbaar(string user_id)

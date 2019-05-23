@@ -160,12 +160,10 @@ namespace ProjectinternDB.Controllers
 
             return View(VkModel);
         }
-        public IActionResult InvoegenVoorkeurDocent( int prioriteit, int id)
-        {
-            
+        public IActionResult InvoegenVoorkeurDocent(int prioriteit, int id)
+        {           
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //int id = VKVmodel.Bekwaam_id;
-
             _voorkeurLogic.InvoegenTaakVoorkeur(id, prioriteit, User_id);
 
             return RedirectToAction("VoorkeurUitslag");

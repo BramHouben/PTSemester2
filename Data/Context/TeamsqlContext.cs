@@ -9,7 +9,7 @@ using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
-    class TeamsqlContext : ITeamContext
+  public  class TeamsqlContext : ITeamContext
     {
         private SqlConnection connectie;
 

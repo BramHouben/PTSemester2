@@ -10,9 +10,9 @@ namespace Data
     {
         private readonly ITeamContext IteamContext;
 
-        public TeamRepository()
+        public TeamRepository(ITeamContext teamContext)
         {
-            IteamContext = new TeamsqlContext();
+            IteamContext = teamContext;
         }
 
         public List<Team> Teams => IteamContext.TeamsOphalen();

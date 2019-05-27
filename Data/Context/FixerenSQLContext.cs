@@ -11,6 +11,7 @@ namespace Data.Context
     {
         private SqlConnection connectie { get; }
         private DBconn dbconn = new DBconn();
+        private string _connectie;
 
         public FixerenSQLContext()
         {
@@ -21,22 +22,23 @@ namespace Data.Context
         {
             try
             {
-                connectie.Open();
-                
+                _connectie = dbconn.ReturnConnectionString();
+                using (SqlConnection conn = new SqlConnection(_connectie))
+                {
+                    conn.Open();
 
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@docent", docentID);
-                cmd.Parameters.AddWithValue("@taak", taakID);
-                cmd.CommandText = "INSERT INTO [dbo].[GefixeerdeTaken] (DocentID, Taak_ID) VALUES (@docent, @taak)";
-                cmd.ExecuteNonQuery();
+                    using (SqlCommand cmd = new SqlCommand(
+                        "INSERT INTO [dbo].[GefixeerdeTaken] (DocentID, Taak_ID) VALUES (@docent, @taak)", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@docent", docentID));
+                        cmd.Parameters.Add(new SqlParameter("@taak", taakID));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
             }
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                connectie.Close();
             }
         }
 
@@ -44,19 +46,22 @@ namespace Data.Context
         {
             try
             {
-                connectie.Open();
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@fid", fid);
-                cmd.CommandText = "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id = @fid";
-                cmd.ExecuteNonQuery();
+                _connectie = dbconn.ReturnConnectionString();
+                using (SqlConnection conn = new SqlConnection(_connectie))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(
+                        "DELETE FROM [dbo].[GefixeerdeTaken] WHERE Fix_id = @fid", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@fid", fid));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
             }
             catch
             {
                 Console.WriteLine("De gefixeerdetaak kan niet worden verwijderd, mogelijk is deze al verwijderd");
-            }
-            finally
-            {
-                connectie.Close();
             }
         }
 
@@ -64,18 +69,25 @@ namespace Data.Context
         {
             try
             {
-                connectie.Open();
-                var cmd = connectie.CreateCommand();
-                cmd.CommandText = "UPDATE [dbo].[GefixeerdeTaken] SET Taak_id = " + taakID + ", DocentID =" + docentID + ")";
-                cmd.ExecuteNonQuery();
+                _connectie = dbconn.ReturnConnectionString();
+
+                using (SqlConnection conn = new SqlConnection())
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(
+                        "UPDATE [dbo].[GefixeerdeTaken] SET Taak_id = @taak, DocentID = @docent)", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@taak", taakID));
+                        cmd.Parameters.Add(new SqlParameter("@docent", docentID));
+                        cmd.ExecuteNonQuery();
+                    }
+                }
             }
-            catch
+
+            catch (SqlException ex)
             {
-                // TODO: Fill Catch
-            }
-            finally
-            {
-                connectie.Close();
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -84,30 +96,39 @@ namespace Data.Context
             List<GefixeerdeTaak> GefixeerdeTaken = new List<GefixeerdeTaak>();
             try
             {
-                connectie.Open();
-                var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT F.*, T.TaakNaam, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN Taak T ON T.TaakId = F.Taak_id ORDER BY F.DocentID ASC";
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                _connectie = dbconn.ReturnConnectionString();
+
+                using (SqlConnection conn = new SqlConnection(_connectie))
                 {
-                    GefixeerdeTaak taak = new GefixeerdeTaak();
-                    taak.Fix_id = (int)reader["Fix_id"];
-                    taak.DocentID = (int)reader["DocentID"];
-                    taak.DocentNaam = (string)reader["Naam"];
-                    taak.Taak_id = (int)reader["Taak_id"];
-                    taak.TaakNaam = (string)reader["TaakNaam"];
-                    GefixeerdeTaken.Add(taak);
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(
+                        "SELECT F.*, T.TaakNaam, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN Taak T ON T.TaakId = F.Taak_id ORDER BY F.DocentID ASC", conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                GefixeerdeTaak taak = new GefixeerdeTaak();
+                                taak.Fix_id = (int)reader["Fix_id"];
+                                taak.DocentID = (int)reader["DocentID"];
+                                taak.DocentNaam = (string)reader["Naam"];
+                                taak.Taak_id = (int)reader["Taak_id"];
+                                taak.TaakNaam = (string)reader["TaakNaam"];
+                                GefixeerdeTaken.Add(taak);
+                            }
+                            return GefixeerdeTaken;
+                        }
+                    }
                 }
-                return GefixeerdeTaken;
             }
-            catch
+
+            catch (SqlException ex)
             {
-                return null;
+                Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                connectie.Close();
-            }
+
+            return null;
         }
 
         public GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int teamid)
@@ -115,27 +136,37 @@ namespace Data.Context
             GefixeerdeTaak taak = new GefixeerdeTaak();
             try
             {
-                connectie.Open();
-                var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN [dbo].[TeamLeider] TL ON D.DocentID=TL.MedewerkerID INNER JOIN [dbo].[Team] T ON TL.TeamleiderID=T.TeamLeiderID WHERE T.TeamID = " + teamid + ")";
-                //TODO SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN [dbo].[TeamLeider] TL ON D.DocentID=TL.MedewerkerID INNER JOIN [dbo].[Team] T ON TL.TeamleiderID=T.TeamLeiderID WHERE T.TeamID = 5
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                _connectie = dbconn.ReturnConnectionString();
+                using (SqlConnection conn = new SqlConnection(_connectie))
                 {
-                    taak.Fix_id = (int)reader["Fix_id"];
-                    taak.DocentID = (int)reader["DocentID"];
-                    taak.DocentNaam = (string)reader["Naam"];
-                    taak.Taak_id = (int)reader["Taak_id"];
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand(
+                        "SELECT F.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID " +
+                        "INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN [dbo].[TeamLeider] TL ON D.DocentID=TL.MedewerkerID " +
+                        "INNER JOIN [dbo].[Team] T ON TL.TeamleiderID=T.TeamLeiderID WHERE T.TeamID = @team)", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@team", teamid));
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                taak.Fix_id = (int)reader["Fix_id"];
+                                taak.DocentID = (int)reader["DocentID"];
+                                taak.DocentNaam = (string)reader["Naam"];
+                                taak.Taak_id = (int)reader["Taak_id"];
+                            }
+                        }
+                    }
                 }
             }
+
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            finally
-            {
-                connectie.Close();
-            }
+
             return taak;
         }
     }

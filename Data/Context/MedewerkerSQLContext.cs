@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Model;
+using Model.Onderwijsdelen;
 using System.Data.SqlClient;
 
 namespace Data.Context
@@ -8,6 +9,7 @@ namespace Data.Context
     {
         private SqlConnection conn;
         private DBconn dbconn = new DBconn();
+        private string _connectie;
 
         public Medewerker GetMedewerkerId(string id)
         {
@@ -36,6 +38,11 @@ namespace Data.Context
 
             conn.Close();
             return medewerker_new;
+        }
+
+        public void VoegAantalUrenToeMBVAantalKlassen(Eenheid eenheid)
+        {
+
         }
     }
 }

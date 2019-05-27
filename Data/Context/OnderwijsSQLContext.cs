@@ -147,6 +147,8 @@ namespace Data.Context
                                 taak.TaakNaam = (string) reader["TaakNaam"];
                                 taak.OnderdeelId = (int) reader["OnderdeelId"];
                                 taak.Omschrijving = (string) reader["Omschrijving"];
+                                taak.BenodigdeUren = (int) reader["BenodigdeUren"];
+                                taak.AantalKlassen = (int) reader["Aantal_Klassen"];
                             }
                         }
                     }

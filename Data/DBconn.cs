@@ -15,7 +15,8 @@ namespace Data
 
         public SqlConnection GetConnString()
         {
-            return SqlConnectie;
+            SqlConnection connString = new SqlConnection(_connectieString);
+            return connString;
         }
 
         public string ReturnConnectionString()

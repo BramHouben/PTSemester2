@@ -25,19 +25,21 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult TaakToevoegen()
         {
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             List<Traject> TrajectLijst = new List<Traject>();
-
             TrajectLijst = _blokeigenaarLogic.GetTrajecten();
-
             TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
-
             ViewBag.ListOfTraject = TrajectLijst;
-            //string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            List<Eenheid> EenheidLijst = new List<Eenheid>();
+            EenheidLijst = _blokeigenaarLogic.OphalenEenhedenBlokeigenaar(User_id);
+            EenheidLijst.Insert(0, new Eenheid { EenheidId = 0, EenheidNaam = "Select" });
+            ViewBag.EenhedenBlokeigenaar = EenheidLijst;
+            
             BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
 
             return View(BEVmodel);
-            //return View();
         }
 
         [HttpPost]
@@ -46,9 +48,11 @@ namespace ProjectinternDB.Controllers
         {
             Taak taak = new Taak
             {
-                Omschrijving = form["Omschrijving"],
                 OnderdeelNaam = form["OnderdeelNaam"],
-                OnderdeelId = Int32.Parse(form["OnderdeelId"])
+                OnderdeelId = Int32.Parse(form["OnderdeelId"]),
+                Omschrijving = form["Omschrijving"],
+                BenodigdeUren = Int32.Parse(form["BenodigdeUren"]),
+                AantalKlassen = Int32.Parse(form["AantalKlassen"])
             };
             if (form["TaakNaam"] == "")
             {
@@ -58,19 +62,7 @@ namespace ProjectinternDB.Controllers
             {
                 taak.TaakNaam = form["TaakNaam"];
             }
-
-            // AI TaakId
-            List<Taak> alleTaken = _blokeigenaarLogic.TakenOphalen();
-            int autoIncrementHoogsteId = 1;
-            foreach (Taak eenTaak in alleTaken)
-            {
-                if (eenTaak.TaakId > autoIncrementHoogsteId)
-                {
-                    autoIncrementHoogsteId = eenTaak.TaakId + 1;
-                }
-            }
-            taak.TaakId = autoIncrementHoogsteId;
-
+            
             _blokeigenaarLogic.TaakAanmaken(taak);
             return RedirectToAction("Index");
         }
@@ -83,14 +75,17 @@ namespace ProjectinternDB.Controllers
         
         public IActionResult EditTaak(int id)
         {
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             List<Traject> TrajectLijst = new List<Traject>();
-
             TrajectLijst = _blokeigenaarLogic.GetTrajecten();
-
             TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
-
             ViewBag.ListOfTraject = TrajectLijst;
-            //string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            List<Eenheid> EenheidLijst = new List<Eenheid>();
+            EenheidLijst = _blokeigenaarLogic.OphalenEenhedenBlokeigenaar(User_id);
+            EenheidLijst.Insert(0, new Eenheid { EenheidId = 0, EenheidNaam = "Select" });
+            ViewBag.EenhedenBlokeigenaar = EenheidLijst;
 
             BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
             BEVmodel.Taak = _blokeigenaarLogic.TaakOphalen(id);
@@ -104,21 +99,18 @@ namespace ProjectinternDB.Controllers
         {
             Taak taak = new Taak()
             {
-                TaakNaam = form["Taak.TaakNaam"],
-                Omschrijving = form["Taak.Omschrijving"],
-                //OnderdeelId = Int32.Parse(form["OnderdeelId"]),
-                OnderdeelNaam = form["OnderdeelNaam"],
-                OnderdeelId = Int32.Parse(form["OnderdeelId"]),
-
-
                 TaakId = id,
-                
+                TaakNaam = form["TaakNaam"],
+                OnderdeelId = Int32.Parse(form["OnderdeelId"]),
+                Omschrijving = form["Omschrijving"],
+                OnderdeelNaam = form["Taak.OnderdeelNaam"],
+                BenodigdeUren = Int32.Parse(form["Taak.BenodigdeUren"]),
+                AantalKlassen = Int32.Parse(form["Taak.AantalKlassen"])
             };
+
             _blokeigenaarLogic.UpdateTaak(taak);
             return RedirectToAction("Index");
         }
-
-
-
+        
     }
 }

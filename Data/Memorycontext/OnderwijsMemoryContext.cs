@@ -150,5 +150,15 @@ namespace Data.Context
         {
             return _taken;
         }
+
+        public List<Eenheid> OphalenEenhedenBlokeigenaar(string blokeigenaarId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Eenheid> OphalenEenhedenBlokeigenaar(int blokeigenaarId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

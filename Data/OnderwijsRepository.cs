@@ -60,5 +60,6 @@ namespace Data
        public List<Taak> GetTakenByOnderdeelId(int onderdeelId) => _iOnderwijsContext.GetTakenByOnderdeelId(onderdeelId);
 
        public List<Eenheid> OphalenEenhedenBlokeigenaar(string blokeigenaarId) => _iOnderwijsContext.OphalenEenhedenBlokeigenaar(blokeigenaarId);
-    }
+       
+   }
 }

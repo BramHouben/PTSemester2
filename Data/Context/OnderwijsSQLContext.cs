@@ -51,7 +51,10 @@ namespace Data.Context
                 using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.Taak", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT T.*, E.EenheidNaam AS EenheidNaam, O.OnderdeelNaam AS OnderdeelNaam " +
+                                       "FROM Taak T " +
+                                       "INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId " +
+                                       "INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId ", con))
                     {
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -63,6 +66,10 @@ namespace Data.Context
                                 taak.TaakId = Convert.ToInt32(reader["TaakId"]);
                                 taak.OnderdeelId = Convert.ToInt32(reader["OnderdeelId"]);
                                 taak.Omschrijving = reader["Omschrijving"].ToString();
+                                taak.BenodigdeUren = (int)reader["BenodigdeUren"];
+                                taak.AantalKlassen = (int)reader["Aantal_Klassen"];
+                                taak.OnderdeelNaam = (string)reader["OnderdeelNaam"];
+                                taak.EenheidNaam = (string)reader["EenheidNaam"];
                                 taken.Add(taak);
                             }
                             return taken;
@@ -136,7 +143,11 @@ namespace Data.Context
                 {
                     con.Open();
                     using (SqlCommand cmd =
-                        new SqlCommand("SELECT * FROM dbo.Taak WHERE TaakId = @taakId", con))
+                        new SqlCommand("SELECT T.*, E.EenheidNaam AS EenheidNaam, O.OnderdeelNaam AS OnderdeelNaam " +
+                                       "FROM Taak T " +
+                                       "INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId " +
+                                       "INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId " +
+                                       "WHERE T.TaakId = @taakId", con))
                     {
                         cmd.Parameters.AddWithValue("@taakId", id);
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -149,6 +160,8 @@ namespace Data.Context
                                 taak.Omschrijving = (string) reader["Omschrijving"];
                                 taak.BenodigdeUren = (int) reader["BenodigdeUren"];
                                 taak.AantalKlassen = (int) reader["Aantal_Klassen"];
+                                taak.OnderdeelNaam = (string)reader["OnderdeelNaam"];
+                                taak.EenheidNaam = (string)reader["EenheidNaam"];
                             }
                         }
                     }
@@ -170,11 +183,11 @@ namespace Data.Context
                 {
                     con.Open();
                     using (SqlCommand cmd =
-                        new SqlCommand("UPDATE dbo.Taak SET [TaakNaam] = @taakNaam, [OnderdeelId] = @onderdeelId, [Omschrijving] = @omschrijving, [BenodigdeUren] = @BenodigdeUren, [Aantal_Klassen] = @Aantal_Klassen WHERE TaakId = @id", con))
+                        new SqlCommand("UPDATE dbo.Taak SET [TaakNaam] = @taakNaam, [Omschrijving] = @omschrijving, [BenodigdeUren] = @BenodigdeUren, [Aantal_Klassen] = @Aantal_Klassen WHERE TaakId = @id", con))
                     {
                         cmd.Parameters.AddWithValue("@id", taak.TaakId);
                         cmd.Parameters.AddWithValue("@taakNaam", taak.TaakNaam);
-                        cmd.Parameters.AddWithValue("@OnderdeelId", taak.OnderdeelId);
+                        //cmd.Parameters.AddWithValue("@OnderdeelId", taak.OnderdeelId);
                         cmd.Parameters.AddWithValue("@BenodigdeUren", taak.BenodigdeUren);
                         cmd.Parameters.AddWithValue("@Aantal_Klassen", taak.AantalKlassen);
                         if (string.IsNullOrEmpty(taak.Omschrijving))
@@ -371,5 +384,6 @@ namespace Data.Context
             }
             return eenhedenBlokeigenaar;
         }
+
     }
 }

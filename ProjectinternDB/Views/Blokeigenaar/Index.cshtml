@@ -9,23 +9,29 @@
 <h4>Overzicht Taken</h4>
 <hr />
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         
         <table>
             <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.TaakNaam)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OnderdeelNaam)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Omschrijving)
-                </th>
-            
-                <th></th>
-            </tr>
+                <tr>
+                    <th>
+                        Taak
+                    </th>
+                    <th>
+                        Onderdeel
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Omschrijving)
+                    </th>
+                    <th>
+                        Uren
+                    </th>
+                    <th>
+                        Aantal Klassen
+                    </th>
+
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             @foreach (var item in Model) {
@@ -47,7 +53,8 @@
                     {
                         <td>@Html.DisplayFor(modelItem => item.Omschrijving)</td>
                     }
-                    
+                    <td>@Html.DisplayFor(modelItem => item.BenodigdeUren)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AantalKlassen)</td>
                     <td>
                         <a asp-action="EditTaak" asp-route-id="@item.TaakId">Edit</a> |
                         @{

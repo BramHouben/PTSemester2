@@ -27,5 +27,6 @@ namespace Data.Interfaces
        List<Taak> GetTakenByOnderdeelId(int onderdeelId);
 
        List<Eenheid> OphalenEenhedenBlokeigenaar(string blokeigenaarId);
+
     }
 }

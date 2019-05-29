@@ -77,16 +77,6 @@ namespace ProjectinternDB.Controllers
         {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            List<Traject> TrajectLijst = new List<Traject>();
-            TrajectLijst = _blokeigenaarLogic.GetTrajecten();
-            TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
-            ViewBag.ListOfTraject = TrajectLijst;
-            
-            List<Eenheid> EenheidLijst = new List<Eenheid>();
-            EenheidLijst = _blokeigenaarLogic.OphalenEenhedenBlokeigenaar(User_id);
-            EenheidLijst.Insert(0, new Eenheid { EenheidId = 0, EenheidNaam = "Select" });
-            ViewBag.EenhedenBlokeigenaar = EenheidLijst;
-
             BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
             BEVmodel.Taak = _blokeigenaarLogic.TaakOphalen(id);
 
@@ -100,9 +90,9 @@ namespace ProjectinternDB.Controllers
             Taak taak = new Taak()
             {
                 TaakId = id,
-                TaakNaam = form["TaakNaam"],
-                OnderdeelId = Int32.Parse(form["OnderdeelId"]),
-                Omschrijving = form["Omschrijving"],
+                TaakNaam = form["Taak.TaakNaam"],
+                //OnderdeelId = Int32.Parse(form["OnderdeelId"]),
+                Omschrijving = form["Taak.Omschrijving"],
                 OnderdeelNaam = form["Taak.OnderdeelNaam"],
                 BenodigdeUren = Int32.Parse(form["Taak.BenodigdeUren"]),
                 AantalKlassen = Int32.Parse(form["Taak.AantalKlassen"])

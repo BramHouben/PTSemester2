@@ -23,5 +23,8 @@ namespace ProjectinternDB.Models
         public int EenheidId { get; set; }
         [Range(1, Int32.MaxValue, ErrorMessage = "Selecteer een Onderdeel")]
         public int OnderdeelId { get; set; }
+
+        public string EenheidNaam { get; set; }
+        public string OnderdeelNaam { get; set; }
     }
 }

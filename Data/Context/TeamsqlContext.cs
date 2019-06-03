@@ -12,59 +12,37 @@ namespace Data.Context
   public  class TeamsqlContext : ITeamContext
     {
         private SqlConnection connectie;
-
         private DBconn dbconn = new DBconn();
-
 
         public List<Team> TeamsOphalen()
         {
-
             List<Team> teamList = new List<Team>();
             try
             {
-                connectie = dbconn.GetConnString();
-                // Verhelpt error Connection is still open
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
-                }
-
-
-
-                var cmd = new SqlCommand("SELECT * FROM Team", connectie);
-                var reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    var team = new Team
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM Team", conn))
                     {
-                        TeamId = (int)reader["TeamID"],
-                        TeamleiderID = (int)reader["TeamLeiderID"],
-                        CurriculumEigenaarID = (int)reader["CurriculumEigenaarID"]
-                    };
-
-
-
-                    teamList.Add(team);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var team = new Team
+                                {
+                                    TeamId = (int)reader["TeamID"],
+                                    TeamleiderID = (int)reader["TeamLeiderID"],
+                                    CurriculumEigenaarID = (int)reader["CurriculumEigenaarID"]
+                                };
+                                teamList.Add(team);
+                            }
+                        }
+                    }
                 }
             }
             catch
             {
                 Console.WriteLine("Geen gegevens in Team Tabel of SQL connectie error");
-            }
-            finally
-            {
-                try
-                {
-                    if (connectie.State != ConnectionState.Closed)
-                    {
-                        connectie.Close();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
-                }
             }
 
             foreach (Team team in teamList)
@@ -72,7 +50,6 @@ namespace Data.Context
                 team.Docenten = DocentInTeamOphalen(team.TeamId);
             }
             return teamList;
-
         }
 
         public List<Docent> DocentInTeamOphalen(int id)
@@ -80,90 +57,63 @@ namespace Data.Context
             List<Docent> docentList = new List<Docent>();
             try
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
-                }
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.CommandText = "SELECT D.DocentID, D.TeamID ,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where TeamID = @id";
-
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    Docent docent = new Docent {DocentId = (int) reader["DocentID"], TeamId = (int) reader["TeamID"]};
-
-                    if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
+                    conn.Open();
+                    using (SqlCommand cmd = 
+                        new SqlCommand("SELECT D.DocentID, D.TeamID ,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet " +
+                                       "FROM [dbo].[Docent] D " +
+                                       "INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where TeamID = @id", conn))
                     {
-                        docent.RuimteVoorInzet = 0;
+                        cmd.Parameters.AddWithValue("@id", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Docent docent = new Docent { DocentId = (int)reader["DocentID"], TeamId = (int)reader["TeamID"] };
+
+                                if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
+                                {
+                                    docent.RuimteVoorInzet = 0;
+                                }
+                                else
+                                {
+                                    docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                                }
+                                docent.Naam = (string)reader["Naam"];
+
+                                //docent.MedewerkerId = (string) reader["MedewerkerID"];
+                                docentList.Add(docent);
+                            }
+                        }
                     }
-                    else
-                    {
-                        docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
-                    }
-                    docent.Naam = (string)reader["Naam"];
-                    
-                    //docent.MedewerkerId = (string) reader["MedewerkerID"];
-                    docentList.Add(docent);
                 }
             }
             catch
             {
                 Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk ontbreken er gegevens in de team tabel.");
             }
-            finally
-            {
-                try
-                {
-                    if (connectie.State != ConnectionState.Closed)
-                    {
-                        connectie.Close();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
-                }
-            }
-
             return docentList;
         }
 
-
         public void VoegDocentToeAanTeam(int DocentID, int TeamID)
         {
-            //SqlDataReader reader = null;
             try
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Docent SET TeamID = @TeamID WHERE DocentID = @DocentID", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@TeamID", TeamID);
+                        cmd.Parameters.AddWithValue("@DocentID", DocentID);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
-                var cmd = connectie.CreateCommand();
-                cmd.CommandText = "UPDATE Docent SET TeamID = @TeamID WHERE DocentID = @DocentID;";
-                cmd.Parameters.AddWithValue("@TeamID", TeamID);
-                cmd.Parameters.AddWithValue("@DocentID", DocentID);
-                cmd.ExecuteNonQuery();
             }
             catch
             {
                 Console.WriteLine("Er is iets misgegaan met het updaten van het Team id");
-            }
-            finally
-            {
-                try
-                {
-                    if (connectie.State != ConnectionState.Closed)
-                    {
-                        connectie.Close();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
-                }
             }
         }
 
@@ -171,119 +121,81 @@ namespace Data.Context
         {
             try
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@docentid", DocentID);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@docentid", DocentID);
-                cmd.CommandText = "UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid";
-                cmd.ExecuteNonQuery();
             }
             catch (SqlException Fout)
             {
                 Console.WriteLine(Fout.Message);
             }
-            finally
-            {
-                if (connectie.State != ConnectionState.Closed)
-                {
-                    connectie.Close();
-                }
-
-            }
         }
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
         {
-            SqlDataReader reader = null;
             string naam = null;
             try
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM TeamLeider WHERE TeamleiderID = @TeamLeiderID)", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@TeamLeiderID", teamleiderId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                naam = (string)reader["Naam"];
+                            }
+                        }
+                    }
                 }
-                var cmd = new SqlCommand("SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM TeamLeider WHERE TeamleiderID = @TeamLeiderID)", connectie);
-                cmd.Parameters.AddWithValue("@TeamLeiderID", teamleiderId);
-                reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    naam = (string)reader["Naam"];
-                }
-
-
             }
             catch
             {
                 Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven teamleiderID.");
-            }
-            finally
-            {
-                try
-                {
-                    if (connectie.State != ConnectionState.Closed)
-                    {
-                        connectie.Close();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
-                }
             }
             return naam;
         }
 
         public Team TeamOphalenMetID(int id)
         {
-            SqlDataReader reader = null;
             try
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
-                {
-                    connectie.Open();
-                }
                 Team team = null;
-                var cmd = new SqlCommand("SELECT T.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[Team] T INNER JOIN [dbo].[TeamLeider] TL ON T.TeamLeiderID = TL.TeamLeiderID INNER JOIN [dbo].[AspNetUsers] ANU ON TL.MedewerkerID = ANU.Id  WHERE T.TeamID = @id", connectie);
-                cmd.Parameters.AddWithValue("@id", id);
-                reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    team = new Team
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT T.*, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[Team] T INNER JOIN [dbo].[TeamLeider] TL ON T.TeamLeiderID = TL.TeamLeiderID INNER JOIN [dbo].[AspNetUsers] ANU ON TL.MedewerkerID = ANU.Id  WHERE T.TeamID = @id", conn))
                     {
-                        TeamId = (int) reader["TeamID"],
-                        TeamleiderID = (int) reader["TeamLeiderID"],
-                        CurriculumEigenaarID = (int) reader["CurriculumEigenaarID"],
-                        TeamleiderNaam = (string) reader["Naam"]
-                    };
+                        cmd.Parameters.AddWithValue("@id", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                team = new Team
+                                {
+                                    TeamId = (int)reader["TeamID"],
+                                    TeamleiderID = (int)reader["TeamLeiderID"],
+                                    CurriculumEigenaarID = (int)reader["CurriculumEigenaarID"],
+                                    TeamleiderNaam = (string)reader["Naam"]
+                                };
+                            }
+                        }
+                    }
                 }
                 return team;
             }
             catch
             {
                 Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven ID.");
-                return
-                    null;
-            }
-            finally
-            {
-                try
-                {
-                    if (connectie.State != ConnectionState.Closed)
-                    {
-                        connectie.Close();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
-                }
+                return null;
             }
         }
 

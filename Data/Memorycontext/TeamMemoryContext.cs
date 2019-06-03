@@ -141,7 +141,15 @@ namespace Data.Context
 
         public Docent HaalDocentOpMetID(int id)
         {
-            throw new NotImplementedException();
+            foreach (Docent docent in docenten)
+            {
+                if (docent.DocentId == id)
+                {
+                    return docent;
+                }
+            }
+
+            return null;
         }
     }
 }

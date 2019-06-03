@@ -437,7 +437,7 @@ namespace Data.Context
             catch (SqlException fout)
             {
                 Console.WriteLine(fout.Message);
-                throw;
+                return List;
             }
         }
 

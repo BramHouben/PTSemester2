@@ -12,6 +12,7 @@ namespace UnitTest
     public class TeamTest
     {
         private TeamLogic teamLogic;
+
         [TestInitialize]
         public void Start()
         {
@@ -50,6 +51,7 @@ namespace UnitTest
                     }
                 }
             }
+
             //Assert
             Assert.AreEqual(true, value);
         }
@@ -91,11 +93,22 @@ namespace UnitTest
         public void HaalDocentenZonderTeamOp()
         {
             //Arrange
-         
+            Team team;
             //Act
             team = teamLogic.TeamOphalenMetID(1);
             //Assert
             Assert.IsNotNull(team);
+        }
+
+        [TestMethod]
+        public void HaalDocentOpMetID()
+        {
+            //Arrange
+            Docent docent;
+            //Act
+            docent = teamLogic.HaalDocentOpMetID(1);
+            //Assert
+            Assert.AreEqual("Jan", docent.Naam);
         }
     }
 }

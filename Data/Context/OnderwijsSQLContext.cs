@@ -23,15 +23,15 @@ namespace Data.Context
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("SELECT TaakNaam FROM Taak WHERE TaakID = @TaakID", con))
                     {
+                        cmd.Parameters.AddWithValue("@TaakID", id);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            cmd.Parameters.AddWithValue("@TaakID", id);
+                            
                             string result = "";
                             if (reader.Read())
                             {
                                 result = reader["TaakNaam"].ToString();
                             }
-                            con.Close();
                             return result;
                         }
                     }

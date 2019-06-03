@@ -201,7 +201,7 @@ namespace ProjectinternDB.Controllers
             }
             vacature.TaakID = Convert.ToInt32(form["TaakID"]);
             _vacatureLogic.VacatureOpslaan(vacature);
-            return RedirectToAction("Index");
+            return RedirectToAction("VacatureOverzicht");
         }
 
         public IActionResult VacatureOverzicht()
@@ -245,7 +245,7 @@ namespace ProjectinternDB.Controllers
                 VacatureID = id
             };
             _vacatureLogic.UpdateVacature(vacature);
-            return RedirectToAction("Index");
+            return RedirectToAction("VacatureOverzicht");
         }
     }
 }

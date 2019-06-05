@@ -73,96 +73,107 @@
         });
 </script>
 
-<form asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" method="post" class="form-horizontal" role="form">
 
-    <div class="form-group">
-        <div class="row">
-            <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <label asp-for="MedewerkerList" class="control-label">Medewerkers</label>
-                <select name="Docent" id="Docent" class="form-control form-control-warning" required>
-                    <option value="0" disabled selected hidden>Docent zoeken</option>
-                    @{
-                        foreach (var Item in Model.MedewerkerList)
-                        {
 
-                            <option value="@Item.MedewerkerId">
-                                @Item.Naam
-                            </option>
+<div class="container">
+    <form asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" method="post" class="form-horizontal" role="form">
+      
+      
+ 
+        <div class="form-group">
+            <div class="row">
+
+                <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+
+                    <label asp-for="MedewerkerList" class="control-label">Medewerkers</label>
+                    <select name="Docent" id="Docent" class="form-control form-control-warning" required>
+                        <option value="0" disabled selected hidden>Docent zoeken</option>
+                        @{
+                            foreach (var Item in Model.MedewerkerList)
+                            {
+
+                                <option value="@Item.MedewerkerId">
+                                    @Item.Naam
+                                </option>
+                            }
                         }
-                    }
-                </select>
-                <span asp-validation-for="MedewerkerList" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+                    </select>
+                    <span asp-validation-for="MedewerkerList" class="text-danger"></span>
+                </div>
+                <div class="col-md-0 col-md-push-2">
 
-    <div class="form-group">
-        <div class="row">
-            <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <label asp-for="TrajectNaam" class="control-label">Traject</label>
-                <select asp-for="TrajectId"
-                        class="form-control form-control-warning"
-                        asp-items="@(new SelectList(@ViewBag.ListOfTraject,"TrajectId", "TrajectNaam"))"></select>
-                <span asp-validation-for="TrajectId" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <label class="control-label">Eenheid</label>
-                <select class="form-control" id="EenheidId" name="EenheidId"
-                        asp-items="@(new SelectList(string.Empty,"EenheidId", "EenheidNaam"))"></select>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <label class="control-label">Onderdeel</label>
-                <select class="form-control" id="OnderdeelId" name="OnderdeelId"
-                        asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                <label class="control-label">Taak</label>
-                <select class="form-control" id="TaakId" name="TaakId" data-info=""
-                        asp-items="@(new SelectList(string.Empty,"TaakId", "TaakNaam"))"></select>
-            </div>
-        </div>
-    </div>
+                </div>
+                <div class="col-auto">
+                    <p id="Info"></p>
 
-    <div class="form-group">
-        <div class="row">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <p id="Tijd"></p>
+
+                </div>
+            </div>
+            </div>
+
             <div class="form-group">
-
-                <input type="submit" value="Invoeren voorkeur" class="btn btn-outline-success" asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" />
+                <div class="row">
+                    <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label asp-for="TrajectNaam" class="control-label">Traject</label>
+                        <select asp-for="TrajectId"
+                                class="form-control form-control-warning"
+                                asp-items="@(new SelectList(@ViewBag.ListOfTraject,"TrajectId", "TrajectNaam"))"></select>
+                        <span asp-validation-for="TrajectId" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label class="control-label">Eenheid</label>
+                        <select class="form-control" id="EenheidId" name="EenheidId"
+                                asp-items="@(new SelectList(string.Empty,"EenheidId", "EenheidNaam"))"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label class="control-label">Onderdeel</label>
+                        <select class="form-control" id="OnderdeelId" name="OnderdeelId"
+                                asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label class="control-label">Taak</label>
+                        <select class="form-control" id="TaakId" name="TaakId" data-info=""
+                                asp-items="@(new SelectList(string.Empty,"TaakId", "TaakNaam"))"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+
+                        <input type="submit" value="Invoeren voorkeur" class="btn btn-outline-success" asp-controller="Voorkeur" asp-action="InvoegenVoorkeur" />
+                    </div>
+                </div>
+            </div>
+    </form>
+
+</div>
+        @*<div class="col-md-12">
+                <div class="alert alert-info alert-primary text-center">
+                    <strong>Je hebt nog:</strong> <a class="alert-link">600</a> uur.
+                </div>
+            </div>*@
+
     </div>
-</form>
 
-<div class="row col-md-auto">
-    <p id="Info"></p>
-</div>
-
-<div class="row col-md-auto">
-    <p id="Tijd"></p>
-</div>
-
-<div class="col-md-12">
-    <div class="alert alert-info alert-primary text-center">
-        <strong>Je hebt nog:</strong> <a class="alert-link">600</a> uur.
-    </div>
-</div>
-
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

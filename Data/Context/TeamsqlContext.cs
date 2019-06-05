@@ -9,7 +9,7 @@ using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
-  public  class TeamsqlContext : ITeamContext
+    public class TeamsqlContext : ITeamContext
     {
         private SqlConnection connectie;
         private DBconn dbconn = new DBconn();
@@ -60,7 +60,7 @@ namespace Data.Context
                 using (SqlConnection conn = dbconn.GetConnString())
                 {
                     conn.Open();
-                    using (SqlCommand cmd = 
+                    using (SqlCommand cmd =
                         new SqlCommand("SELECT D.DocentID, D.TeamID ,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet " +
                                        "FROM [dbo].[Docent] D " +
                                        "INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where TeamID = @id", conn))
@@ -201,43 +201,23 @@ namespace Data.Context
 
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
-            SqlDataReader reader = null;
             string naam = null;
-            try
+            using (SqlConnection conn = dbconn.GetConnString())
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
+                conn.Open();
+                using (SqlCommand cmd =
+                    new SqlCommand(
+                        "SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM CurriculumEigenaar WHERE CurriculumEigenaarID = @CurriculumEigenaarID)",
+                        conn))
                 {
-                    connectie.Open();
-                }
-                var cmd = new SqlCommand("SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM CurriculumEigenaar WHERE CurriculumEigenaarID = @CurriculumEigenaarID)", connectie);
-                cmd.Parameters.AddWithValue("@CurriculumEigenaarID", curriculumeigenaarId);
-                reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    naam = (string)reader["Naam"];
-                }
-
-
-            }
-            catch
-            {
-                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven teamleiderID.");
-
-            }
-            finally
-            {
-                try
-                {
-                    if (connectie.State != ConnectionState.Closed)
+                    cmd.Parameters.AddWithValue("@CurriculumEigenaarID", curriculumeigenaarId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        connectie.Close();
+                        while (reader.Read())
+                        {
+                            naam = (string)reader["Naam"];
+                        }
                     }
-                }
-                catch
-                {
-                    Console.WriteLine("Er is geprobeerd een connectie met status null te sluiten");
                 }
             }
             return naam;
@@ -314,8 +294,8 @@ namespace Data.Context
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    Docent docent = new Docent {DocentId = (int) reader["DocentID"], Naam = (string) reader["Naam"]};
-                    if(DBNull.Value.Equals(reader["RuimteVoorInzet"]))
+                    Docent docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
+                    if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
                     {
                         docent.RuimteVoorInzet = 0;
                     }
@@ -323,7 +303,7 @@ namespace Data.Context
                     {
                         docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
                     }
-                    
+
                     docenten.Add(docent);
                 }
                 return docenten;
@@ -364,7 +344,7 @@ namespace Data.Context
                 }
             }
 
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -427,15 +407,15 @@ namespace Data.Context
                         cmd.Parameters.AddWithValue("@MedewerkerID", medewerkerid);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                       
+
                             while (reader.Read())
                             {
-                               Taak taak = new Taak();
-                               taak.TaakId = (int)reader["TaakId"];
-                               taak.TaakNaam = (string)reader["TaakNaam"];
-                               taken.Add(taak);
+                                Taak taak = new Taak();
+                                taak.TaakId = (int)reader["TaakId"];
+                                taak.TaakNaam = (string)reader["TaakNaam"];
+                                taken.Add(taak);
                             }
-                           
+
                         }
                     }
                 }

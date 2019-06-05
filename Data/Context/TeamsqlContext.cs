@@ -123,6 +123,7 @@ namespace Data.Context
             {
                 using (SqlConnection conn = dbconn.GetConnString())
                 {
+                    conn.Open();
                     using (SqlCommand cmd = new SqlCommand("UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid", conn))
                     {
                         cmd.Parameters.AddWithValue("@docentid", DocentID);

@@ -12,7 +12,8 @@ namespace Model.Onderwijsdelen
         public string TaakNaam { get; set; }
         public int OnderdeelId { get; set; }
         public string Omschrijving { get; set; }
-
+        public int BenodigdeUren { get; set; }
+        public int AantalKlassen { get; set; }
         public string TrajectNaam { get; set; }
         public string OnderdeelNaam { get; set; }
         public string EenheidNaam { get; set; }

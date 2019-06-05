@@ -1,100 +1,27 @@
-﻿@*@model Model.Onderwijsdelen.Taak*@
-@model BlokeigenaarViewModel
+﻿@model ProjectinternDB.Models.BlokeigenaarViewModel
 
 @{
-    ViewData["Title"] = "EditTaak";
+    ViewData["Title"] = "Wijzig Taak";
 }
-@{
-    // TODO: oude uitgecommente code opschonen/verwijderen
-    // TODO: Javascript gebruikt nu nog dingen van Voorkeur -> omzetten/maken voor Blokeigenaar
-}
-<h2>EditTaak</h2>
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
+<h2>Wijzig Taak</h2>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        var items = "<option value=''disabled selected hidden>Select</option>";
-        $('#EenheidId').html(items);
-        $('#OnderdeelId').html(items);
-        $('#TaakId').html(items);
-    });
-
-    $(document).ready(function () {
-        $('#TrajectId').change(function () {
-            var url = '@Url.Content("~/")' + "Voorkeur/GetEenheid";
-            var ddlsource = "#TrajectId";
-            $.getJSON(url, { TrajectId: $(ddlsource).val() }, function (data) {
-                var items = '';
-                $("#EenheidId").empty();
-                $.each(data, function (i, eenheid) {
-                    items += "<option value='" + eenheid.value + "'>" + eenheid.text + "</option>";
-                });
-                $('#EenheidId').html(items);
-            });
-        });
-
-        $('#EenheidId').change(function () {
-            var url = '@Url.Content("~/")' + "Voorkeur/GetOnderdeel";
-            var ddlsource = "#EenheidId";
-            $.getJSON(url, { EenheidId: $(ddlsource).val() }, function (data) {
-                var items = '';
-                $('#OnderdeelId').empty();
-                $.each(data, function (i, onderdeel) {
-                    items += "<option value='" + onderdeel.value + "'>" + onderdeel.text + "</option>";
-                });
-                $('#OnderdeelId').html(items);
-            });
-        });
-
-    });
-</script>
-
-
-<h4>Taak</h4>
+<h4>Blokeigenaar</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditTaak">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @{
-                // TODO: Automatisch huidige traject/eenheid/onderdeel laten zien/inladen op de pagina
-            }
             <div class="form-group">
-                <div class="row">
-                    <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
-                    <label asp-for="TrajectNaam" class="control-label">Traject</label>
-                    <select asp-for="TrajectId"
-                            class="form-control form-control-warning"
-                            asp-items="@(new SelectList(@ViewBag.ListOfTraject,"TrajectId", "TrajectNaam"))"></select>
-                    <span asp-validation-for="TrajectId" class="text-danger"></span>
-                </div>
+                <label asp-for="@Model.Taak.EenheidNaam" class="control-label"></label>
+                <input asp-for="@Model.Taak.EenheidNaam" class="form-control" />
+                <span asp-validation-for="@Model.Taak.EenheidNaam" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <label class="control-label">Eenheid</label>
-                    <select class="form-control" id="EenheidId" name="EenheidId"
-                            asp-items="@(new SelectList(string.Empty,"EenheidId", "EenheidNaam"))"></select>
-
-                </div>
+                <label asp-for="@Model.Taak.OnderdeelNaam" class="control-label"></label>
+                <input asp-for="@Model.Taak.OnderdeelNaam" class="form-control" />
+                <span asp-validation-for="@Model.Taak.OnderdeelNaam" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <label class="control-label">Onderdeel</label>
-                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
-                            asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
-
-                </div>
-            </div>
-
-            @*<div class="form-group">
-                    <label asp-for="@Model.Taak.OnderdeelNaam" class="control-label"></label>
-                    <input asp-for="@Model.Taak.OnderdeelNaam" class="form-control" />
-                    <span asp-validation-for="@Model.Taak.OnderdeelNaam" class="text-danger"></span>
-                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
-                            asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
-                </div>*@
-
             <div class="form-group">
                 <label asp-for="@Model.Taak.TaakNaam" class="control-label"></label>
                 <input asp-for="@Model.Taak.TaakNaam" class="form-control" />
@@ -105,6 +32,17 @@
                 <input asp-for="@Model.Taak.Omschrijving" class="form-control" />
                 <span asp-validation-for="@Model.Taak.Omschrijving" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="@Model.Taak.BenodigdeUren" class="control-label"></label>
+                <input asp-for="@Model.Taak.BenodigdeUren" class="form-control" />
+                <span asp-validation-for="@Model.Taak.BenodigdeUren" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Taak.AantalKlassen" class="control-label"></label>
+                <input asp-for="@Model.Taak.AantalKlassen" class="form-control" />
+                <span asp-validation-for="@Model.Taak.AantalKlassen" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

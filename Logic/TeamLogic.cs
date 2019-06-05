@@ -2,16 +2,28 @@
 using System;
 using Model;
 using System.Collections.Generic;
+using Data.Context;
+using Data.Interfaces;
 using Model.Onderwijsdelen;
 
 namespace Logic
 {
-    public class TeamLogic
+  public  class TeamLogic
     {
-        private static TeamRepository TeamRepo = new TeamRepository();
+        private static TeamRepository TeamRepo;
 
+        public TeamLogic()
+        {
+            TeamRepo = new TeamRepository(new TeamsqlContext());
+        }
+
+        public TeamLogic(ITeamContext context)
+        {
+            TeamRepo = new TeamRepository(context);
+        }
         public List<Team> TeamsOphalen()
         {
+         
             return TeamRepo.Teams;
         }
 
@@ -59,6 +71,11 @@ namespace Logic
         public Docent HaalDocentOpMetID(int id)
         {
             return TeamRepo.HaalDocentOpMetID(id);
+        }
+
+        public List<Taak> HaalTakenOpVoorTeamleider(string medewerkerid)
+        {
+            return TeamRepo.HaalTakenOpVoorTeamleider(medewerkerid);
         }
     }
 }

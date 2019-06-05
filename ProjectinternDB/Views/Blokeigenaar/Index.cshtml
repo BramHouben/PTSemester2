@@ -4,53 +4,46 @@
 @{
     ViewData["Title"] = "Index";
 }
-@{
-    // TODO: oude uitgecommente code opschonen/verwijderen
-}
 <h2>Index</h2>
 
 <h4>Overzicht Taken</h4>
 <hr />
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
         
         <table>
             <thead>
-            <tr>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.TaakId)
-                </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.TaakNaam)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OnderdeelNaam)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Omschrijving)
-                </th>
-            
-                <th></th>
-            </tr>
+                <tr>
+                    <th>
+                        Taak
+                    </th>
+                    <th>
+                        Onderdeel
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Omschrijving)
+                    </th>
+                    <th>
+                        Uren
+                    </th>
+                    <th>
+                        Aantal Klassen
+                    </th>
+
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             @foreach (var item in Model) {
                 <tr>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.TaakId)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TaakNaam)
-                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.TaakNaam)</td>
                     @if (item.OnderdeelId == 0)
                     {
                         <td>Deze taak heeft nog geen onderdeel</td>
                     }
                     else
                     {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OnderdeelNaam)
-                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.OnderdeelNaam)</td>
                     }
                     @if (item.Omschrijving == null)
                     {
@@ -58,35 +51,23 @@
                     }
                     else
                     {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Omschrijving)
-                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Omschrijving)</td>
                     }
-                    
+                    <td>@Html.DisplayFor(modelItem => item.BenodigdeUren)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AantalKlassen)</td>
                     <td>
                         <a asp-action="EditTaak" asp-route-id="@item.TaakId">Edit</a> |
-                        @*<a asp-action="DetailsTaak" asp-route-id="@item.TaakId">Details Taak</a> |*@
                         @{
                             // TODO: Popup: weet je zeker dat je deze taak wilt verwijderen etc...
                         }
-                        <a asp-action="VerwijderTaak" asp-route-id="@item.TaakId">Verwijder Taak</a>
+                        <a asp-action="VerwijderTaak" asp-route-id="@item.TaakId">Verwijder</a>
                     </td>
                 </tr>
             }
             </tbody>
         </table>
-        
-        @*<select class="form-control" id="TaakId" name="TaakId" style="border-radius: 15px; background-color: darkgrey; color: white;">
-            @foreach (var taak in Model)
-            {
-                <option value="@taak.TaakId">@taak.TaakNaam</option>
-            }
-        </select>*@
         <a asp-action="TaakToevoegen">Taak Toevoegen</a>
     </div>
 </div>
 
-@*<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
 

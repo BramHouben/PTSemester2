@@ -50,32 +50,6 @@ namespace Data.Context
                             }
                         }
                     }
-
-                    /*var cmd = new SqlCommand("SELECT Traject.TrajectNaam, Onderdeel.OnderdeelNaam, Taak.TaakNaam, vk.Prioriteit, vk.UserID " +
-                    "FROM Voorkeur AS vk INNER JOIN Traject ON vk.Traject=Traject.TrajectId INNER JOIN Onderdeel ON vk.Onderdeel=Onderdeel.OnderdeelId " +
-                    "INNER JOIN Taak ON vk.Taak=Taak.TaakId WHERE vk.UserId = @UserId", connectie);*/
-
-                    //using (SqlCommand cmd2= new SqlCommand("SELECT * FROM Bekwaamheid where Docent_id  = @UserId", con))
-
-                    //{
-                    //    cmd2.Parameters.AddWithValue("@UserID", ResultId);
-                    //    using (SqlDataReader reader = cmd2.ExecuteReader())
-                    //    {
-                    //        while (reader.Read())
-                    //        {
-                    //            var voorkeur = new Voorkeur
-                    //            {
-                    //                Id = (int)reader["Bekwaam_Id"],
-                    //                TrajectNaam = reader["Traject"]?.ToString(),
-                    //                EenheidNaam = reader["Eenheid"]?.ToString(),
-                    //                OnderdeelNaam = reader["Onderdeel"]?.ToString(),
-                    //                TaakNaam = reader["Taak"]?.ToString()
-                    //            };
-                    //            //voorkeur.Prioriteit = (int)reader["Prioriteit"];
-                    //            vklistmodel.Add(voorkeur);
-                    //        }
-                    //    }
-                    //}
                 }
             }
             catch (SqlException error)
@@ -88,95 +62,127 @@ namespace Data.Context
 
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
-            // TODO SPAGHETTICODE
-            try
-            {
-                connectie.Open();
-                var cmdTraject = connectie.CreateCommand();
-                cmdTraject.CommandText =
-                    "SELECT TrajectNaam FROM Traject WHERE TrajectId = '" + voorkeur.TrajectNaam + "'";
-                var resultTraject = cmdTraject.ExecuteScalar();
+            object resultTraject;
+            object resultEenheid;
+            object resultOnderdeel;
+            object resultTaak;
+            object result;
 
-                var cmdEenheid = connectie.CreateCommand();
-                cmdEenheid.CommandText =
-                    "SELECT EenheidNaam FROM Eenheid WHERE EenheidId = '" + voorkeur.EenheidNaam + "'";
-                var resultEenheid = cmdEenheid.ExecuteScalar();
-
-                var cmdOnderdeel = connectie.CreateCommand();
-                cmdOnderdeel.CommandText =
-                    "SELECT OnderdeelNaam FROM Onderdeel WHERE OnderdeelId = '" +
-                    voorkeur.OnderdeelNaam + "'";
-                var resultOnderdeel = cmdOnderdeel.ExecuteScalar();
-
-                var cmdTaak = connectie.CreateCommand();
-                cmdTaak.CommandText =
-                    "SELECT TaakNaam FROM Taak WHERE TaakId = '" + voorkeur.TaakNaam + "'";
-                var resultTaak = cmdTaak.ExecuteScalar();
-
-                var cmdid = connectie.CreateCommand();
-                cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
-                var ResultId = cmdid.ExecuteScalar();
-
-                if (voorkeur.EenheidNaam == "0")
-                {
-                    resultEenheid = DBNull.Value.ToString();
-                    resultOnderdeel = DBNull.Value.ToString();
-                    resultTaak = DBNull.Value.ToString();
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
-                }
-                else if (voorkeur.OnderdeelNaam == "0")
-                {
-                    resultOnderdeel = DBNull.Value.ToString();
-                    resultTaak = DBNull.Value.ToString();
-
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
-                }
-                else if (voorkeur.TaakNaam == "0")
-                {
-                    resultTaak = DBNull.Value.ToString();
-
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
-
-                    InsertAllesVanTraject(voorkeur.TrajectNaam);
-                }
-
-                var command = connectie.CreateCommand();
-                command.Parameters.AddWithValue("@TrajectNaam", resultTraject);
-                command.Parameters.AddWithValue("@EenheidNaam", resultEenheid);
-                command.Parameters.AddWithValue("@OnderdeelNaam", resultOnderdeel);
-                command.Parameters.AddWithValue("@TaakNaam", resultTaak);
-                //command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
-                command.Parameters.AddWithValue("@UserId", ResultId);
-                command.Parameters.AddWithValue("@taakId", voorkeur.TaakNaam);
-
-                command.CommandText =
-                    "INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, Docent_id, TaakID) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId, @taakId)";
-                command.ExecuteNonQuery();
-            }
-            catch (SqlException fout)
-            {
-                Console.WriteLine(fout.Message);
-            }
-            finally
-            {
-                connectie.Close();
-            }
-        }
-
-       
-        private void InsertAllesVanTraject(string trajectNaam)
-        {
             try
             {
                 using (SqlConnection conn = dbconn.SqlConnectie)
                 {
                     conn.Open();
-                    List<Taak> taken = new List<Taak>();
-                    using (SqlCommand cmd = new SqlCommand("SELECT  Taak.TaakId, taak.TaakNaam from Taak inner join Onderdeel on Onderdeel.OnderdeelId = taak.OnderdeelId inner join Eenheid on Onderdeel.EenheidId = Eenheid.EenheidId  inner join Traject on Eenheid.TrajectId = Traject.TrajectId where Traject.TrajectNaam =@trajectnaam ", conn))
-                    {
 
-                        cmd.Parameters.AddWithValue("@TrajectNaam", trajectNaam);
-                        cmd.ExecuteNonQuery();
+                    using (SqlCommand cmd = new SqlCommand("SELECT TrajectNaam FROM Traject WHERE TrajectId = @traject", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@traject", voorkeur.TrajectNaam));
+                        resultTraject = cmd.ExecuteScalar();
+                    }
+
+                    if (voorkeur.EenheidNaam == "0")
+                    {
+                        resultEenheid = DBNull.Value.ToString();
+                        resultOnderdeel = DBNull.Value.ToString();
+                        resultTaak = DBNull.Value.ToString();
+                        voorkeur.TaakNaam = DBNull.Value.ToString();
+                    }
+                    else
+                    {
+                        using (SqlCommand cmd = new SqlCommand("SELECT EenheidNaam FROM Eenheid WHERE EenheidId = @eenheid", conn))
+                        {
+                            cmd.Parameters.Add(new SqlParameter("@eenheid", voorkeur.EenheidNaam));
+                            resultEenheid = cmd.ExecuteScalar();
+                        }
+
+                        if (voorkeur.OnderdeelNaam == "0")
+                        {
+                            resultOnderdeel = DBNull.Value.ToString();
+                            resultTaak = DBNull.Value.ToString();
+                            voorkeur.TaakNaam = DBNull.Value.ToString();
+                        }
+                        else
+                        {
+                            using (SqlCommand cmd = new SqlCommand("SELECT OnderdeelNaam FROM Onderdeel WHERE OnderdeelId = @onderdeel", conn))
+                            {
+                                cmd.Parameters.Add(new SqlParameter("@onderdeel", voorkeur.OnderdeelNaam));
+                                resultOnderdeel = cmd.ExecuteScalar();
+                            }
+
+                            if (voorkeur.TaakNaam == "0")
+                            {
+                                resultTaak = DBNull.Value.ToString();
+                                voorkeur.TaakNaam = DBNull.Value.ToString();
+                            }
+                            else
+                            {
+                                using (SqlCommand cmd = new SqlCommand("SELECT TaakNaam FROM Taak WHERE TaakId = @taak", conn))
+                                {
+                                    cmd.Parameters.Add(new SqlParameter("@taak", voorkeur.TaakNaam));
+                                    resultTaak = cmd.ExecuteScalar();
+                                }
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("SELECT DocentID FROM Docent WHERE MedewerkerID = @docent", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@docent", id));
+                        result = (int)cmd.ExecuteScalar();
+
+                        if (voorkeur.TaakNaam == "")
+                        {
+                            List<Taak> taken = new List<Taak>();
+                            using (SqlCommand cmdTraject = new SqlCommand("SELECT T.TaakId, T.TaakNaam, O.OnderdeelNaam, E.EenheidNaam, TR.TrajectNaam FROM Taak T INNER JOIN Onderdeel O " +
+                                "ON O.OnderdeelId = T.OnderdeelId  INNER JOIN Eenheid E ON O.EenheidId = E.EenheidId INNER JOIN Traject TR ON E.TrajectId = TR.TrajectId WHERE TR.TrajectNaam = @traject", conn))
+                            {
+                                cmdTraject.Parameters.AddWithValue("@traject", resultTraject);
+
+                                using (SqlDataReader reader = cmdTraject.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        Taak taak = new Taak();
+                                        taak.TaakId = (int)reader["TaakId"];
+                                        taak.TaakNaam = (string)reader["TaakNaam"];
+                                        taak.EenheidNaam = (string)reader["EenheidNaam"];
+                                        taak.OnderdeelNaam = (string)reader["OnderdeelNaam"];
+                                        taak.TrajectNaam = (string)reader["TrajectNaam"];
+                                        taken.Add(taak);
+                                    }
+                                }
+                            }
+
+                            foreach (Taak taak in taken)
+                            {
+                                using (SqlCommand command = new SqlCommand("INSERT INTO Bekwaamheid(Traject, Eenheid, Onderdeel, Taak, Docent_id, TaakID) VALUES(@TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId, @taakId)", conn))
+                                {
+                                    command.Parameters.AddWithValue("@TrajectNaam", taak.TrajectNaam);
+                                    command.Parameters.AddWithValue("@EenheidNaam", taak.EenheidNaam);
+                                    command.Parameters.AddWithValue("@OnderdeelNaam", taak.OnderdeelNaam);
+                                    command.Parameters.AddWithValue("@TaakNaam", taak.TaakNaam);
+                                    command.Parameters.AddWithValue("@UserId", result);
+                                    command.Parameters.AddWithValue("@taakId", taak.TaakId);
+                                    command.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        else
+                        {
+
+                            using (SqlCommand command = new SqlCommand("INSERT INTO Bekwaamheid (Traject, Eenheid, Onderdeel, Taak, Docent_id, TaakID) VALUES ( @TrajectNaam, @EenheidNaam, @OnderdeelNaam, @TaakNaam, @UserId, @taakId)", conn))
+                            {
+                                command.Parameters.AddWithValue("@TrajectNaam", resultTraject);
+                                command.Parameters.AddWithValue("@EenheidNaam", resultEenheid);
+                                command.Parameters.AddWithValue("@OnderdeelNaam", resultOnderdeel);
+                                command.Parameters.AddWithValue("@TaakNaam", resultTaak);
+                                //command.Parameters.AddWithValue("@Prioriteit", voorkeur.Prioriteit);
+                                command.Parameters.AddWithValue("@UserId", result);
+                                command.Parameters.AddWithValue("@taakId", voorkeur.TaakNaam);
+                                command.ExecuteNonQuery();
+                            }
+                        }
                     }
                 }
             }
@@ -431,7 +437,7 @@ namespace Data.Context
             catch (SqlException fout)
             {
                 Console.WriteLine(fout.Message);
-                throw;
+                return List;
             }
         }
 
@@ -439,79 +445,124 @@ namespace Data.Context
         {
             try
             {
-                connectie.Open();
-                var cmdTraject = connectie.CreateCommand();
-                cmdTraject.CommandText =
-                    "SELECT TrajectNaam FROM Traject WHERE TrajectId = '" + voorkeur.TrajectNaam + "'";
-                var resultTraject = cmdTraject.ExecuteScalar();
-
-                var cmdEenheid = connectie.CreateCommand();
-                cmdEenheid.CommandText =
-                    "SELECT EenheidNaam FROM Eenheid WHERE EenheidId = '" + voorkeur.EenheidNaam + "'";
-                var resultEenheid = cmdEenheid.ExecuteScalar();
-
-                var cmdOnderdeel = connectie.CreateCommand();
-                cmdOnderdeel.CommandText =
-                    "SELECT OnderdeelNaam FROM Onderdeel WHERE OnderdeelId = '" +
-                    voorkeur.OnderdeelNaam + "'";
-                var resultOnderdeel = cmdOnderdeel.ExecuteScalar();
-
-                var cmdTaak = connectie.CreateCommand();
-                cmdTaak.CommandText =
-                    "SELECT TaakNaam FROM Taak WHERE TaakId = '" + voorkeur.TaakNaam + "'";
-                var resultTaak = cmdTaak.ExecuteScalar();
-
-                var cmdid = connectie.CreateCommand();
-                cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + id + "'";
-                var ResultId = cmdid.ExecuteScalar();
-
-                if (voorkeur.EenheidNaam == "0")
+                var resultTraject = "";
+                var resultEenheid = "";
+                var resultOnderdeel = "";
+                var resultTaak = "";
+                var resultId = "";
+                using (SqlConnection con = dbconn.SqlConnectie)
                 {
-                    resultEenheid = DBNull.Value.ToString();
-                    resultOnderdeel = DBNull.Value.ToString();
-                    resultTaak = DBNull.Value.ToString();
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
-                }
-                else if (voorkeur.OnderdeelNaam == "0")
-                {
-                    resultOnderdeel = DBNull.Value.ToString();
-                    resultTaak = DBNull.Value.ToString();
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
-                }
-                else if (voorkeur.TaakNaam == "0")
-                {
-                    resultTaak = DBNull.Value.ToString();
-                    voorkeur.TaakNaam = DBNull.Value.ToString();
-                }
+                    con.Open();
+                    using (SqlCommand cmdTraject =
+                        new SqlCommand("SELECT TrajectNaam FROM Traject WHERE TrajectId = @voorkeurTrajectNaam", con))
+                    {
+                        cmdTraject.Parameters.AddWithValue("@voorkeurTrajectNaam", voorkeur.TrajectNaam);
+                        using (SqlDataReader reader = cmdTraject.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                resultTraject = reader["TrajectNaam"]?.ToString();
+                            }
+                        }
+                    }
 
-                var cmd = new SqlCommand(
-                    "SELECT Count(*) FROM Bekwaamheid where Docent_id = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak and TaakID= @taakId",
-                    connectie);
-                cmd.Parameters.AddWithValue("@User_id", ResultId);
-                cmd.Parameters.AddWithValue("@traject", resultTraject);
-                cmd.Parameters.AddWithValue("@eenheid", resultEenheid);
-                cmd.Parameters.AddWithValue("@onderdeel", resultOnderdeel);
-                cmd.Parameters.AddWithValue("@taak", resultTaak);
-                cmd.Parameters.AddWithValue("@taakId", voorkeur.TaakNaam);
-                int uitslag = (int)cmd.ExecuteScalar();
+                    using (SqlCommand cmdEenheid =
+                        new SqlCommand("SELECT EenheidNaam FROM Eenheid WHERE EenheidId = @voorkeurEenheidNaam", con))
+                    {
+                        cmdEenheid.Parameters.AddWithValue("@voorkeurEenheidNaam", voorkeur.EenheidNaam);
+                        using (SqlDataReader reader = cmdEenheid.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                resultEenheid = reader["EenheidNaam"]?.ToString();
+                            }
+                        }
+                    }
 
-                if (uitslag == 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
+                    using (SqlCommand cmdOnderdeel =
+                        new SqlCommand("SELECT OnderdeelNaam FROM Onderdeel WHERE OnderdeelId = @voorkeurOnderdeelNaam", con))
+                    {
+                        cmdOnderdeel.Parameters.AddWithValue("@voorkeurOnderdeelNaam", voorkeur.OnderdeelNaam);
+                        using (SqlDataReader reader = cmdOnderdeel.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                resultOnderdeel = reader["OnderdeelNaam"]?.ToString();
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmdTaak =
+                        new SqlCommand("SELECT TaakNaam FROM Taak WHERE TaakId = @voorkeurTaakNaam", con))
+                    {
+                        cmdTaak.Parameters.AddWithValue("@voorkeurTaakNaam", voorkeur.TaakNaam);
+                        using (SqlDataReader reader = cmdTaak.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                resultTaak = reader["TaakNaam"]?.ToString();
+                            }
+                        }
+                    }
+
+                    using (SqlCommand cmdid =
+                        new SqlCommand("SELECT DocentID FROM Docent WHERE MedewerkerID = @medewerkerId", con))
+                    {
+                        cmdid.Parameters.AddWithValue("@medewerkerId", id);
+                        using (SqlDataReader reader = cmdid.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                resultId = reader["DocentID"]?.ToString();
+                            }
+                        }
+                    }
+
+                    if (voorkeur.EenheidNaam == "0")
+                    {
+                        resultEenheid = DBNull.Value.ToString();
+                        resultOnderdeel = DBNull.Value.ToString();
+                        resultTaak = DBNull.Value.ToString();
+                        voorkeur.TaakNaam = DBNull.Value.ToString();
+                    }
+                    else if (voorkeur.OnderdeelNaam == "0")
+                    {
+                        resultOnderdeel = DBNull.Value.ToString();
+                        resultTaak = DBNull.Value.ToString();
+                        voorkeur.TaakNaam = DBNull.Value.ToString();
+                    }
+                    else if (voorkeur.TaakNaam == "0")
+                    {
+                        resultTaak = DBNull.Value.ToString();
+                        voorkeur.TaakNaam = DBNull.Value.ToString();
+                    }
+                    
+                    using (SqlCommand cmd =
+                        new SqlCommand("SELECT Count(*) FROM Bekwaamheid where Docent_id = @User_id and Traject = @traject and Eenheid= @eenheid and Onderdeel = @onderdeel and Taak=@taak and TaakID= @taakId", con))
+                    {
+                        cmd.Parameters.AddWithValue("@User_id", resultId);
+                        cmd.Parameters.AddWithValue("@traject", resultTraject);
+                        cmd.Parameters.AddWithValue("@eenheid", resultEenheid);
+                        cmd.Parameters.AddWithValue("@onderdeel", resultOnderdeel);
+                        cmd.Parameters.AddWithValue("@taak", resultTaak);
+                        cmd.Parameters.AddWithValue("@taakId", voorkeur.TaakNaam);
+                        
+                        int uitslag = (int)cmd.ExecuteScalar();
+                        if (uitslag == 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             catch (SqlException fout)
             {
                 Console.WriteLine(fout.Message);
-                throw;
-            }
-            finally
-            {
-                connectie.Close();
+                return false;
             }
         }
 
@@ -643,7 +694,7 @@ namespace Data.Context
 
         public int GetTaakTijd(int taakId)
         {
-            int tijd =0;
+            int tijd = 0;
             try
             {
                 using (SqlConnection con = dbconn.SqlConnectie)
@@ -664,13 +715,10 @@ namespace Data.Context
                         }
                     }
                 }
-
-               
             }
             catch (SqlException fout)
             {
                 Console.WriteLine(fout.Message);
-            
             }
             return tijd;
         }

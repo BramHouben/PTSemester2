@@ -8,31 +8,11 @@ namespace Data.Context
 {
     public class TeamMemoryContext : ITeamContext
     {
+        public List<Team> teams = new List<Team>();
         private List<Taak> taken;
         private List<Docent> docenten;
-        private List<Team> teams;
 
-        private List<Docent> docenten1 = new List<Docent>() {
-                new Docent(1, 1, 600, "Jan"),
-                new Docent(2, 1, 500, "Kees"),
-                new Docent(3, 2, 550, "Klaas")
-    };
-
-        public List<Team> TeamsOphalen()
-        {
-            if (teams == null)
-            {
-                teams = new List<Team>
-                {
-                    new Team(1, 1, 1),
-                    new Team(2, 2, 2)
-                };
-            }
-
-            return teams;
-        }
-
-        public List<Docent> DocentInTeamOphalen(int id)
+        public TeamMemoryContext()
         {
             docenten = new List<Docent>
             {
@@ -40,17 +20,30 @@ namespace Data.Context
                 new Docent(2, 1, 500, "Kees"),
                 new Docent(3, 2, 550, "Klaas")
             };
+            teams.Add(new Team(1, 1, 1));
+            teams.Add(new Team(2, 2, 2));
+        }
+
+
+        public List<Team> TeamsOphalen()
+        {
+            return teams;
+        }
+
+        public List<Docent> DocentInTeamOphalen(int id)
+        {
             return docenten;
         }
 
         public void VoegDocentToeAanTeam(int docentID, int TeamID)
         {
-            docenten.Add(new Docent { });
-        }
-
-        public void DocentVerwijderen(Docent docent)
-        {
-            docenten.Remove(docent);
+            foreach (Team team in teams)
+            {
+                if (team.TeamId == TeamID)
+                {
+                    team.Docenten.Add(new Docent(docentID, TeamID, 0, ""));
+                }
+            }
         }
 
         public string TeamleiderNaamMetTeamleiderId(int teamleiderId)
@@ -59,7 +52,6 @@ namespace Data.Context
             {
                 case 1:
                     return "Jantje de Boer";
-
                 case 2:
                     return "Bram de Coenerguy";
 
@@ -84,23 +76,22 @@ namespace Data.Context
         }
 
         public Team TeamOphalenMetID(int id)
+          
         {
-            this.TeamsOphalen();
-            id--;
-            try
+            foreach (Team team in teams)
             {
-                return TeamsOphalen()[id];
+                if (team.TeamId == id)
+                {
+                    return team;
+                }
             }
-            catch
-            {
-                // return empty team
-                return null;
-            }
+            return null;
+            
         }
 
         public void DocentVerwijderen(int DocentID)
         {
-            List<Docent> docenten = docenten1;
+          
             try
             {
                 for (int i = 0; i < docenten.Count; i++)
@@ -113,7 +104,7 @@ namespace Data.Context
             }
             catch
             {
-                Console.WriteLine("Oopsie");
+                Console.WriteLine("Docent verwijderen mislukt");
             }
         }
 
@@ -124,13 +115,16 @@ namespace Data.Context
 
         public List<Docent> HaalDocentenZonderTeamOp()
         {
-            docenten = new List<Docent>
+            List<Docent> docentenlijst = new List<Docent>();
+            foreach (Docent docent in docenten)
             {
-                new Docent(1, 0, 600, "Jan"),
-                new Docent(2, 0, 500, "Kees"),
-                new Docent(3, 0, 550, "Klaas")
-            };
-            return docenten;
+                if (docent.TeamId == 0)
+                {
+                    docentenlijst.Add(docent);
+                }
+            }
+
+            return HaalDocentenZonderTeamOp();
         }
 
         public List<Taak> GetTaken(int docentid)
@@ -146,6 +140,19 @@ namespace Data.Context
         }
 
         public Docent HaalDocentOpMetID(int id)
+        {
+            foreach (Docent docent in docenten)
+            {
+                if (docent.DocentId == id)
+                {
+                    return docent;
+                }
+            }
+
+            return null;
+        }
+
+        public List<Taak> HaalTakenOpVoorTeamleider(string medewerkerid)
         {
             throw new NotImplementedException();
         }

@@ -28,6 +28,6 @@ namespace Model
         public string TeamleiderNaam { get; set; }
         public int CurriculumEigenaarID { get; set; }
         public string CurriculumEigenaarNaam { get; set; }
-        public IEnumerable<Docent> Docenten { get; set; }
+        public List<Docent> Docenten { get; set; } = new List<Docent>();
     }
 }

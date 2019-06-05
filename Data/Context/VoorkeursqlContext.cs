@@ -553,6 +553,7 @@ namespace Data.Context
 
         public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
         {
+            int count;
             string constring = connectie.ConnectionString;
             try
             {
@@ -563,15 +564,39 @@ namespace Data.Context
                     cmdid.CommandText = "SELECT DocentID FROM Docent WHERE MedewerkerID = '" + User_id + "'";
                     var ResultId = cmdid.ExecuteScalar();
 
-                    using (SqlCommand command = new SqlCommand("insert into DocentVoorkeur values(@user_id, @Prioriteit, @Bekwaamheid_id)"))
+                    using (SqlCommand command = new SqlCommand("select count(DocentID) from DocentVoorkeur where DocentID=@docent_id and Bekwaamheid_id=@Bekwaamheid_id ", connectie))
                     {
-                        command.Connection = connectie;
-                        command.Parameters.Add(new SqlParameter("user_id", ResultId));
-                        command.Parameters.Add(new SqlParameter("Prioriteit", prioriteit));
                         command.Parameters.Add(new SqlParameter("Bekwaamheid_id", id));
-
-                        command.ExecuteNonQuery();
+                        command.Parameters.Add(new SqlParameter("docent_id", ResultId));
+                        count = (int)command.ExecuteScalar();
                     }
+
+                    if (count==0)
+                    {
+                        using (SqlCommand command = new SqlCommand("insert into DocentVoorkeur values(@user_id, @Prioriteit, @Bekwaamheid_id)", connectie))
+                        {
+                            command.Connection = connectie;
+                            command.Parameters.Add(new SqlParameter("user_id", ResultId));
+                            command.Parameters.Add(new SqlParameter("Prioriteit", prioriteit));
+                            command.Parameters.Add(new SqlParameter("Bekwaamheid_id", id));
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    else
+                    {
+                        using (SqlCommand command = new SqlCommand("  UPDATE DocentVoorkeur SET Prioriteit = @Prioriteit WHERE Bekwaamheid_id = @Bekwaamheid_id", connectie))
+                        {
+                            command.Connection = connectie;
+                            command.Parameters.Add(new SqlParameter("Prioriteit", prioriteit));
+                            command.Parameters.Add(new SqlParameter("Bekwaamheid_id", id));
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                  
+
+              
                 }
             }
             catch (SqlException error)

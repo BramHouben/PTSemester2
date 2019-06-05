@@ -123,6 +123,7 @@ namespace Data.Context
             {
                 using (SqlConnection conn = dbconn.GetConnString())
                 {
+                    conn.Open();
                     using (SqlCommand cmd = new SqlCommand("UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid", conn))
                     {
                         cmd.Parameters.AddWithValue("@docentid", DocentID);
@@ -202,23 +203,30 @@ namespace Data.Context
         public string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId)
         {
             string naam = null;
-            using (SqlConnection conn = dbconn.GetConnString())
+            try
             {
-                conn.Open();
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM CurriculumEigenaar WHERE CurriculumEigenaarID = @CurriculumEigenaarID)",
-                        conn))
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    cmd.Parameters.AddWithValue("@CurriculumEigenaarID", curriculumeigenaarId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    conn.Open();
+                    using (SqlCommand cmd =
+                        new SqlCommand(
+                            "SELECT Naam FROM Docent WHERE MedewerkerID = (SELECT MedewerkerID FROM CurriculumEigenaar WHERE CurriculumEigenaarID = @CurriculumEigenaarID)",
+                            conn))
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@CurriculumEigenaarID", curriculumeigenaarId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            naam = (string)reader["Naam"];
+                            while (reader.Read())
+                            {
+                                naam = (string)reader["Naam"];
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
             return naam;
         }
@@ -227,27 +235,20 @@ namespace Data.Context
         {
             try
             {
-                connectie = dbconn.GetConnString();
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@teamid", TeamID);
+                        cmd.Parameters.AddWithValue("@docentid", DocentID);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@teamid", TeamID);
-                cmd.Parameters.AddWithValue("@docentid", DocentID);
-                cmd.CommandText = "UPDATE Docent SET TeamID = NULL WHERE DocentID = @docentid";
-                cmd.ExecuteNonQuery();
             }
             catch (SqlException Fout)
             {
                 Console.WriteLine(Fout.Message);
-            }
-            finally
-            {
-                if (connectie.State != ConnectionState.Closed)
-                {
-                    connectie.Close();
-                }
             }
         }
 
@@ -256,102 +257,90 @@ namespace Data.Context
             int result = 0;
             try
             {
-                connectie = dbconn.GetConnString();
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@stringid", id);
-                cmd.CommandText = "SELECT TeamID FROM Team WHERE TeamLeiderID = (SELECT TeamLeiderID FROM TeamLeider WHERE MedewerkerID = @stringid);";
-                if (connectie.State != ConnectionState.Open)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    connectie.Open();
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT TeamID FROM Team WHERE TeamLeiderID = (SELECT TeamLeiderID FROM TeamLeider WHERE MedewerkerID = @stringid);", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@stringid", id);
+                        result = (int)cmd.ExecuteScalar();
+                    }
+
                 }
-                result = (int)cmd.ExecuteScalar();
             }
             catch (SqlException Fout)
             {
                 Console.WriteLine(Fout.Message);
             }
-            finally
-            {
-                if (connectie.State != ConnectionState.Closed)
-                {
-                    connectie.Close();
-                }
-            }
             return result;
         }
-
-
 
         public List<Docent> HaalDocentenZonderTeamOp()
         {
             List<Docent> docenten = new List<Docent>();
             try
             {
-                connectie = dbconn.GetConnString();
-                connectie.Open();
-                var cmd = connectie.CreateCommand();
-                cmd.CommandText = "SELECT D.DocentID, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID WHERE D.TeamID is null";
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (SqlConnection conn  = dbconn.GetConnString())
                 {
-                    Docent docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
-                    if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
+                    conn.Open();
+                    using (SqlCommand cmd =  new SqlCommand("SELECT D.DocentID, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID WHERE D.TeamID is null", conn))
                     {
-                        docent.RuimteVoorInzet = 0;
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Docent docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
+                                if (DBNull.Value.Equals(reader["RuimteVoorInzet"]))
+                                {
+                                    docent.RuimteVoorInzet = 0;
+                                }
+                                else
+                                {
+                                    docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                                }
+                                docenten.Add(docent);
+                            }
+                        }
                     }
-                    else
-                    {
-                        docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
-                    }
-
-                    docenten.Add(docent);
                 }
-                return docenten;
             }
             catch (SqlException Fout)
             {
                 Console.WriteLine(Fout.Message);
                 return null;
             }
-            finally
-            {
-                connectie.Close();
-            }
+            return docenten;
         }
 
         public List<Taak> GetTaken(int docentid)
         {
             var taken = new List<Taak>();
-
             try
             {
-                connectie = dbconn.GetConnString();
-                connectie.Open();
-
-                var cmd = new SqlCommand("SELECT T.TaakId, T.TaakNaam FROM Taak T WHERE NOT EXISTS(SELECT Taak_id, DocentID FROM GefixeerdeTaken GT WHERE T.TaakId=GT.Taak_id AND GT.DocentID = @did) AND EXISTS (SELECT TaakID FROM Bekwaamheid B WHERE T.TaakId=B.TaakID AND B.Docent_id = @did)", connectie);
-                cmd.Parameters.AddWithValue("@did", docentid);
-                var reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    var taak = new Taak()
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT T.TaakId, T.TaakNaam FROM Taak T WHERE NOT EXISTS(SELECT Taak_id, DocentID FROM GefixeerdeTaken GT WHERE T.TaakId=GT.Taak_id AND GT.DocentID = @did) AND EXISTS (SELECT TaakID FROM Bekwaamheid B WHERE T.TaakId=B.TaakID AND B.Docent_id = @did)", conn))
                     {
-                        TaakId = (int)reader["TaakId"],
-                        TaakNaam = reader["TaakNaam"]?.ToString(),
-                    };
-
-                    taken.Add(taak);
+                        cmd.Parameters.AddWithValue("@did", docentid);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var taak = new Taak()
+                                {
+                                    TaakId = (int)reader["TaakId"],
+                                    TaakNaam = reader["TaakNaam"]?.ToString(),
+                                };
+                                taken.Add(taak);
+                            }
+                        }
+                    }
                 }
             }
-
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-
-            finally
-            {
-                connectie.Close();
             }
 
             return taken;
@@ -362,23 +351,28 @@ namespace Data.Context
             Docent docent = new Docent();
             try
             {
-                connectie = dbconn.GetConnString();
-                connectie.Open();
-                var cmd = connectie.CreateCommand();
-                cmd.Parameters.AddWithValue("@DocentID", id);
-                cmd.CommandText = "SELECT D.DocentID, D.TeamID, D.RuimteVoorInzet,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where d.DocentID = @DocentID";
-                var reader = cmd.ExecuteReader();
-                if (reader.Read())
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
-                    docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
-                    if (!(DBNull.Value.Equals(reader["TeamID"])))
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT D.DocentID, D.TeamID, D.RuimteVoorInzet,(ANU.Voornaam + ' ' + ANU.Achternaam) as Naam, D.RuimteVoorInzet FROM [dbo].[Docent] D INNER JOIN [dbo].[AspNetUsers] ANU ON ANU.Id = D.MedewerkerID where d.DocentID = @DocentID", conn))
                     {
-                        docent.TeamId = (int)reader["TeamID"];
-                    }
+                        cmd.Parameters.AddWithValue("@DocentID", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
+                                if (!(DBNull.Value.Equals(reader["TeamID"])))
+                                {
+                                    docent.TeamId = (int)reader["TeamID"];
+                                }
 
-                    if (!(DBNull.Value.Equals(reader["RuimteVoorInzet"])))
-                    {
-                        docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                                if (!(DBNull.Value.Equals(reader["RuimteVoorInzet"])))
+                                {
+                                    docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
+                                }
+                            }
+                        }
                     }
                 }
                 return docent;
@@ -387,10 +381,6 @@ namespace Data.Context
             {
                 Console.WriteLine(Fout.Message);
                 return null;
-            }
-            finally
-            {
-                connectie.Close();
             }
         }
 
@@ -407,7 +397,6 @@ namespace Data.Context
                         cmd.Parameters.AddWithValue("@MedewerkerID", medewerkerid);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-
                             while (reader.Read())
                             {
                                 Taak taak = new Taak();
@@ -415,7 +404,6 @@ namespace Data.Context
                                 taak.TaakNaam = (string)reader["TaakNaam"];
                                 taken.Add(taak);
                             }
-
                         }
                     }
                 }

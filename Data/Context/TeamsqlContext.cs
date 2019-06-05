@@ -501,5 +501,39 @@ namespace Data.Context
                 connectie.Close();
             }
         }
+
+        public List<Taak> HaalTakenOpVoorTeamleider(string medewerkerid)
+        {
+            List<Taak> taken = new List<Taak>();
+            try
+            {
+                using (SqlConnection con = dbconn.GetConnString())
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("Select Taak.TaakId, Taak.TaakNaam from Taak  Inner JOIN Onderdeel on Onderdeel.OnderdeelId = taak.OnderdeelId Inner Join Eenheid on Eenheid.EenheidId = Onderdeel.EenheidId Inner Join Traject on Traject.TrajectId = Eenheid.TrajectId Inner Join Team on Team.TeamID =Traject.TeamID WHERE Team.TeamID = (Select TeamID From Team Where TeamLeiderID = (Select TeamLeiderID From TeamLeider where TeamLeider.MedewerkerID = @MedewerkerID))", con))
+                    {
+                        cmd.Parameters.AddWithValue("@MedewerkerID", medewerkerid);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                       
+                            while (reader.Read())
+                            {
+                               Taak taak = new Taak();
+                               taak.TaakId = (int)reader["TaakId"];
+                               taak.TaakNaam = (string)reader["TaakNaam"];
+                               taken.Add(taak);
+                            }
+                           
+                        }
+                    }
+                }
+                return taken;
+            }
+            catch (SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+                return taken;
+            }
+        }
     }
 }

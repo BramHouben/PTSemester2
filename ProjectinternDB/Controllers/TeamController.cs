@@ -27,6 +27,7 @@ namespace ProjectinternDB.Controllers
         private VacatureLogic _vacatureLogic = new VacatureLogic();
         private FixerenLogic _fixerenLogic = new FixerenLogic();
         private OnderwijsLogic _onderwijsLogic = new OnderwijsLogic();
+       BlokeigenaarLogic _blokeigenaarLogic = new BlokeigenaarLogic();
 
         //public IActionResult TeamOverzicht()
         //{
@@ -183,6 +184,10 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult MaakVacature()
         {
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            // todo data ophalen
+            ViewBag.Taken = _teamLogic.HaalTakenOpVoorTeamleider(User_id);
+
             return View();
         }
 
@@ -224,28 +229,6 @@ namespace ProjectinternDB.Controllers
             // TODO: Opmaak Pagina Details aanpassen.
             Vacature vacature = _vacatureLogic.VacatureOphalen(id);
             return View(vacature);
-        }
-
-        public IActionResult EditVacature(int id)
-        {
-            // TODO onderwijstaken ophalen
-            ViewBag.Onderwijstaken = _onderwijsLogic.TakenOphalen();
-            return View(_vacatureLogic.VacatureOphalen(id));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditVacature(int id, IFormCollection form)
-        {
-            Vacature vacature = new Vacature()
-            {
-                Naam = form["Naam"],
-                Omschrijving = form["Omschrijving"],
-                TaakID = Convert.ToInt32(form["TaakID"]),
-                //     OnderwijsTaakNaam = form["OnderwijsTaakNaam"],
-                VacatureID = id
-            };
-            _vacatureLogic.UpdateVacature(vacature);
-            return RedirectToAction("VacatureOverzicht");
         }
     }
 }

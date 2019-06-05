@@ -8,7 +8,7 @@ namespace Data.Interfaces
 {
     public interface ITeamContext
     {
-        List<Team>TeamsOphalen();
+        List<Team> TeamsOphalen();
         List<Docent> DocentInTeamOphalen(int id);
 
         void VoegDocentToeAanTeam(int DocentID, int TeamID);
@@ -18,8 +18,11 @@ namespace Data.Interfaces
         string CurriculumEigenaarNaamMetCurriculumEigenaarId(int curriculumeigenaarId);
         int HaalTeamIdOp(string id);
         List<Docent> HaalDocentenZonderTeamOp();
+
         List<Taak> GetTaken(int docentid);
+
         //void VerwijderDocentUitTeam(int TeamID, int DocentID);
         Docent HaalDocentOpMetID(int id);
+        List<Taak> HaalTakenOpVoorTeamleider(string medewerkerid);
     }
 }

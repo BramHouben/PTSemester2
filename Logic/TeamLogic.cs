@@ -72,5 +72,10 @@ namespace Logic
         {
             return TeamRepo.HaalDocentOpMetID(id);
         }
+
+        public List<Taak> HaalTakenOpVoorTeamleider(string medewerkerid)
+        {
+            return TeamRepo.HaalTakenOpVoorTeamleider(medewerkerid);
+        }
     }
 }

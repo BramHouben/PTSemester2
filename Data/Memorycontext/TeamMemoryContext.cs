@@ -118,7 +118,7 @@ namespace Data.Context
             List<Docent> docentenlijst = new List<Docent>();
             foreach (Docent docent in docenten)
             {
-                if (docent.TeamId == null)
+                if (docent.TeamId == 0)
                 {
                     docentenlijst.Add(docent);
                 }
@@ -150,6 +150,11 @@ namespace Data.Context
             }
 
             return null;
+        }
+
+        public List<Taak> HaalTakenOpVoorTeamleider(string medewerkerid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

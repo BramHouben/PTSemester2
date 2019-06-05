@@ -108,7 +108,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
         }
 
@@ -130,7 +129,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
         }
 
@@ -170,7 +168,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
             return taak;
         }
@@ -205,7 +202,7 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+    
             }
         }
 
@@ -236,7 +233,7 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return trajecten;
             }
         }
 
@@ -269,7 +266,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
             return eenheden;
         }
@@ -303,7 +299,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
             return onderdelen;
         }
@@ -338,7 +333,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
             return taken;
         }
@@ -380,7 +374,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
             return eenhedenBlokeigenaar;
         }

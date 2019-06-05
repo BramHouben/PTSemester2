@@ -211,7 +211,6 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult VacatureOverzicht()
         {
-            // TODO Bram C Veranderen ID in Overzicht
             List<Vacature> vacatures;
             vacatures = _vacatureLogic.VacaturesOphalen();
             return View(vacatures);

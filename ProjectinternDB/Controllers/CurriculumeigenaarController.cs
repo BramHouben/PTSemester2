@@ -13,7 +13,7 @@ namespace ProjectinternDB.Controllers
     public class CurriculumeigenaarController : Controller
     {
         private MedewerkerLogic _medewerkerLogic = new MedewerkerLogic();
-
+        private AlgoritmeLogic algoritmeLogic = new AlgoritmeLogic();
         public IActionResult Index()
         {
             return View();
@@ -31,6 +31,12 @@ namespace ProjectinternDB.Controllers
             //TODO
             _medewerkerLogic.WijzigEenheid(eenheid);
             return RedirectToAction("OverzichtEenheden", "CurriculumEigenaar");
+        }
+
+        public IActionResult ActiverenSysteem()
+        {
+            _medewerkerLogic.ActiverenSysteen();
+            return View();
         }
     }
 }

@@ -19,5 +19,10 @@ namespace Logic
         {
             MedewerkerRepo.WijzigEenheid(eenheid);
         }
+
+        public void ActiverenSysteen()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

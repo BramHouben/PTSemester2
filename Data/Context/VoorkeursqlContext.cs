@@ -71,7 +71,7 @@ namespace Data.Context
 
             try
             {
-                using (SqlConnection conn = dbconn.SqlConnectie)
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
                     conn.Open();
 

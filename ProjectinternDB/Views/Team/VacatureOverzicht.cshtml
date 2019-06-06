@@ -44,7 +44,7 @@
                 @Html.DisplayFor(modelItem => item.OnderwijsTaakNaam)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditVacature", new {  id=item.VacatureID  }) |
+                @*@Html.ActionLink("Edit", "EditVacature", new {  id=item.VacatureID  }) |*@
                 @Html.ActionLink("Details", "VacatureDetails", new { id=item.VacatureID }) |
                 @Html.ActionLink("Delete", "DeleteVacature", new { id=item.VacatureID  },new { onclick = "return confirm('Weet u zeker dat u deze vacature wilt verwijderen');", @class = "delete-button" })
             </td>

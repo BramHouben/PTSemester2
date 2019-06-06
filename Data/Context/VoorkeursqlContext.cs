@@ -22,7 +22,8 @@ namespace Data.Context
             List<Voorkeur> vklistmodel = new List<Voorkeur>();
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("SELECT DocentID FROM Docent WHERE MedewerkerID = @MedewerkerID", con))
@@ -70,7 +71,7 @@ namespace Data.Context
 
             try
             {
-                using(SqlConnection conn = dbconn.GetConnString())
+                using (SqlConnection conn = dbconn.GetConnString())
                 {
                     conn.Open();
 
@@ -196,7 +197,7 @@ namespace Data.Context
         {
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =
@@ -254,7 +255,7 @@ namespace Data.Context
             var eenheden = new List<Eenheid>();
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =
@@ -293,7 +294,7 @@ namespace Data.Context
             var onderdelen = new List<Onderdeel>();
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =
@@ -332,7 +333,7 @@ namespace Data.Context
             var taken = new List<Taak>();
             try
             {
-                SqlConnection constring = dbconn.GetConnString();
+        
                 using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
@@ -373,7 +374,7 @@ namespace Data.Context
             string info = "";
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =
@@ -406,8 +407,8 @@ namespace Data.Context
             var List = new List<Medewerker>();
             try
             {
-                string constring = dbconn.ReturnConnectionString();
-                using (SqlConnection connectie = new SqlConnection(constring))
+      
+                using (SqlConnection connectie = dbconn.GetConnString())
                 {
                     connectie.Open();
                     using (SqlCommand getteam = new SqlCommand("select TeamID from Docent where MedewerkerID = @user_id", connectie))
@@ -572,7 +573,7 @@ namespace Data.Context
             var trajecten = new List<Traject>();
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =
@@ -606,10 +607,10 @@ namespace Data.Context
         public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
         {
             int count;
-            string constring = connectie.ConnectionString;
+
             try
             {
-                using (SqlConnection connectie = new SqlConnection(constring))
+                using (SqlConnection connectie = dbconn.GetConnString())
                 {
                     connectie.Open();
                     var cmdid = connectie.CreateCommand();
@@ -663,7 +664,7 @@ namespace Data.Context
             string constring = connectie.ConnectionString;
             try
             {
-                using (SqlConnection connectie = new SqlConnection(constring))
+                using (SqlConnection connectie =dbconn.GetConnString())
                 {
                     connectie.Open();
                     var cmdid = connectie.CreateCommand();
@@ -698,7 +699,7 @@ namespace Data.Context
             int tijd = 0;
             try
             {
-                using (SqlConnection con = dbconn.SqlConnectie)
+                using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
                     using (SqlCommand cmd =

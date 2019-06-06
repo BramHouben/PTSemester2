@@ -1,0 +1,47 @@
+﻿@using Model.Onderwijsdelen
+@model IEnumerable<Eenheid>
+@{
+    ViewData["Title"] = "OverzichtEenheden";
+}
+
+<h2>ECTS</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Eenheid</th>
+            <th>Traject</th>
+            <th>ECTS</th>
+            <th>Klassen</th>
+            <td colspan="2"></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EenheidId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EenheidNaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrajectNaam)
+                </td>
+
+                <td>
+                    <input type="number" asp-for="@item.ECTS" class="form-control" style="border: 2px solid black; border-radius: 4px;" />
+                </td>
+                <td>
+                    <input type="number" asp-for="@item.AantalKlassen" class="form-control" style="border: 2px solid black; border-radius: 4px;" />
+                </td>
+                <td>
+                    @Html.ActionLink("ECTS toewijzen", "WijzigEenheid", "CurriculumEigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ects = item.ECTS, klassen = item.AantalKlassen }, new { onclick = "return confirm('Weet u zeker dat u deze fixatie wilt verwijderen?');", @class = "delete-button" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

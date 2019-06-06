@@ -39,8 +39,8 @@
                         </ul>
                     </li>
                     <li class="nav-item"><a asp-area="" asp-controller="Voorkeur" asp-action="VoorkeurUitslag" class="nav-link">Bekwaam Voor</a></li>
-                    
-                    
+
+
                     <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="VacatureOverzicht" class="nav-link">Vacatures</a></li>
                     <li class="nav-item"><a asp-area="" asp-controller="team" asp-action="FixerenOverzicht" class="nav-link">Fixeren overzicht</a></li>
 
@@ -55,11 +55,19 @@
                     @*<li class="nav-item"><a asp-area="" asp-controller="team" asp-action="Fixeren" class="nav-link">Fixeren</a></li>*@
 
                 }
+
+                else if (User.IsInRole("CurriculumEigenaar"))
+                {
+                    <li class="nav-item"><a asp-area="" asp-controller="Curriculumeigenaar" asp-action="OverzichtEenheden" class="nav-link">Overzicht eenheden</a></li>
+                }
+
                 else if (User.IsInRole("Docent"))
                 {
                     <li class="nav-item"><a asp-area="" asp-controller="Voorkeur" asp-action="VoorkeurUitslag" class="nav-link">Bekwaam Voor</a></li>
 
                 }
+
+
             </ul>
 
             <partial name="_LoginPartial" />

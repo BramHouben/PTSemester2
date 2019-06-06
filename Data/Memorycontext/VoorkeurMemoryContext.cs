@@ -149,5 +149,10 @@ namespace Data.Context
         {
             throw new NotImplementedException();
         }
+
+        public Traject GetTrajectByID(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

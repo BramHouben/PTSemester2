@@ -49,6 +49,8 @@ namespace Logic
             return id;
         }
 
+        public Traject GetTrajectByID(int id) => VoorkeurRepo.GetTrajectByID(id);
+
         public List<Traject> GetTrajecten() => VoorkeurRepo.GetTrajecten();
 
         public List<Eenheid> GetEenhedenByTrajectId(int trajectId) => VoorkeurRepo.GetEenhedenByTrajectId(trajectId);

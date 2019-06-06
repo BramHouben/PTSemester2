@@ -17,6 +17,7 @@ namespace ProjectinternDB.Controllers
     public class VoorkeurController : Controller
     {
         private VoorkeurLogic _voorkeurLogic;
+        private TeamLogic _teamLogic = new TeamLogic();
 
         public VoorkeurController(IVoorkeurContext context)
         {
@@ -31,8 +32,10 @@ namespace ProjectinternDB.Controllers
         public IActionResult Voorkeur()
         {
             List<Traject> TrajectLijst = new List<Traject>();
-
-            TrajectLijst = _voorkeurLogic.GetTrajecten();
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int teamid = _teamLogic.HaalTeamIDOpMetString(id);
+            Traject traject = _voorkeurLogic.GetTrajectByID(teamid);
+            TrajectLijst.Add(traject);
 
             TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
 

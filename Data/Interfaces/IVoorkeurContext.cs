@@ -28,5 +28,6 @@ namespace Data
         void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id);
         Voorkeur GetVoorkeurInfo(int id);
         int GetTaakTijd(int taakId);
+        Traject GetTrajectByID(int id);
     }
 }   

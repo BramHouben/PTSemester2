@@ -70,7 +70,7 @@ namespace Data.Context
 
             try
             {
-                using (SqlConnection conn = dbconn.SqlConnectie)
+                using(SqlConnection conn = dbconn.GetConnString())
                 {
                     conn.Open();
 
@@ -241,8 +241,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException Fout)
             {
+                Console.WriteLine(Fout.Message);
             }
 
             return trajecten;
@@ -721,6 +722,39 @@ namespace Data.Context
                 Console.WriteLine(fout.Message);
             }
             return tijd;
+        }
+
+        public Traject GetTrajectByID(int id)
+        {
+            Traject traject = new Traject();
+            try
+            {
+                using (SqlConnection con = dbconn.SqlConnectie)
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("Select * FROM dbo.Traject WHERE TeamID = @id", con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+
+                                traject.TrajectId = (int)reader["TrajectId"];
+                                traject.TrajectNaam = reader["TrajectNaam"]?.ToString();
+                                
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+            }
+
+            return traject;
         }
     }
 }

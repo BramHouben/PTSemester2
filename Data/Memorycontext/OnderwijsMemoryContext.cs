@@ -6,6 +6,7 @@ using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
+    //TODO dubbel met Blokeigenaarlogic??
     public class OnderwijsMemoryContext : IOnderwijsContext
     {
         private List<Traject> _trajecten = new List<Traject>()
@@ -55,7 +56,15 @@ namespace Data.Context
 
         public string OnderwijstaakNaam(int id)
         {
-            throw new NotImplementedException();
+            foreach (Taak taak in _taken)
+            {
+                if (taak.TaakId == id)
+                {
+                    return taak.TaakNaam;
+                }
+            }
+
+            return null;
         }
 
         public List<Taak> TakenOphalen()
@@ -107,28 +116,37 @@ namespace Data.Context
                     correcteTaak = currentTaak;
                 }
             }
-
             return correcteTaak;
         }
 
         public void UpdateTaak(Taak taak)
         {
-            Taak taakToUpdate = TaakOphalen(taak.TaakId);
+        Taak taakToUpdate = TaakOphalen(taak.TaakId);
+        if (taak.Omschrijving != null)
+        {
             taakToUpdate.Omschrijving = taak.Omschrijving;
+        }
+
+        if (taak.TaakNaam != null)
+        {
             taakToUpdate.TaakNaam = taak.TaakNaam;
-            //taakToUpdate.OnderdeelNaam = taak.OnderdeelNaam;
-            string correcteOnderdeelNaam = null;
-            foreach (Onderdeel currentOnderdeel in _onderdelen)
-            {
-                if (currentOnderdeel.OnderdeelId == taak.OnderdeelId)
-                {
-                    correcteOnderdeelNaam = currentOnderdeel.OnderdeelNaam;
-                    break;
-                }
-            }
-            taakToUpdate.OnderdeelNaam = correcteOnderdeelNaam;
-            taakToUpdate.OnderdeelId = taak.OnderdeelId;
-            // TODO: neem OnderwijsID over en sla op
+        }
+
+        if (taak.BenodigdeUren != 0)
+        {
+            taakToUpdate.BenodigdeUren = taak.BenodigdeUren;
+        }
+
+        if (taak.AantalKlassen != 0)
+        {
+            taakToUpdate.AantalKlassen = taak.AantalKlassen;
+        }
+
+        if (taak.OnderdeelNaam != null)
+        {
+            taakToUpdate.OnderdeelNaam = taak.OnderdeelNaam;
+        }
+        // TODO: neem OnderwijsID over en sla op
         }
 
         public List<Traject> GetTrajecten()

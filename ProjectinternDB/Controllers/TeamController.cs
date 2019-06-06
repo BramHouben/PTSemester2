@@ -178,7 +178,7 @@ namespace ProjectinternDB.Controllers
             }
             catch
             {
-                return View();
+                return View("DocentenInTeam");
             }
         }
 

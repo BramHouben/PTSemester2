@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Data;
+using Data.Interfaces;
 using Model.Onderwijsdelen;
 
 namespace Logic
@@ -8,6 +9,14 @@ namespace Logic
     {
         private static OnderwijsRepository OnderwijsRepos = new OnderwijsRepository();
 
+        public BlokeigenaarLogic()
+        {
+
+        }
+        public BlokeigenaarLogic(IOnderwijsContext context)
+        {
+            OnderwijsRepos = new OnderwijsRepository(context);
+        }
         public void TaakAanmaken(Taak taak)
         {
             OnderwijsRepos.TaakOpslaan(taak);

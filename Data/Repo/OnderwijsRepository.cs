@@ -16,6 +16,11 @@ namespace Data
             _iOnderwijsContext = new OnderwijsSQLContext();
        }
 
+       public OnderwijsRepository(IOnderwijsContext context)
+       {
+           _iOnderwijsContext = context;
+       }
+
        public string OnderwijstaakNaam(int id)
        {
            return _iOnderwijsContext.OnderwijstaakNaam(id);

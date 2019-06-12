@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Data.Context;
+using Data.Interfaces;
 using Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model.Onderwijsdelen;
@@ -12,10 +13,13 @@ namespace UnitTest
     public class OnderwijsTest
     {
         OnderwijsLogic onderwijsLogic;
+        private IOnderwijsContext context;
+
         [TestInitialize]
         public void Init()
         {
-            onderwijsLogic = new OnderwijsLogic();
+            context = new OnderwijsMemoryContext();
+            onderwijsLogic = new OnderwijsLogic(context);
         }
 
         [TestMethod]
@@ -71,7 +75,7 @@ namespace UnitTest
             //Arrange
             Taak taak = new Taak {Omschrijving = "TestUpdate",AantalKlassen = 22,BenodigdeUren = 120, EenheidNaam = "TestUpdateEeenheidNaam",OnderdeelId = 1,OnderdeelNaam = "TestUpdateOnderdeelNaam",TaakId = 1,TaakNaam = "TestUpdateTaakNaam",TrajectNaam = "TestUpdateTrajectNaam"};
             //Act
-            BlokeigenaarLogic blokeigenaarLogic = new BlokeigenaarLogic();
+            BlokeigenaarLogic blokeigenaarLogic = new BlokeigenaarLogic(context);
             blokeigenaarLogic.UpdateTaak(taak);
             //Assert
             Assert.AreEqual(onderwijsLogic.TaakOphalen(1).Omschrijving,taak.Omschrijving);

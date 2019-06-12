@@ -177,7 +177,14 @@ namespace Data.Context
 
         public Traject GetTrajectByID(int id)
         {
-            throw new NotImplementedException();
+            foreach (Traject traject in trajecten)
+            {
+                if (traject.TrajectId == id)
+                {
+                    return traject;
+                }
+            }
+            return null;
         }
     }
     // TODO afmaken voorkeur Memory Context

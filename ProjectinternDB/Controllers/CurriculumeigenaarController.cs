@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Interfaces;
 using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,13 @@ namespace ProjectinternDB.Controllers
     public class CurriculumeigenaarController : Controller
     {
         private MedewerkerLogic _medewerkerLogic = new MedewerkerLogic();
-        private AlgoritmeLogic algoritmeLogic = new AlgoritmeLogic();
+        private AlgoritmeLogic algoritmeLogic;
+
+        public CurriculumeigenaarController(IAlgoritmeContext algoritmeContext)
+        {
+            algoritmeLogic = new AlgoritmeLogic(algoritmeContext);
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -35,8 +42,8 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult ActiverenSysteem()
         {
-          algoritmeLogic.ActiverenSysteen();
-            return View();
+            var result = algoritmeLogic.ActiverenSysteen();
+            return View(result);
         }
     }
 }

@@ -19,10 +19,5 @@ namespace Logic
         {
             MedewerkerRepo.WijzigEenheid(eenheid);
         }
-
-        public void ActiverenSysteen()
-        {
-            MedewerkerRepo.ActiverenSysteem();
-        }
     }
 }

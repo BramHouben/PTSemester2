@@ -13,6 +13,6 @@ namespace Model
 
       public int TaakID { get; set; }
 
-        public List <Docent> docents { get; set; }
+      public Docent Docent { get; set; }
     }
 }

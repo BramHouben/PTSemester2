@@ -2,45 +2,56 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using Data.Interfaces;
 using Model;
 
 namespace Data.Context
 {
-    class AlgoritmeSQLContext
+    public class AlgoritmeSQLContext : IAlgoritmeContext
     {
         private SqlConnection connectie { get; }
         private DBconn dbconn = new DBconn();
         private string _connectie;
-        internal List<Algoritme> ActiverenSysteem()
+
+        public List<Algoritme> ActiverenSysteem()
         {
-            Algoritme algoritme = new Algoritme();
-            string constring = connectie.ConnectionString;
             try
             {
+                List<Algoritme> algoritmes = new List<Algoritme>();
+
                 using (SqlConnection connectie = dbconn.GetConnString())
                 {
-             
-
-                    using (SqlCommand command = new SqlCommand("SELECT * FROM Bekwaamheid", connectie))
+                    connectie.Open();
+                    using (SqlCommand command = new SqlCommand("SELECT Eind.*, D.Naam, D.TeamID " +
+                                                               "FROM EindTabelAlgoritme as Eind " +
+                                                               "INNER JOIN Docent as D ON D.DocentID = eind.Docent_id", connectie))
                     {
-                        
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-
                             while (reader.Read())
                             {
+                                Docent docent = new Docent();
+                                docent.DocentId = (int)reader["Docent_id"];
+                                docent.TeamId = (int?)reader["TeamID"];
+                                docent.Naam = reader["Naam"].ToString();
+
+                                Algoritme algoritme = new Algoritme();
+                                algoritme.AlgoritmeId = (int)reader["Row_id"];
                                 algoritme.TaakID = (int)reader["Taak_id"];
-                                algoritme.t
+                                algoritme.Docent = docent;
+
+                                algoritmes.Add(algoritme);
                             }
                         }
                     }
                 }
+                return algoritmes;
             }
             catch (SqlException Ex)
             {
                 Console.WriteLine(Ex.Message);
+                throw new ArgumentException("Er is iets fout gegaan bij het ophalen van de data");
             }
-            
         }
     }
 }

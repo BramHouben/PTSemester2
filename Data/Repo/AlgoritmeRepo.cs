@@ -1,4 +1,5 @@
 ﻿using Data.Context;
+using Data.Interfaces;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,16 @@ namespace Data
 {
     public class AlgoritmeRepo
     {
-        private AlgoritmeSQLContext algoritmeSQLContext;
+        private IAlgoritmeContext algoritmeContext;
+
+        public AlgoritmeRepo(IAlgoritmeContext algoritmeContext)
+        {
+            this.algoritmeContext = algoritmeContext;
+        }
+
         public List<Algoritme> ActiverenSysteem()
         {
-          return  algoritmeSQLContext.ActiverenSysteem();
+          return algoritmeContext.ActiverenSysteem();
         }
     }
 }

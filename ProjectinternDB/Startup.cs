@@ -17,6 +17,7 @@ using ProjectinternDB.Models;
 using Data.Context;
 using Data;
 using Logic;
+using Data.Interfaces;
 
 namespace ProjectinternDB
 {
@@ -55,6 +56,7 @@ namespace ProjectinternDB
             //services.AddTransient<ApplicationDbContext>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IVoorkeurContext, VoorkeurSQLContext>();
+            services.AddScoped<IAlgoritmeContext, AlgoritmeSQLContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSession();
           

@@ -1,4 +1,5 @@
 ﻿using Data;
+using Data.Interfaces;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,16 @@ namespace Logic
 {
     public class AlgoritmeLogic
     {
-        private static AlgoritmeRepo algoritmeRepo = new AlgoritmeRepo();
+        private static AlgoritmeRepo algoritmeRepo;
 
-        public void ActiverenSysteen()
+        public AlgoritmeLogic(IAlgoritmeContext algoritmeContext)
         {
-            foreach (Algoritme algoritme in collection)
-            {
+            algoritmeRepo = new AlgoritmeRepo(algoritmeContext);
+        }
 
-            }
-            List<Algoritme> AlgoritmeUitslag = algoritmeRepo.ActiverenSysteem();
+        public List<Algoritme> ActiverenSysteen()
+        {
+            return algoritmeRepo.ActiverenSysteem();
         }
     }
 }

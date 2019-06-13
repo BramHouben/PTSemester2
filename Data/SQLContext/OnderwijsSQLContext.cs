@@ -46,6 +46,7 @@ namespace Data.Context
 
         public List<Taak> TakenOphalen()
         {
+            List<Taak> taken = new List<Taak>();
             try
             {
                 using (SqlConnection con = dbconn.GetConnString())
@@ -58,7 +59,6 @@ namespace Data.Context
                     {
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            List<Taak> taken = new List<Taak>();
                             while (reader.Read())
                             {
                                 Taak taak = new Taak();
@@ -70,12 +70,13 @@ namespace Data.Context
                                 taak.AantalKlassen = (int)reader["Aantal_Klassen"];
                                 taak.OnderdeelNaam = (string)reader["OnderdeelNaam"];
                                 taak.EenheidNaam = (string)reader["EenheidNaam"];
+                                taak.AantalBekwaam = AantalBekwaamOphalen(taak.TaakId);
                                 taken.Add(taak);
                             }
-                            return taken;
                         }
-
                     }
+
+                    
                 }
             }
             catch (SqlException Fout)
@@ -83,6 +84,41 @@ namespace Data.Context
                 Console.WriteLine(Fout.Message);
                 return null;
             }
+            return taken;
+        }
+
+        public int AantalBekwaamOphalen(int taakId)
+        {
+            int aantalTaken = 0;
+            try
+            {
+                using (SqlConnection con = dbconn.GetConnString())
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(B.Docent_id) AS AantalBekwaam " +
+                                                           "FROM Bekwaamheid B " +
+                                                           "INNER JOIN Taak T ON T.TaakId = B.TaakID " +
+                                                           "WHERE B.TaakID = @TaakID " +
+                                                           "GROUP BY B.TaakID", con))
+                    {
+                        cmd.Parameters.AddWithValue("@TaakID", taakId);
+                        
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                aantalTaken = (int) reader["AantalBekwaam"];
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException Fout)
+            {
+                Console.WriteLine(Fout.Message);
+                return 0;
+            }
+            return aantalTaken;
         }
 
         public void TaakToevoegen(Taak taak)

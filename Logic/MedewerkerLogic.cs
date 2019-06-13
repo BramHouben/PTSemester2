@@ -22,7 +22,7 @@ namespace Logic
 
         public void ActiverenSysteen()
         {
-            throw new NotImplementedException();
+            MedewerkerRepo.ActiverenSysteem();
         }
     }
 }

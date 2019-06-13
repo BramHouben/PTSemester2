@@ -25,7 +25,7 @@ namespace Data.Context
                     connectie.Open();
                     using (SqlCommand command = new SqlCommand("SELECT Eind.*, D.Naam, D.TeamID, T.TaakNaam " +
                                                                "FROM EindTabelAlgoritme as Eind " +
-                                                               "INNER JOIN Docent as D ON D.DocentID = eind.Docent_id " +
+                                                               "LEFT JOIN Docent as D ON D.DocentID = eind.Docent_id " +
                                                                "INNER JOIN Taak as T ON T.TaakId = Eind.Taak_id", connectie))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -33,8 +33,15 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 Docent docent = new Docent();
-                                docent.DocentId = (int?)reader["Docent_id"];
-                                docent.TeamId = (int?)reader["TeamID"];
+
+                                if (reader["Docent_id"] != System.DBNull.Value)
+                                {
+                                    docent.DocentId = (int?)reader["Docent_id"];
+                                }
+                                if (reader["TeamId"] != System.DBNull.Value)
+                                {
+                                    docent.TeamId = (int?)reader["TeamID"];
+                                }
                                 docent.Naam = reader["Naam"].ToString();
 
                                 Taak taak = new Taak();

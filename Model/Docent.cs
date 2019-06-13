@@ -6,7 +6,7 @@ namespace Model
 {
     public class Docent : Medewerker
     {
-        public Docent(int docentId, int? teamId, int ruimteVoorInzet, string naam)
+        public Docent(int? docentId, int? teamId, int ruimteVoorInzet, string naam)
         {
             DocentId = docentId;
             TeamId = teamId;

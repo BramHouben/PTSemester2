@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (var i = 21; i < 40; i++)
+        @for (var i = 0; i <= Model.Count(); i++)
         {
             @foreach (var item in Model.Where(e => e.Taak.TaakId == i))
             {
@@ -37,9 +37,7 @@
                 }
             }
             <tr style="background-color: #754675">
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="3"></td>
             </tr>
         }
     </tbody>

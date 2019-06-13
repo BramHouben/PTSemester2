@@ -17,6 +17,7 @@ using ProjectinternDB.Models;
 using Data.Context;
 using Data;
 using Logic;
+using Data.Interfaces;
 
 namespace ProjectinternDB
 {

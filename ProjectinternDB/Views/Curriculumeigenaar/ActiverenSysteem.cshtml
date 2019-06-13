@@ -1,7 +1,30 @@
-﻿
+﻿@using Model
+@model  IEnumerable<Algoritme>
+
 @{
     ViewData["Title"] = "ActiverenSysteem";
 }
 
 <h2>ActiverenSysteem</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Taak Id</th>
+            <th>Docent</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.AlgoritmeId</td>
+            <td>@item.TaakID</td>
+            <td>@item.Docent</td>
+            <td>TODO</td>
+        </tr>
+        }
+    </tbody>
+</table>
 

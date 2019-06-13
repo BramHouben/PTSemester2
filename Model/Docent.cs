@@ -6,7 +6,7 @@ namespace Model
 {
     public class Docent : Medewerker
     {
-        public Docent(int docentId, int teamId, int ruimteVoorInzet, string naam)
+        public Docent(int docentId, int? teamId, int ruimteVoorInzet, string naam)
         {
             DocentId = docentId;
             TeamId = teamId;
@@ -18,9 +18,13 @@ namespace Model
         {
         }
         public int DocentId { get; set; }
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
         public int RuimteVoorInzet { get; set; }
         //public string Naam { get; set; }
-       
+
+        public override string ToString()
+        {
+            return Naam;
+        }
     }
 }

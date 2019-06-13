@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using Data.Interfaces;
 using Model;
 
 namespace Data.Context
 {
-    public class AlgoritmeSQLContext
+    public class AlgoritmeSQLContext : IAlgoritmeContext
     {
         private SqlConnection connectie { get; }
         private DBconn dbconn = new DBconn();
         private string _connectie;
 
-        internal List<Algoritme> ActiverenSysteem()
+        public List<Algoritme> ActiverenSysteem()
         {
             try
             {
@@ -20,7 +21,8 @@ namespace Data.Context
 
                 using (SqlConnection connectie = dbconn.GetConnString())
                 {
-                    using (SqlCommand command = new SqlCommand("SELECT Eind.*, D.Naam " +
+                    connectie.Open();
+                    using (SqlCommand command = new SqlCommand("SELECT Eind.*, D.Naam, D.TeamID " +
                                                                "FROM EindTabelAlgoritme as Eind " +
                                                                "INNER JOIN Docent as D ON D.DocentID = eind.Docent_id", connectie))
                     {
@@ -30,7 +32,7 @@ namespace Data.Context
                             {
                                 Docent docent = new Docent();
                                 docent.DocentId = (int)reader["Docent_id"];
-                                docent.TeamId = (int)reader["TeamID"];
+                                docent.TeamId = (int?)reader["TeamID"];
                                 docent.Naam = reader["Naam"].ToString();
 
                                 Algoritme algoritme = new Algoritme();

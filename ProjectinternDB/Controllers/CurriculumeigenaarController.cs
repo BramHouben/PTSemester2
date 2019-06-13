@@ -42,8 +42,8 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult ActiverenSysteem()
         {
-          algoritmeLogic.ActiverenSysteen();
-            return View();
+            var result = algoritmeLogic.ActiverenSysteen();
+            return View(result);
         }
     }
 }

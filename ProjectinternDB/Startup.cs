@@ -55,6 +55,7 @@ namespace ProjectinternDB
             //services.AddTransient<ApplicationDbContext>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IVoorkeurContext, VoorkeurSQLContext>();
+            services.AddScoped<IAlgoritmeContext, AlgoritmeSQLContext>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSession();
           

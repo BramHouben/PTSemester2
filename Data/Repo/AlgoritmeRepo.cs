@@ -8,10 +8,16 @@ namespace Data
 {
     public class AlgoritmeRepo
     {
-        private AlgoritmeSQLContext algoritmeSQLContext;
+        private IAlgoritmeContext algoritmeContext;
+
+        public AlgoritmeRepo(IAlgoritmeContext algoritmeContext)
+        {
+            this.algoritmeContext = algoritmeContext;
+        }
+
         public List<Algoritme> ActiverenSysteem()
         {
-          return  algoritmeSQLContext.ActiverenSysteem();
+          return  IAlgoritmeContext.ActiverenSysteem();
         }
     }
 }

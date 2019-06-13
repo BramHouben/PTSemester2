@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Data;
+using Data.Interfaces;
 using Model.Onderwijsdelen;
 
 namespace Logic
@@ -13,6 +14,10 @@ namespace Logic
         public OnderwijsLogic()
         {
             _onderwijsRepository = new OnderwijsRepository();
+        }
+        public OnderwijsLogic(IOnderwijsContext context)
+        {
+            _onderwijsRepository = new OnderwijsRepository(context);
         }
         public string OnderwijstaakNaam(int id)
         {

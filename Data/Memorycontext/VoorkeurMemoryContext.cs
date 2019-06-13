@@ -11,7 +11,7 @@ namespace Data.Context
     public class VoorkeurMemoryContext : IVoorkeurContext
     {
         private List<Docent> docenten = new List<Docent>();
-        
+
         private List<Traject> trajecten;
         private List<Eenheid> eenheden;
         private List<Onderdeel> onderdelen;
@@ -19,7 +19,7 @@ namespace Data.Context
         private List<Voorkeur> voorkeuren;
         public VoorkeurMemoryContext()
         {
-            Docent docent1 = new Docent(1, 1, 400, "User1") {MedewerkerId = "User1"};
+            Docent docent1 = new Docent(1, 1, 400, "User1") { MedewerkerId = "User1" };
             docenten.Add(docent1);
             trajecten = new List<Traject>();
             docenten = new List<Docent>();
@@ -50,12 +50,12 @@ namespace Data.Context
 
         public void VoorkeurToevoegen(Voorkeur voorkeur, string id)
         {
-           voorkeuren.Add(voorkeur);
+            voorkeuren.Add(voorkeur);
         }
 
         public void DeleteVoorkeur(int id)
         {
-             voorkeuren.RemoveAll(X => X.Id == id);
+            voorkeuren.RemoveAll(X => X.Id == id);
         }
 
         public List<Traject> GetTrajecten()
@@ -127,32 +127,65 @@ namespace Data.Context
 
         public bool KijkVoorDubbel(Voorkeur voorkeur, string id)
         {
-            throw new NotImplementedException(); // TODO afmaken voorkeur Memory Context
+            //todo verbeteren
+            foreach (Voorkeur voorkeur1 in voorkeuren)
+            {
+                if (voorkeur.Id == voorkeur.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public List<Traject> GetTrajectenInzetbaar(string user_id)
         {
-            throw new NotImplementedException();
+            // inzetbaarheid trajecten wordt niet in traject opgeslagen
+            return null;
         }
 
         public void InvoegenTaakVoorkeur(int id, int prioriteit, string User_id)
         {
-            throw new NotImplementedException();
+            Voorkeur voorkeur = new Voorkeur();
+            voorkeur.Id = id;
+            // todo userid en prio?
+          
+            if (!KijkVoorDubbel(new Voorkeur(), User_id))
+            {
+               voorkeuren.Add(new Voorkeur());
+            }
         }
 
         public Voorkeur GetVoorkeurInfo(int id)
         {
-            throw new NotImplementedException();
+            foreach (Voorkeur voorkeur in voorkeuren)
+            {
+                if (voorkeur.Id == id)
+                {
+                    return voorkeur;
+                }
+            }
+
+            return null;
         }
 
         public int GetTaakTijd(int taakId)
         {
-            throw new NotImplementedException();
+            // Taak heeft geen tijd
+            return 0;
         }
 
         public Traject GetTrajectByID(int id)
         {
-            throw new NotImplementedException();
+            foreach (Traject traject in trajecten)
+            {
+                if (traject.TrajectId == id)
+                {
+                    return traject;
+                }
+            }
+            return null;
         }
     }
+    // TODO afmaken voorkeur Memory Context
 }

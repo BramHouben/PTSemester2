@@ -74,6 +74,7 @@ namespace Data.Context
 
         public void TaakToevoegen(Taak taak)
         {
+            bool dubbeletaak = false;
             string correcteOnderdeelNaam = null;
             foreach (Onderdeel currentOnderdeel in _onderdelen)
             {
@@ -84,7 +85,20 @@ namespace Data.Context
                 }
             }
             taak.OnderdeelNaam = correcteOnderdeelNaam;
-            _taken.Add(taak);
+
+            foreach (Taak taak1 in _taken)
+            {
+                if (taak1.TaakId == taak.TaakId)
+                {
+                    dubbeletaak = true;
+                }
+            }
+    
+            
+            if (!dubbeletaak)
+            {
+                _taken.Add(taak);
+            }
         }
 
         public void TaakVerwijderen(int id)
@@ -146,7 +160,7 @@ namespace Data.Context
         {
             taakToUpdate.OnderdeelNaam = taak.OnderdeelNaam;
         }
-        // TODO: neem OnderwijsID over en sla op
+
         }
 
         public List<Traject> GetTrajecten()

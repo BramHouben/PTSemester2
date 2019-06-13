@@ -5,7 +5,7 @@ using Model.Onderwijsdelen;
 
 namespace Data.Interfaces
 {
-    interface IOnderwijsContext
+    public interface IOnderwijsContext
     {
        string OnderwijstaakNaam(int id);
        List<Taak> TakenOphalen();

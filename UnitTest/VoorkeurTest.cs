@@ -162,6 +162,14 @@ namespace UnitTest
             //Assert
             Assert.AreEqual(true, value);
         }
+
+        [TestMethod]
+        public void KijkVoorDubbel()
+        {
+            Voorkeur voorkeur = new Voorkeur(343, "TestDubbel");
+            voorkeurLogic.AddVoorkeur("Testdubbel","TestDubbel", "TestDubbel","TestDubbel" ,"343");
+            Assert.IsTrue(voorkeurLogic.KijkenVoorDubbel("Testdubbel", "TestDubbel", "TestDubbel", "TestDubbel", "343"));
+        }
         // TODO afmaken VoorkeurTests
     }
 }

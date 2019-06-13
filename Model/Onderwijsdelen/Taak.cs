@@ -47,5 +47,10 @@ namespace Model.Onderwijsdelen
             OnderdeelNaam = onderdeelNaam;
             EenheidNaam = eenheidNaam;
         }
+
+        public override string ToString()
+        {
+            return TaakNaam;
+        }
     }
 }

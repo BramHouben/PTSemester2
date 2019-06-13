@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.Onderwijsdelen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Model
     {
      public int AlgoritmeId { get; set; }
 
-      public int TaakID { get; set; }
+      public Taak Taak { get; set; }
 
       public Docent Docent { get; set; }
     }

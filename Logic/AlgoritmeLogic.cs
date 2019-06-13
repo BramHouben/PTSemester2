@@ -1,9 +1,8 @@
 ﻿using Data;
 using Data.Interfaces;
 using Model;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Logic
 {

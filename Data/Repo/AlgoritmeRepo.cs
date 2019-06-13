@@ -1,4 +1,5 @@
 ﻿using Data.Context;
+using Data.Interfaces;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Data
 
         public List<Algoritme> ActiverenSysteem()
         {
-          return  IAlgoritmeContext.ActiverenSysteem();
+          return algoritmeContext.ActiverenSysteem();
         }
     }
 }

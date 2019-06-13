@@ -14,6 +14,7 @@ namespace Model.Onderwijsdelen
         public string Omschrijving { get; set; }
         public int BenodigdeUren { get; set; }
         public int AantalKlassen { get; set; }
+        public int AantalBekwaam { get; set; }
         public string TrajectNaam { get; set; }
         public string OnderdeelNaam { get; set; }
         public string EenheidNaam { get; set; }

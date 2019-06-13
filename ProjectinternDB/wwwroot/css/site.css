@@ -104,3 +104,9 @@ th {
 .noFlexGrow {
     flex-grow: inherit;
 }
+td.nietGenoegBekwaam {
+    color: red;
+}
+td.genoegBekwaam {
+    color: green;
+}

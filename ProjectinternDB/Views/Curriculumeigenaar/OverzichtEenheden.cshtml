@@ -1,5 +1,5 @@
 ﻿@using Model.Onderwijsdelen
-@model IEnumerable<Eenheid>
+@model Tuple<IEnumerable<Eenheid>, EenheidViewModel>
 @{
     ViewData["Title"] = "OverzichtEenheden";
 }
@@ -12,13 +12,11 @@
             <th>Id</th>
             <th>Eenheid</th>
             <th>Traject</th>
-            <th>ECTS</th>
-            <th>Klassen</th>
             <td colspan="2"></td>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Item1)
         {
             <tr>
                 <td>
@@ -30,15 +28,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.TrajectNaam)
                 </td>
-
                 <td>
-                    <input type="number" asp-for="@item.ECTS" class="form-control" style="border: 2px solid black; border-radius: 4px;" />
+                    <input type="number" asp-route-ECTS="@Model.Item2.ECTS" class="form-control" style="border: 1px solid black; border-radius: 1px;" />       
                 </td>
                 <td>
-                    <input type="number" asp-for="@item.AantalKlassen" class="form-control" style="border: 2px solid black; border-radius: 4px;" />
+                    <input type="number" asp-route-AantalKlassen="@Model.Item2.AantalKlassen" class="form-control" style="border: 1px solid black; border-radius: 1px;" />
                 </td>
                 <td>
-                    @Html.ActionLink("ECTS toewijzen", "WijzigEenheid", "CurriculumEigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ects = item.ECTS, klassen = item.AantalKlassen }, new { onclick = "return confirm('Weet u zeker dat u deze fixatie wilt verwijderen?');", @class = "delete-button" })
+                    @Html.ActionLink("ECTS toewijzen", "WijzigEenheid", "CurriculumEigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = Model.Item2.ECTS, AantalKlassen = Model.Item2.AantalKlassen}, new { onclick = "return confirm('Weet u zeker dat u deze eenheid wilt aanpassen?');", @class = "delete-button" })
                 </td>
             </tr>
         }

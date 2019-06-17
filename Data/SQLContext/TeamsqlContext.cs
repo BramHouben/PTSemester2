@@ -268,9 +268,9 @@ namespace Data.Context
 
                 }
             }
-            catch (SqlException Fout)
+            catch (Exception fout) when (fout is SqlException || fout is NullReferenceException)
             {
-                Console.WriteLine(Fout.Message);
+                Console.WriteLine(fout.Message);
             }
             return result;
         }

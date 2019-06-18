@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="alert-danger" asp-validation-summary="ModelOnly"></div>
                     <label class="control-label">Eenheid</label>
-                    <select class="form-control" id="EenheidId" name="EenheidId"
+                    <select class="form-control" id="EenheidId" name="EenheidId" min:"1" required="required"
                             asp-items="@(new SelectList(@ViewBag.EenhedenBlokeigenaar, "EenheidId", "EenheidNaam"))"></select>
                     <span asp-validation-for="EenheidId" class="text-danger"></span>
                 </div>
@@ -79,9 +79,8 @@
             <div class="form-group">
                 <div class="row">
                     <label class="control-label">Onderdeel</label>
-                    <select class="form-control" id="OnderdeelId" name="OnderdeelId"
+                    <select class="form-control" id="OnderdeelId" name="OnderdeelId" min:"1" required="required"
                             asp-items="@(new SelectList(string.Empty,"OnderdeelId", "OnderdeelNaam"))"></select>
-
                 </div>
             </div>
 
@@ -97,12 +96,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="BenodigdeUren" class="control-label"></label>
-                <input asp-for="BenodigdeUren" class="form-control" min="1" value="1"/>
+                <input asp-for="BenodigdeUren" class="form-control" min="1" value="1" />
                 <span asp-validation-for="BenodigdeUren" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AantalKlassen" class="control-label"></label>
-                <input asp-for="AantalKlassen" class="form-control" min="1" value="1"/>
+                <input asp-for="AantalKlassen" class="form-control" min="1" value="1" />
                 <span asp-validation-for="AantalKlassen" class="text-danger"></span>
             </div>
 

@@ -29,13 +29,13 @@
                     @Html.DisplayFor(modelItem => item.TrajectNaam)
                 </td>
                 <td>
-                    <input type="number" asp-route-ECTS="@Model.Item2.ECTS"  />       
+                    <input type="number" asp-route-ECTS="@item.ECTS" asp-for="@item.ECTS"  />       
                 </td>
                 <td>
-                    <input type="number" asp-route-AantalKlassen="@Model.Item2.AantalKlassen"  />
+                    <input type="number" asp-route-AantalKlassen="@item.AantalKlassen" asp-for="@item.AantalKlassen"  />
                 </td>
                 <td>
-                    @Html.ActionLink("ECTS toewijzen", "WijzigEenheid", "CurriculumEigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = Model.Item2.ECTS, AantalKlassen = Model.Item2.AantalKlassen}, new { onclick = "return confirm('Weet u zeker dat u deze eenheid wilt aanpassen?');", @class = "delete-button" })
+                    @Html.ActionLink("ECTS toewijzen", "WijzigEenheid", "CurriculumEigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = item.ECTS, AantalKlassen = item.AantalKlassen}, new { onclick = "return confirm('Weet u zeker dat u deze eenheid wilt aanpassen?');", @class = "delete-button" })
                 </td>
             </tr>
         }

@@ -52,5 +52,11 @@ namespace ProjectinternDB.Controllers
             var result = algoritmeLogic.ActiverenSysteen();
             return View(result);
         }
+
+        public IActionResult AlgoritmeActiveren()
+        {
+            algoritmeLogic.AlgoritmeStarten();
+            return RedirectToAction("ActiverenSysteem", "CurriculumEigenaar");
+        }
     }
 }

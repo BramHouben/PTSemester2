@@ -40,15 +40,7 @@
                     <button type="submit">Test</button>
                 }
                 </td>
-                <td>
-                    <input type="number" asp-route-ECTS="@Model.Item2.ECTS"/>       
-                </td>
-                <td>
-                    <input type="number" asp-route-AantalKlassen="@Model.Item2.AantalKlassen"  />
-                </td>
-                @*<td>
-                    @Html.ActionLink("ECTS toewijzen", "WijzigEenheid", "CurriculumEigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = Model.Item2.ECTS, AantalKlassen = Model.Item2.AantalKlassen}, new { onclick = "return confirm('Weet u zeker dat u deze eenheid wilt aanpassen?');", @class = "delete-button" })
-                </td>*@
+             
             </tr>
         }
     </tbody>

@@ -29,18 +29,18 @@
                     @Html.DisplayFor(modelItem => item.TrajectNaam)
                 </td>
                 <td>
-                @using (Html.BeginForm("WijzigEenheid", "Curriculumeigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = Model.Item2.ECTS, AantalKlassen = Model.Item2.AantalKlassen}, FormMethod.Post))
-                {
-                    @Html.DisplayFor(model => model.Item2.ECTS)
-                    @Html.TextBoxFor(model => model.Item2.ECTS)
-                    @Html.ValidationMessageFor(model => model.Item2.ECTS)
-                    @Html.DisplayFor(model => model.Item2.AantalKlassen)
-                    @Html.TextBoxFor(model => model.Item2.AantalKlassen)
-                    @Html.ValidationMessageFor(model => model.Item2.AantalKlassen)
-                    <button type="submit">Test</button>
-                }
+                    @using (Html.BeginForm("WijzigEenheid", "Curriculumeigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = Model.Item2.ECTS, AantalKlassen = Model.Item2.AantalKlassen }, FormMethod.Post))
+                    {
+                        @Html.DisplayNameFor(model => model.Item2.ECTS)
+                        @Html.TextBoxFor(model => model.Item2.ECTS)
+                        @Html.ValidationMessageFor(model => model.Item2.ECTS)
+                        @Html.DisplayNameFor(model => model.Item2.AantalKlassen)
+                        @Html.TextBoxFor(model => model.Item2.AantalKlassen)
+                        @Html.ValidationMessageFor(model => model.Item2.AantalKlassen)
+                        <button type="submit">Wijzig eenheid</button>
+                    }
                 </td>
-             
+
             </tr>
         }
     </tbody>

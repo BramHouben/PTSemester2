@@ -187,5 +187,4 @@ namespace Data.Context
             return null;
         }
     }
-    // TODO afmaken voorkeur Memory Context
 }

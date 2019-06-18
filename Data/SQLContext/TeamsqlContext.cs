@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 using Data.Interfaces;
 using Model;
@@ -40,9 +41,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch
+            catch (SqlException fout)
             {
-                Console.WriteLine("Geen gegevens in Team Tabel of SQL connectie error");
+                Debug.WriteLine(fout.Message);
             }
 
             foreach (Team team in teamList)
@@ -89,9 +90,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch
+            catch (SqlException fout)
             {
-                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk ontbreken er gegevens in de team tabel.");
+                Debug.WriteLine(fout.Message);
             }
             return docentList;
         }
@@ -111,9 +112,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch
+            catch (SqlException fout)
             {
-                Console.WriteLine("Er is iets misgegaan met het updaten van het Team id");
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -131,9 +132,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -158,9 +159,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch
+            catch (SqlException fout)
             {
-                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven teamleiderID.");
+                Debug.WriteLine(fout.Message);
             }
             return naam;
         }
@@ -193,9 +194,9 @@ namespace Data.Context
                 }
                 return team;
             }
-            catch
+            catch (SqlException fout)
             {
-                Console.WriteLine("Er is iets fout gegaan met de database connectie. Waarschijnlijk is er geen record met het opgegeven ID.");
+                Debug.WriteLine(fout.Message);
                 return null;
             }
         }
@@ -224,9 +225,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception fout)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(fout.Message);
             }
             return naam;
         }
@@ -246,9 +247,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -270,7 +271,7 @@ namespace Data.Context
             }
             catch (Exception fout) when (fout is SqlException || fout is NullReferenceException)
             {
-                Console.WriteLine(fout.Message);
+                Debug.WriteLine(fout.Message);
             }
             return result;
         }
@@ -304,9 +305,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
                 return null;
             }
             return docenten;
@@ -338,9 +339,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return taken;
@@ -377,9 +378,9 @@ namespace Data.Context
                 }
                 return docent;
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
                 return null;
             }
         }
@@ -409,9 +410,9 @@ namespace Data.Context
                 }
                 return taken;
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
                 return taken;
             }
         }

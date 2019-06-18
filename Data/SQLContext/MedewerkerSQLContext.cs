@@ -4,6 +4,7 @@ using Model;
 using Model.Onderwijsdelen;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Data.Context
 {
@@ -44,9 +45,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception fout)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(fout.Message);
                 return medewerker_new;
             }
             return medewerker_new;
@@ -86,9 +87,9 @@ namespace Data.Context
                 }
             }
 
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return eenheden;
@@ -123,9 +124,9 @@ namespace Data.Context
                 }
             }
 
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
     }

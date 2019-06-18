@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 using Data.Interfaces;
 using Model;
@@ -36,9 +37,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -59,9 +60,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch
+            catch (SqlException fout)
             {
-                Console.WriteLine("De gefixeerdetaak kan niet worden verwijderd, mogelijk is deze al verwijderd");
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -85,9 +86,9 @@ namespace Data.Context
                 }
             }
 
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -123,9 +124,9 @@ namespace Data.Context
                 }
             }
 
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return null;
@@ -162,9 +163,9 @@ namespace Data.Context
                 }
             }
 
-            catch (SqlException ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(ex.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return taak;

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Data.Interfaces;
 using Logic;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Onderwijsdelen;
+using ProjectinternDB.Models;
 
 namespace ProjectinternDB.Controllers
 {
@@ -28,13 +30,15 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult OverzichtEenheden()
         {
+            var model = new EenheidViewModel();
             var result = _medewerkerLogic.KrijgAlleEenheden();
-            return View(result);
+            var tuple = new Tuple<IEnumerable<Eenheid>, EenheidViewModel>(result, model);
+            return View(tuple);
         }
 
-        public IActionResult WijzigEenheid(int id, string eenheidNaam, string trajectNaam, int ects, int klassen)
+        public IActionResult WijzigEenheid(int id, string eenheidNaam, string trajectNaam, [FromQuery]int ECTS, [FromQuery]int AantalKlassen)
         {
-            Eenheid eenheid = new Eenheid(id, eenheidNaam, trajectNaam, ects, klassen);
+            Eenheid eenheid = new Eenheid(id, eenheidNaam, trajectNaam, ECTS, AantalKlassen);
             //TODO
             _medewerkerLogic.WijzigEenheid(eenheid);
             return RedirectToAction("OverzichtEenheden", "CurriculumEigenaar");

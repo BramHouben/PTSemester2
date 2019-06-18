@@ -407,15 +407,18 @@ namespace Data.Context
             var List = new List<Medewerker>();
             try
             {
-      
+
                 using (SqlConnection connectie = dbconn.GetConnString())
                 {
                     connectie.Open();
-                    using (SqlCommand getteam = new SqlCommand("select TeamID from Docent where MedewerkerID = @user_id", connectie))
+                    using (SqlCommand getteam =
+                        new SqlCommand("select TeamID from Docent where MedewerkerID = @user_id", connectie))
                     {
                         getteam.Parameters.AddWithValue("@user_id", user_id);
-                        int team_id = (int)getteam.ExecuteScalar();
-                        using (SqlCommand cmd = new SqlCommand("SELECT D.DocentID, D.TeamID, D.RuimteVoorInzet, D.MedewerkerID , (Asp.Voornaam + ' ' + Asp.Achternaam) AS Naam  FROM Docent D inner join AspNetUsers Asp ON D.MedewerkerID = Asp.Id where TeamID = @TeamID", connectie))
+                        int team_id = (int) getteam.ExecuteScalar();
+                        using (SqlCommand cmd = new SqlCommand(
+                            "SELECT D.DocentID, D.TeamID, D.RuimteVoorInzet, D.MedewerkerID , (Asp.Voornaam + ' ' + Asp.Achternaam) AS Naam  FROM Docent D inner join AspNetUsers Asp ON D.MedewerkerID = Asp.Id where TeamID = @TeamID",
+                            connectie))
                         {
                             cmd.Parameters.AddWithValue("@TeamID", team_id);
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -424,8 +427,8 @@ namespace Data.Context
                                 {
                                     var Info = new Medewerker
                                     {
-                                        MedewerkerId = (string)reader["MedewerkerID"],
-                                        Naam = (string)reader["Naam"],
+                                        MedewerkerId = (string) reader["MedewerkerID"],
+                                        Naam = (string) reader["Naam"],
                                     };
 
                                     List.Add(Info);
@@ -434,13 +437,16 @@ namespace Data.Context
                         }
                     }
                 }
-                return List;
             }
             catch (SqlException fout)
             {
                 Console.WriteLine(fout.Message);
-                return List;
             }
+            catch (InvalidCastException)
+            {
+                //geen record gevonden, geeft lege lijst terug
+                }
+            return List;
         }
 
         public bool KijkVoorDubbel(Voorkeur voorkeur, string id)

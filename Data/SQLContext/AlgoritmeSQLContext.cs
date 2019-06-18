@@ -33,8 +33,15 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 Docent docent = new Docent();
-                                docent.DocentId = (int?)reader["Docent_id"];
-                                docent.TeamId = (int?)reader["TeamID"];
+
+                                if (reader["Docent_id"] != System.DBNull.Value)
+                                {
+                                    docent.DocentId = (int?)reader["Docent_id"];
+                                }
+                                if (reader["TeamId"] != System.DBNull.Value)
+                                {
+                                    docent.TeamId = (int?)reader["TeamID"];
+                                }
                                 docent.Naam = reader["Naam"].ToString();
 
                                 Taak taak = new Taak();

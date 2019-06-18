@@ -12,28 +12,30 @@
             <th>Taak</th>
             <th>Docent</th>
             <th>Score</th>
-        </tr>
+        </tr>x
     </thead>
     <tbody>
-        @for (var i = 21; i < 40; i++)
+        @for (var i = 0; i < Model.Where(x=> x.Docent.DocentId != null).Count()-1; i++)
         {
-                @foreach (var item in Model.Where(e => e.Taak.TaakId == i))
+            @foreach (var item in Model.Where(e => e.Taak.TaakId == i))
+            {
+                @if (item.Docent.DocentId != null)
                 {
-                    @if (item.Docent.Naam != null)
-                    {
                     <tr>
                         <td>@item.Taak</td>
                         <td>@item.Docent</td>
                         <td>TODO</td>
                     </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="3" style="color: Red">0 resultaten</td>
-                        </tr>
-                    }
-                 }
+
+                }
+                else
+                {
+                    <tr>
+                        <td>@item.Taak</td>
+                        <td colspan="3" style="color: Red">0 resultaten</td>
+                    </tr>
+                }
+            }
             <tr style="background-color: #754675">
                 <td></td>
                 <td></td>

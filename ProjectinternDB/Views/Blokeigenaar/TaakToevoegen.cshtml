@@ -97,12 +97,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="BenodigdeUren" class="control-label"></label>
-                <input asp-for="BenodigdeUren" class="form-control" />
+                <input asp-for="BenodigdeUren" class="form-control" min="1" value="1"/>
                 <span asp-validation-for="BenodigdeUren" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AantalKlassen" class="control-label"></label>
-                <input asp-for="AantalKlassen" class="form-control" />
+                <input asp-for="AantalKlassen" class="form-control" min="1" value="1"/>
                 <span asp-validation-for="AantalKlassen" class="text-danger"></span>
             </div>
 

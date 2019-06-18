@@ -5,12 +5,18 @@
 }
 
 <h2>Docenten in uw team</h2>
-
 <p>
     <a asp-action="VoegDocentToeAanTeam">Voeg Docent Toe Aan Team</a>
 </p>
-<table >
-    <thead>
+@if (!Model.Any())
+{
+    <h3 class="text-danger">U heeft geen team of er zitten nog geen docenten in uw team</h3>
+}
+else
+{
+
+    <table >
+        <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.DocentId)
@@ -24,40 +30,42 @@
             <th>
                 @Html.DisplayNameFor(model => model.RuimteVoorInzet)
             </th>
-            
+
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naam)
-            </td>
-            @if (item.TeamId == 0)
-            {
-                <td>Deze persoon heeft nog geen Team</td>
-            }
-            else
-            {
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TeamId)
+                    @Html.DisplayFor(modelItem => item.DocentId)
                 </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-id="@item.DocentId">Edit</a> |*@
-                <a asp-action="DetailsDocent" asp-route-id="@item.DocentId">Details</a> |
-                <a asp-action="VerwijderUitTeam" asp-route-id="@item.DocentId">Verwijder docent uit Team</a> |
-                @*<a asp-action="Fixeren" asp-route-docentid="@item.DocentId">Fixeer</a>*@ 
-                @Html.ActionLink("Fixeer", "Fixeren", "Team", new { id = item.DocentId })
-            </td>
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Naam)
+                </td>
+                @if (item.TeamId == 0)
+                {
+                    <td>Deze persoon heeft nog geen Team</td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeamId)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.RuimteVoorInzet)
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.DocentId">Edit</a> |*@
+                    <a asp-action="DetailsDocent" asp-route-id="@item.DocentId">Details</a> |
+                    <a asp-action="VerwijderUitTeam" asp-route-id="@item.DocentId">Verwijder docent uit Team</a> |
+                    @*<a asp-action="Fixeren" asp-route-docentid="@item.DocentId">Fixeer</a>*@
+                    @Html.ActionLink("Fixeer", "Fixeren", "Team", new {id = item.DocentId})
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>

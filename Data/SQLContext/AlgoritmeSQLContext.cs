@@ -75,9 +75,9 @@ namespace Data.Context
                 }
                 return algoritmes;
             }
-            catch (SqlException Ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Ex.Message);
+                Debug.WriteLine(fout.Message);
                 throw new ArgumentException("Er is iets fout gegaan bij het ophalen van de data");
             }
         }

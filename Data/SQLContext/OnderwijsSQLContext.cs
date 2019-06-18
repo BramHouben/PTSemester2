@@ -136,8 +136,8 @@ namespace Data.Context
                     command.Parameters.AddWithValue("@Aantal_Klassen", taak.AantalKlassen);
 
                     command.CommandText =
-                        "INSERT INTO dbo.Taak (TaakNaam, OnderdeelId, Omschrijving, BenodigdeUren, Aantal_Klassen) " +
-                        "VALUES (@TaakNaam, @OnderdeelId, @Omschrijving, @BenodigdeUren, @Aantal_Klassen)";
+                        "INSERT INTO dbo.Taak (TaakNaam, OnderdeelId, Omschrijving, BenodigdeUren, Aantal_Klassen, TaakID)  " +
+                        "VALUES (@TaakNaam, @OnderdeelId, @Omschrijving, @BenodigdeUren, @Aantal_Klassen, (SELECT Coalesce(MAX(TaakId), 0) + 1 FROM TAAK))";
                     command.ExecuteNonQuery();
                 }
             }

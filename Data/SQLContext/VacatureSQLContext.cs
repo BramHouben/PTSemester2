@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 using Data.Interfaces;
 using Model;
@@ -11,7 +12,7 @@ namespace Data.Context
     class VacatureSQLContext : IVacatureContext
     {
         private DBconn dbconn = new DBconn();
-        // TODO ERROR Handling ???
+       
         public List<Vacature> VacaturesOphalen()
         {
             List<Vacature> vacatures = new List<Vacature>();
@@ -50,9 +51,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch
+            catch (SqlException fout)
             {
-                return new List<Vacature>();
+                Debug.WriteLine(fout.Message);
             }
             return vacatures;
         }
@@ -82,9 +83,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -108,7 +109,7 @@ namespace Data.Context
             }
             catch (SqlException fout)
             {
-                Console.WriteLine(fout.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -170,9 +171,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
-                
+                Debug.WriteLine(fout.Message);
             }
         }
     }

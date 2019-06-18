@@ -3,6 +3,7 @@ using Model.Onderwijsdelen;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Data.Context
 {
@@ -53,9 +54,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException error)
+            catch (SqlException fout)
             {
-                Console.WriteLine(error.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return vklistmodel;
@@ -189,7 +190,7 @@ namespace Data.Context
             }
             catch (SqlException fout)
             {
-                Console.WriteLine(fout.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -209,8 +210,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -242,9 +244,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return trajecten;
@@ -281,9 +283,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
-                return new List<Eenheid>();
+                Debug.WriteLine(fout.Message);
             }
 
             return eenheden;
@@ -320,9 +322,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
-                return new List<Onderdeel>();
+                Debug.WriteLine(fout.Message);
             }
 
             return onderdelen;
@@ -361,9 +363,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
-                return new List<Taak>();
+                Debug.WriteLine(fout.Message);
             }
 
             return taken;
@@ -392,14 +394,13 @@ namespace Data.Context
                         }
                     }
                 }
-
-                return info;
             }
             catch (SqlException fout)
             {
-                Console.WriteLine(fout.Message);
-                return "";
+                Debug.WriteLine(fout.Message);
             }
+
+            return info;
         }
 
         public List<Medewerker> GetDocentenList(string user_id)
@@ -440,12 +441,12 @@ namespace Data.Context
             }
             catch (SqlException fout)
             {
-                Console.WriteLine(fout.Message);
+                Debug.WriteLine(fout.Message);
             }
             catch (InvalidCastException)
             {
                 //geen record gevonden, geeft lege lijst terug
-                }
+            }
             return List;
         }
 
@@ -569,7 +570,7 @@ namespace Data.Context
             }
             catch (SqlException fout)
             {
-                Console.WriteLine(fout.Message);
+                Debug.WriteLine(fout.Message);
                 return false;
             }
         }
@@ -602,9 +603,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException)
+            catch (SqlException fout)
             {
-                return new List<Traject>();
+                Debug.WriteLine(fout.Message);
             }
 
             return trajecten;
@@ -658,9 +659,9 @@ namespace Data.Context
               
                 }
             }
-            catch (SqlException error)
+            catch (SqlException fout)
             {
-                Console.WriteLine(error.Message);
+                Debug.WriteLine(fout.Message);
             }
         }
 
@@ -693,9 +694,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Ex)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Ex.Message);
+                Debug.WriteLine(fout.Message);
             }
             return voorkeur;
         }
@@ -726,7 +727,7 @@ namespace Data.Context
             }
             catch (SqlException fout)
             {
-                Console.WriteLine(fout.Message);
+                Debug.WriteLine(fout.Message);
             }
             return tijd;
         }
@@ -756,9 +757,9 @@ namespace Data.Context
                     }
                 }
             }
-            catch (SqlException Fout)
+            catch (SqlException fout)
             {
-                Console.WriteLine(Fout.Message);
+                Debug.WriteLine(fout.Message);
             }
 
             return traject;

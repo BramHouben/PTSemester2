@@ -56,6 +56,7 @@ namespace ProjectinternDB.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Laten staan - Frits
         public ActionResult HaalGefixeerdeTakenOp()
         {
             int id = _teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -66,8 +67,7 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult VerwijderGefixeerdeTaak(int id)
         {
-            //TODO ID meegeven, werkt op een of andere fiets niet!
-            _fixerenLogic.VerwijderGefixeerdeTaak(id);
+      _fixerenLogic.VerwijderGefixeerdeTaak(id);
             return RedirectToAction("FixerenOverzicht");
         }
 
@@ -185,9 +185,7 @@ namespace ProjectinternDB.Controllers
         public IActionResult MaakVacature()
         {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // todo data ophalen
-            ViewBag.Taken = _teamLogic.HaalTakenOpVoorTeamleider(User_id);
-
+      ViewBag.Taken = _teamLogic.HaalTakenOpVoorTeamleider(User_id);
             return View();
         }
 

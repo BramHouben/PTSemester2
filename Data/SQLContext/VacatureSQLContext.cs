@@ -12,7 +12,7 @@ namespace Data.Context
     class VacatureSQLContext : IVacatureContext
     {
         private DBconn dbconn = new DBconn();
-        // TODO ERROR Handling ???
+       
         public List<Vacature> VacaturesOphalen()
         {
             List<Vacature> vacatures = new List<Vacature>();

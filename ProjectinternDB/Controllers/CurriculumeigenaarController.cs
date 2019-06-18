@@ -15,12 +15,13 @@ namespace ProjectinternDB.Controllers
     [Authorize(Roles = "CurriculumEigenaar")]
     public class CurriculumeigenaarController : Controller
     {
-        private MedewerkerLogic _medewerkerLogic = new MedewerkerLogic();
+        private MedewerkerLogic _medewerkerLogic;
         private AlgoritmeLogic algoritmeLogic;
 
         public CurriculumeigenaarController(IAlgoritmeContext algoritmeContext)
         {
             algoritmeLogic = new AlgoritmeLogic(algoritmeContext);
+            _medewerkerLogic = new MedewerkerLogic();
         }
 
         public IActionResult Index()
@@ -35,11 +36,13 @@ namespace ProjectinternDB.Controllers
             var tuple = new Tuple<IEnumerable<Eenheid>, EenheidViewModel>(result, model);
             return View(tuple);
         }
-
-        public IActionResult WijzigEenheid(int id, string eenheidNaam, string trajectNaam, [FromQuery]int ECTS, [FromQuery]int AantalKlassen)
+        [HttpPost]
+        public IActionResult WijzigEenheid(int id, string eenheidNaam, string trajectNaam, IFormCollection form)
         {
-            Eenheid eenheid = new Eenheid(id, eenheidNaam, trajectNaam, ECTS, AantalKlassen);
-            //TODO
+           int ECTS = Convert.ToInt32(form["Item2.ECTS"]);
+           int AantalKlassen = Convert.ToInt32(form["Item2.AantalKlassen"]);
+             Eenheid eenheid = new Eenheid(id, eenheidNaam, trajectNaam, ECTS, AantalKlassen);
+            
             _medewerkerLogic.WijzigEenheid(eenheid);
             return RedirectToAction("OverzichtEenheden", "CurriculumEigenaar");
         }

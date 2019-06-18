@@ -25,7 +25,7 @@ namespace Data.Context
                     connectie.Open();
                     using (SqlCommand command = new SqlCommand("SELECT Eind.*, D.Naam, D.TeamID, T.TaakNaam " +
                                                                "FROM EindTabelAlgoritme as Eind " +
-                                                               "INNER JOIN Docent as D ON D.DocentID = eind.Docent_id " +
+                                                               "LEFT JOIN Docent as D ON D.DocentID = eind.Docent_id " +
                                                                "INNER JOIN Taak as T ON T.TaakId = Eind.Taak_id", connectie))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())

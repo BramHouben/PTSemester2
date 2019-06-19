@@ -32,10 +32,10 @@
                     @using (Html.BeginForm("WijzigEenheid", "Curriculumeigenaar", new { id = item.EenheidId, eenheidNaam = item.EenheidNaam, trajectNaam = item.TrajectNaam, ECTS = Model.Item2.ECTS, AantalKlassen = Model.Item2.AantalKlassen }, FormMethod.Post))
                     {
                         @Html.DisplayNameFor(model => model.Item2.ECTS) <text> </text>
-                        @Html.EditorFor(model => model.Item2.ECTS, new { @type = "number", @min = "0", @step = "1" })
+                        @Html.EditorFor(model => model.Item2.ECTS, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @placeholder = item.ECTS } })
                         @Html.ValidationMessageFor(model => model.Item2.ECTS)
                         <text> Aantal Klassen </text>
-                        @Html.EditorFor(model => model.Item2.AantalKlassen, new { @type = "number", @min = "0", @step = "1"})
+                        @Html.EditorFor(model => model.Item2.AantalKlassen, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @placeholder = item.AantalKlassen } })
                         @Html.ValidationMessageFor(model => model.Item2.AantalKlassen)
                         <button type="submit" class="btn btn-default" style="color: black">Wijzig eenheid</button>
                     }
@@ -44,4 +44,3 @@
         }
     </tbody>
 </table>
-

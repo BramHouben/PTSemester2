@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Logic;
 using System.Collections.Generic;
 using System.Security.Claims;
+using Data.Context;
 using Microsoft.AspNetCore.Http;
 using Model;
 using Model.Onderwijsdelen;
@@ -16,17 +17,16 @@ namespace ProjectinternDB.Controllers
     {
 
         private BlokeigenaarLogic _blokeigenaarLogic = new BlokeigenaarLogic();
-
         public IActionResult Index()
         {
-            IEnumerable<Taak> taken = _blokeigenaarLogic.TakenOphalen();
+            IEnumerable<Taak> taken = _blokeigenaarLogic.TakenOphalen(1);
             return View(taken);
         }
 
         public IActionResult TaakToevoegen()
         {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+           
             List<Traject> TrajectLijst = new List<Traject>();
             TrajectLijst = _blokeigenaarLogic.GetTrajecten();
             TrajectLijst.Insert(0, new Traject { TrajectId = 0, TrajectNaam = "Select" });
@@ -77,8 +77,10 @@ namespace ProjectinternDB.Controllers
         {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
-            BEVmodel.Taak = _blokeigenaarLogic.TaakOphalen(id);
+            BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel
+            {
+                Taak = _blokeigenaarLogic.TaakOphalen(id)
+            };
 
             return View(BEVmodel);
         }

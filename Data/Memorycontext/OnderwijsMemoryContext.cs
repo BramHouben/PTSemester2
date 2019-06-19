@@ -67,7 +67,7 @@ namespace Data.Context
             return null;
         }
 
-        public List<Taak> TakenOphalen()
+        public List<Taak> TakenOphalen(int blokeigenaarID)
         {
             return _taken;
         }

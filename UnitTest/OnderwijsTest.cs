@@ -41,7 +41,7 @@ namespace UnitTest
             //act
 
             //assert
-            Assert.IsTrue(onderwijsLogic.TakenOphalen() != null);
+            Assert.IsTrue(onderwijsLogic.TakenOphalen(1) != null);
         }
 
         [TestMethod]

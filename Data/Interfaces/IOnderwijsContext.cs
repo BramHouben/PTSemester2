@@ -8,7 +8,7 @@ namespace Data.Interfaces
     public interface IOnderwijsContext
     {
        string OnderwijstaakNaam(int id);
-       List<Taak> TakenOphalen();
+       List<Taak> TakenOphalen(int blokeigenaarID);
 
        void TaakToevoegen(Taak taak);
 

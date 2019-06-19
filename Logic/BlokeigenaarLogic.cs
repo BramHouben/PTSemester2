@@ -22,9 +22,9 @@ namespace Logic
             OnderwijsRepos.TaakOpslaan(taak);
         }
 
-        public List<Taak> TakenOphalen()
+        public List<Taak> TakenOphalen(int blokeigenaarID)
         {
-            return OnderwijsRepos.TakenOphalen();
+            return OnderwijsRepos.TakenOphalen(blokeigenaarID);
         }
 
         public Taak TaakOphalen(int id)

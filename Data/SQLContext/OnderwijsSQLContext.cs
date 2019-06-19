@@ -44,7 +44,7 @@ namespace Data.Context
             }
         }
 
-        public List<Taak> TakenOphalen()
+        public List<Taak> TakenOphalen(int blokeigenaarID)
         {
             List<Taak> taken = new List<Taak>();
             try
@@ -52,11 +52,9 @@ namespace Data.Context
                 using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT T.*, E.EenheidNaam AS EenheidNaam, O.OnderdeelNaam AS OnderdeelNaam " +
-                                       "FROM Taak T " +
-                                       "INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId " +
-                                       "INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId ", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT T.*, E.EenheidNaam AS EenheidNaam, O.OnderdeelNaam AS OnderdeelNaam FROM Taak T INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId Left Join Blokeigenaar on Blokeigenaar.BlokeigenaarID = e.BlokeigenaarId WHERE Blokeigenaar.BlokeigenaarID = @ID", con))
                     {
+                        cmd.Parameters.AddWithValue("@ID", blokeigenaarID);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())

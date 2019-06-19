@@ -163,7 +163,7 @@ namespace Data.Context
 
         }
 
-        public List<Traject> GetTrajecten(int blokeigenaarID)
+        public List<Traject> GetTrajecten()
         {
             return _trajecten;
         }

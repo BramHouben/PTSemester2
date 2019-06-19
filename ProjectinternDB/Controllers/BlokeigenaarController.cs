@@ -77,8 +77,10 @@ namespace ProjectinternDB.Controllers
         {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel();
-            BEVmodel.Taak = _blokeigenaarLogic.TaakOphalen(id);
+            BlokeigenaarViewModel BEVmodel = new BlokeigenaarViewModel
+            {
+                Taak = _blokeigenaarLogic.TaakOphalen(id)
+            };
 
             return View(BEVmodel);
         }

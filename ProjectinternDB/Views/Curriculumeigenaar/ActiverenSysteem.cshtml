@@ -11,8 +11,8 @@
         <tr>
             <th>Taak</th>
             <th>Docent</th>
-            <th>Score</th>
-        </tr>x
+            @*<th>Score</th>*@
+        </tr>
     </thead>
     <tbody>
         @for (var i = 0; i < Model.Where(x=> x.Docent.DocentId != null).Count()-1; i++)
@@ -25,7 +25,7 @@
                        
                         <td>@item.Taak</td>
                         <td>@item.Docent</td>
-                        <td>TODO</td>
+                        @*<td>TODO</td>*@
                     </tr>
 
                 }
@@ -40,7 +40,7 @@
             <tr style="background-color: #754675">
                 <td></td>
                 <td></td>
-                <td></td>
+                @*<td></td>*@
             </tr>
         }
     </tbody>

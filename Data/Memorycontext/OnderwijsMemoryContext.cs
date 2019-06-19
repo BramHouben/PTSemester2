@@ -67,7 +67,7 @@ namespace Data.Context
             return null;
         }
 
-        public List<Taak> TakenOphalen()
+        public List<Taak> TakenOphalen(int blokeigenaarID)
         {
             return _taken;
         }
@@ -163,7 +163,7 @@ namespace Data.Context
 
         }
 
-        public List<Traject> GetTrajecten()
+        public List<Traject> GetTrajecten(int blokeigenaarID)
         {
             return _trajecten;
         }

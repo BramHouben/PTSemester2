@@ -100,7 +100,19 @@ namespace Data.Context
 
                         rowsAffected = cmd.ExecuteNonQuery();
                     }
+                    using (SqlCommand cmd = new SqlCommand("update Docent set RuimteVoorInzet = 600", Sqlconnectie))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
                 }
+
+
+
+
+
+
+
             }
             catch (SqlException fout)
             {

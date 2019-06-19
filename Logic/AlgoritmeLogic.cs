@@ -26,6 +26,7 @@ namespace Logic
         public void AlgoritmeStarten()
         {
             algoritmeRepo.DeleteTabel();
+            
             Indelen();
         }
 

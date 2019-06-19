@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using Data;
 using Data.Context;
 using Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
 using Model.Onderwijsdelen;
+using System.Collections.Generic;
 
 namespace UnitTest
 {
@@ -12,11 +11,13 @@ namespace UnitTest
     public class VoorkeurTest
     {
         private VoorkeurLogic voorkeurLogic;
+
         [TestInitialize]
         public void TestInitialize()
         {
             voorkeurLogic = new VoorkeurLogic(new VoorkeurMemoryContext());
         }
+
         [TestMethod]
         public void VoorkeurAanmakenOphalen()
         {
@@ -39,7 +40,7 @@ namespace UnitTest
                     voorkeur = voorkeurtemp;
                 }
             }
-            
+
             //Assert
             Assert.AreEqual(presetVoorkeur.EenheidNaam, voorkeur.EenheidNaam);
             Assert.AreEqual(presetVoorkeur.OnderdeelNaam, voorkeur.OnderdeelNaam);
@@ -122,9 +123,9 @@ namespace UnitTest
             //Act
             List<Taak> taken = voorkeurLogic.GetTakenByOnderdeelId(1);
             bool value = false;
-           foreach (Taak taak in taken)
+            foreach (Taak taak in taken)
             {
-               if (taak.TaakId == 1)
+                if (taak.TaakId == 1)
                 {
                     value = true;
                 }
@@ -137,7 +138,7 @@ namespace UnitTest
         public void TaakInfo()
         {
             //Arrange
-            
+
             //Act
 
             //Assert
@@ -150,7 +151,7 @@ namespace UnitTest
             //Arrange
 
             //Act
-          List<Medewerker> medewerkers = voorkeurLogic.GetDocentenList("1");
+            List<Medewerker> medewerkers = voorkeurLogic.GetDocentenList("1");
             bool value = false;
             foreach (Medewerker medewerker in medewerkers)
             {
@@ -167,9 +168,10 @@ namespace UnitTest
         public void KijkVoorDubbel()
         {
             Voorkeur voorkeur = new Voorkeur(343, "TestDubbel");
-            voorkeurLogic.AddVoorkeur("Testdubbel","TestDubbel", "TestDubbel","TestDubbel" ,"343");
+            voorkeurLogic.AddVoorkeur("Testdubbel", "TestDubbel", "TestDubbel", "TestDubbel", "343");
             Assert.IsTrue(voorkeurLogic.KijkenVoorDubbel("Testdubbel", "TestDubbel", "TestDubbel", "TestDubbel", "343"));
         }
+
         // TODO afmaken VoorkeurTests
     }
 }

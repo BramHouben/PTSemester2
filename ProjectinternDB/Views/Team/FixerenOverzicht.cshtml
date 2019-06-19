@@ -6,7 +6,7 @@
 
 <h2>FixerenOverzicht</h2>
 
-<table >
+<table>
     <thead>
         <tr>
             <th>
@@ -24,20 +24,20 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fix_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocentNaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaakNaam)
-            </td>
-            <td>
-                @Html.ActionLink("Fixatie verwijderen", "VerwijderGefixeerdeTaak", "Team", new { id = item.Fix_id }, new { onclick = "return confirm('Weet u zeker dat u deze fixatie wilt verwijderen?');", @class = "delete-button" })
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fix_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocentNaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaakNaam)
+                </td>
+                <td>
+                    @Html.ActionLink("Fixatie verwijderen", "VerwijderGefixeerdeTaak", "Team", new { id = item.Fix_id }, new { onclick = "return confirm('Weet u zeker dat u deze fixatie wilt verwijderen?');", @class = "delete-button" })
+                </td>
+            </tr>
         }
     </tbody>
 </table>

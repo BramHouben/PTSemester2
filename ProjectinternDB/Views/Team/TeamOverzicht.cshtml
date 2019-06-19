@@ -2,7 +2,7 @@
 @model IEnumerable<Model.Team>
 @{
     ViewData["Title"] = "Index";
-    // oud kan indien nodig weg
+
 }
 
 <h2>Index</h2>
@@ -10,7 +10,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table >
+<table>
     <thead>
         <tr>
             <th>
@@ -32,62 +32,62 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var team in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => team.TeamId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => team.TeamleiderID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => team.TeamleiderNaam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => team.CurriculumEigenaarID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => team.CurriculumEigenaarNaam)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {id = team.TeamId}) |
-                @Html.ActionLink("Details", "Details", new {id = team.TeamId}) |
-                @Html.ActionLink("Delete", "Delete", new {id = team.TeamId})
-            </td>
-        </tr>
-        //Table Header voor docent in team
-        <tr>
-            <th>
-               DocentID
-            </th>
-            <th>
-              Ruimte Voor Inzet
-            </th>
-            <th>
-               TeamID
-            </th>
-        </tr>
+        @foreach (var team in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => team.TeamId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => team.TeamleiderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => team.TeamleiderNaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => team.CurriculumEigenaarID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => team.CurriculumEigenaarNaam)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = team.TeamId }) |
+                    @Html.ActionLink("Details", "Details", new { id = team.TeamId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = team.TeamId })
+                </td>
+            </tr>
+            //Table Header voor docent in team
+            <tr>
+                <th>
+                    DocentID
+                </th>
+                <th>
+                    Ruimte Voor Inzet
+                </th>
+                <th>
+                    TeamID
+                </th>
+            </tr>
 
-        @foreach (var docent in team.Docenten)
-         {
-             <tr>
-                 <td>
-                     @Html.DisplayFor(modelItem => docent.DocentId)
-                 </td>
-                 <td>
-                     @Html.DisplayFor(modelItem => docent.RuimteVoorInzet)
-                 </td>
-                 <td>
-                     @Html.DisplayFor(modelItem => docent.TeamId)
-                 </td>
-                 <td>
-                     @Html.ActionLink("Edit", "EditDocent", new {id = docent.DocentId}) |
-                     @Html.ActionLink("Details", "DetailsDocent", new {id = docent.DocentId}) |
-                     @Html.ActionLink("Delete", "DeleteDocent", new {id = docent.DocentId})
-                 </td>
-             </tr>
-         }
-    }
+            @foreach (var docent in team.Docenten)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => docent.DocentId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => docent.RuimteVoorInzet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => docent.TeamId)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditDocent", new { id = docent.DocentId }) |
+                        @Html.ActionLink("Details", "DetailsDocent", new { id = docent.DocentId }) |
+                        @Html.ActionLink("Delete", "DeleteDocent", new { id = docent.DocentId })
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Onderwijsdelen;
 using ProjectinternDB.Models;
+using System;
+using System.Collections.Generic;
 
 namespace ProjectinternDB.Controllers
 {
@@ -36,13 +34,14 @@ namespace ProjectinternDB.Controllers
             var tuple = new Tuple<IEnumerable<Eenheid>, EenheidViewModel>(result, model);
             return View(tuple);
         }
+
         [HttpPost]
         public IActionResult WijzigEenheid(int id, string eenheidNaam, string trajectNaam, IFormCollection form)
         {
-           int ECTS = Convert.ToInt32(form["Item2.ECTS"]);
-           int AantalKlassen = Convert.ToInt32(form["Item2.AantalKlassen"]);
-             Eenheid eenheid = new Eenheid(id, eenheidNaam, trajectNaam, ECTS, AantalKlassen);
-            
+            int ECTS = Convert.ToInt32(form["Item2.ECTS"]);
+            int AantalKlassen = Convert.ToInt32(form["Item2.AantalKlassen"]);
+            Eenheid eenheid = new Eenheid(id, eenheidNaam, trajectNaam, ECTS, AantalKlassen);
+
             _medewerkerLogic.WijzigEenheid(eenheid);
             return RedirectToAction("OverzichtEenheden", "CurriculumEigenaar");
         }

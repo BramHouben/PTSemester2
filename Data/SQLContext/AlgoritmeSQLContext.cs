@@ -1,33 +1,27 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Model;
+using Model.AlgoritmeMap;
+using Model.Onderwijsdelen;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Text;
-using Data.Interfaces;
-using Model;
-using Model.AlgoritmeMap;
-using Model.Onderwijsdelen;
 
 namespace Data.Context
 {
     public class AlgoritmeSQLContext : IAlgoritmeContext
     {
-       
-        SqlConnection sqlConnection = new SqlConnection("Data Source=mssql.fhict.local;User ID=dbi410994;Password=Test123!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        string constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
-
-
         private SqlConnection connectie { get; }
         private DBconn dbconn = new DBconn();
         private string _connectie;
-
+        
+        public AlgoritmeSQLContext()
+        {
+            connectie = dbconn.GetConnString();
+        }
 
         private List<ATaak> taken = new List<ATaak>();
-
-
-
-
 
         public List<Algoritme> ActiverenSysteem()
         {
@@ -86,33 +80,24 @@ namespace Data.Context
         {
             try
             {
-                using (SqlConnection Sqlconnectie = new SqlConnection("Data Source=mssql.fhict.local;User ID=dbi410994;Password=Test123!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
+                _connectie = dbconn.ReturnConnectionString();
+
+                using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
                 {
-                    using (SqlCommand cmd = new SqlCommand())
+                    Sqlconnectie.Open();
+                    using (SqlCommand command = new SqlCommand("DeleteAlgoritmeTabel", Sqlconnectie))
                     {
-                        Int32 rowsAffected;
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.ExecuteNonQuery();
 
-                        cmd.CommandText = "DeleteAlgoritmeTabel";
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Connection = Sqlconnectie;
 
-                        Sqlconnectie.Open();
-
-                        rowsAffected = cmd.ExecuteNonQuery();
                     }
+                   
                     using (SqlCommand cmd = new SqlCommand("update Docent set RuimteVoorInzet = 600", Sqlconnectie))
                     {
                         cmd.ExecuteNonQuery();
                     }
-
                 }
-
-
-
-
-
-
-
             }
             catch (SqlException fout)
             {
@@ -120,47 +105,47 @@ namespace Data.Context
             }
         }
 
-        
-
         public List<ATaak> TakenOphalen()
         {
-     
-                taken = new List<ATaak>();
-                constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
-                using (SqlConnection con = new SqlConnection(constring))
-                {
-                    con.Open();
-                    using (var command = new SqlCommand("Select * From Taak", con))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                var taak = new ATaak();
-                                taak.TaakID = (int)reader["TaakID"];
-                                taak.TaakNaam = reader["TaakNaam"].ToString();
-                                taak.BenodigdeUren = (int)reader["BenodigdeUren"];
-                                taak.AantalKlassen = (int)reader["Aantal_Klassen"];
+            taken = new List<ATaak>();
+            _connectie = dbconn.ReturnConnectionString();
 
-                                taken.Add(taak);
-                            }
+            using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
+            {
+                Sqlconnectie.Open();
+                using (var command = new SqlCommand("Select * From Taak", Sqlconnectie))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var taak = new ATaak();
+                            taak.TaakID = (int)reader["TaakID"];
+                            taak.TaakNaam = reader["TaakNaam"].ToString();
+                            taak.BenodigdeUren = (int)reader["BenodigdeUren"];
+                            taak.AantalKlassen = (int)reader["Aantal_Klassen"];
+
+                            taken.Add(taak);
                         }
                     }
                 }
-                return taken;
             }
+            return taken;
+        }
 
         public List<ADocent> InzetbareDocenten(int taakID)
         {
             List<ADocent> docenten = new List<ADocent>();
-            constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
-            using (SqlConnection con = new SqlConnection(constring))
+
+            _connectie = dbconn.ReturnConnectionString();
+
+            using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
             {
-                con.Open();
+                Sqlconnectie.Open();
                 using (var command = new SqlCommand("SELECT D.* " +
                                                     "FROM Docent as D " +
                                                     "INNER JOIN Bekwaamheid as B ON D.DocentID = B.Docent_id " +
-                                                    "WHERE B.TaakID = @taakID", con))
+                                                    "WHERE B.TaakID = @taakID", Sqlconnectie))
                 {
                     command.Parameters.AddWithValue("@taakID", taakID);
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -186,11 +171,12 @@ namespace Data.Context
             List<AVoorkeur> voorkeuren = new List<AVoorkeur>();
             try
             {
-                constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
-                using (SqlConnection con = new SqlConnection(constring))
+                _connectie = dbconn.ReturnConnectionString();
+
+                using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
                 {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT b.TaakID, d.Prioriteit, b.Taak, t.BenodigdeUren, d.Ingedeeld,d.VoorkeurID from Bekwaamheid b inner join DocentVoorkeur d ON b.Bekwaam_Id = d.Bekwaamheid_id inner join Taak t ON b.TaakID = t.TaakID  WHERE d.DocentID = @docentID ", con))
+                    Sqlconnectie.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT b.TaakID, d.Prioriteit, b.Taak, t.BenodigdeUren, d.Ingedeeld,d.VoorkeurID from Bekwaamheid b inner join DocentVoorkeur d ON b.Bekwaam_Id = d.Bekwaamheid_id inner join Taak t ON b.TaakID = t.TaakID  WHERE d.DocentID = @docentID ", Sqlconnectie))
                     {
                         cmd.Parameters.AddWithValue("@docentID", docentID);
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -224,16 +210,16 @@ namespace Data.Context
             return voorkeuren;
         }
 
-        public  void ZetinDbNull(int taakID)
+        public void ZetinDbNull(int taakID)
         {
             try
             {
-                string constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+                _connectie = dbconn.ReturnConnectionString();
 
-                using (SqlConnection connectie = new SqlConnection(constring))
+                using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
                 {
-                    connectie.Open();
-                    using (SqlCommand command = new SqlCommand("insert into EindTabelAlgoritme (Taak_id, Docent_id) values (@taak_id,NULL)", connectie))
+                    Sqlconnectie.Open();
+                    using (SqlCommand command = new SqlCommand("insert into EindTabelAlgoritme (Taak_id, Docent_id) values (@taak_id,NULL)", Sqlconnectie))
                     {
                         command.Parameters.AddWithValue("@taak_id", taakID);
                         command.ExecuteNonQuery();
@@ -246,23 +232,22 @@ namespace Data.Context
             }
         }
 
-    
-
         public void ZetinDb(int docentID, int taakID)
         {
             try
             {
-                constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
-                using (SqlConnection con = new SqlConnection(constring))
+                _connectie = dbconn.ReturnConnectionString();
+
+                using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
                 {
-                    con.Open();
-                    using (SqlCommand command = new SqlCommand("insert into EindTabelAlgoritme (Docent_id, Taak_id) Values(@docent_id,@taak_id)", con))
+                    Sqlconnectie.Open();
+                    using (SqlCommand command = new SqlCommand("insert into EindTabelAlgoritme (Docent_id, Taak_id) Values(@docent_id,@taak_id)", Sqlconnectie))
                     {
                         command.Parameters.AddWithValue("@docent_id", docentID);
                         command.Parameters.AddWithValue("@taak_id", taakID);
                         command.ExecuteNonQuery();
                     }
-                    using (SqlCommand command = new SqlCommand("UPDATE Docent set RuimteVoorInzet = (SELECT RuimteVoorInzet FROM Docent WHERE DocentID = @docent_id) - (SELECT (BenodigdeUren / Aantal_Klassen) from taak where TaakId = @taak_id) where DocentID = @docent_id ", con))
+                    using (SqlCommand command = new SqlCommand("UPDATE Docent set RuimteVoorInzet = (SELECT RuimteVoorInzet FROM Docent WHERE DocentID = @docent_id) - (SELECT (BenodigdeUren / Aantal_Klassen) from taak where TaakId = @taak_id) where DocentID = @docent_id ", Sqlconnectie))
                     {
                         command.Parameters.AddWithValue("@docent_id", docentID);
                         command.Parameters.AddWithValue("@taak_id", taakID);
@@ -280,12 +265,12 @@ namespace Data.Context
         {
             try
             {
-                string constring = "Data Source = mssql.fhict.local; User ID = dbi410994; Password = Test123!; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+                _connectie = dbconn.ReturnConnectionString();
 
-                using (SqlConnection connectie = new SqlConnection(constring))
+                using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
                 {
-                    connectie.Open();
-                    using (SqlCommand command = new SqlCommand("update docentVoorkeur set ingedeeld=1 where DocentID= @docent_id and VoorkeurID = @voorkeur_id", connectie))
+                    Sqlconnectie.Open();
+                    using (SqlCommand command = new SqlCommand("update docentVoorkeur set ingedeeld=1 where DocentID= @docent_id and VoorkeurID = @voorkeur_id", Sqlconnectie))
                     {
                         command.Parameters.AddWithValue("@Voorkeur_id", iD);
                         command.Parameters.AddWithValue("@docent_id", docentID);
@@ -299,4 +284,4 @@ namespace Data.Context
             }
         }
     }
-    }
+}

@@ -1,33 +1,25 @@
-﻿using System;
-using System.Collections;
+﻿using Logic;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Model;
+using Model.Onderwijsdelen;
+using ProjectinternDB.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Logic;
-using Model;
-using ProjectinternDB.Models;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using Microsoft.AspNetCore.Authorization;
-using Model.Onderwijsdelen;
 
 namespace ProjectinternDB.Controllers
 {
     [Authorize(Roles = "Teamleider,Blokeigenaar")]
-
     public class TeamController : Controller
     {
         private TeamLogic _teamLogic = new TeamLogic();
         private VacatureLogic _vacatureLogic = new VacatureLogic();
         private FixerenLogic _fixerenLogic = new FixerenLogic();
         private OnderwijsLogic _onderwijsLogic = new OnderwijsLogic();
-       BlokeigenaarLogic _blokeigenaarLogic = new BlokeigenaarLogic();
+        private BlokeigenaarLogic _blokeigenaarLogic = new BlokeigenaarLogic();
 
         //public IActionResult TeamOverzicht()
         //{
@@ -36,7 +28,7 @@ namespace ProjectinternDB.Controllers
 
         //    return View(teams);
         //}
-    
+
         public IActionResult Fixeren(int id)
         {
             int ID = id;
@@ -46,7 +38,6 @@ namespace ProjectinternDB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
- 
         public ActionResult TaakFixeren(int id)
         {
             var taak = HttpContext.Request.Form["TaakId"];
@@ -67,7 +58,7 @@ namespace ProjectinternDB.Controllers
 
         public IActionResult VerwijderGefixeerdeTaak(int id)
         {
-      _fixerenLogic.VerwijderGefixeerdeTaak(id);
+            _fixerenLogic.VerwijderGefixeerdeTaak(id);
             return RedirectToAction("FixerenOverzicht");
         }
 
@@ -93,10 +84,9 @@ namespace ProjectinternDB.Controllers
         //    }
         //    return RedirectToAction("Index");
         //}
-      
+
         public IActionResult Index()
         {
-           
             var teams = new List<TeamViewModel>();
             int id = _teamLogic.HaalTeamIDOpMetString(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var team = _teamLogic.TeamOphalenMetID(id);
@@ -149,8 +139,6 @@ namespace ProjectinternDB.Controllers
             // Team selectedTeamteam = _teamLogic.TeamsOphalen()
         }
 
-
-
         public IActionResult VoegDocentToe()
         {
             // Haalt huidig teamid op
@@ -185,7 +173,7 @@ namespace ProjectinternDB.Controllers
         public IActionResult MaakVacature()
         {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-      ViewBag.Taken = _teamLogic.HaalTakenOpVoorTeamleider(User_id);
+            ViewBag.Taken = _teamLogic.HaalTakenOpVoorTeamleider(User_id);
             return View();
         }
 

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Model;
 using Model.Onderwijsdelen;
 using ProjectinternDB.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -91,6 +90,7 @@ namespace ProjectinternDB.Controllers
 
             return Json(taakinfo);
         }
+
         public JsonResult GetTaakTijd(int TaakId)
         {
             int Taaktijd = _voorkeurLogic.GetTaakTijd(TaakId);
@@ -114,24 +114,21 @@ namespace ProjectinternDB.Controllers
             var EenheidId = HttpContext.Request.Form["EenheidId"];
             var OnderdeelId = HttpContext.Request.Form["OnderdeelId"];
             var TaakId = HttpContext.Request.Form["TaakId"];
-         
+
             string eenheid = EenheidId;
             string onderdeel = OnderdeelId;
             string taak = TaakId;
             string id = persid;
-   
-          
-                if(_voorkeurLogic.KijkenVoorDubbel(objTraject.TrajectId, eenheid, onderdeel, taak, id)!= true) {
+
+            if (_voorkeurLogic.KijkenVoorDubbel(objTraject.TrajectId, eenheid, onderdeel, taak, id) != true)
+            {
                 return RedirectToAction("Voorkeur");
-                }
-                else
-                {
-                    _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, id);
-                    return RedirectToAction("Index");
-                }
-                
-             
-            
+            }
+            else
+            {
+                _voorkeurLogic.AddVoorkeur(objTraject.TrajectId, eenheid, onderdeel, taak, id);
+                return RedirectToAction("Index");
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -146,10 +143,8 @@ namespace ProjectinternDB.Controllers
             return RedirectToAction("Index");
         }
 
-
         public IActionResult PrioriteitGeven(int id)
         {
-
             VoorkeurViewModel VkModel = new VoorkeurViewModel();
             VkModel.BekwaamheidId = id;
             Voorkeur voorkeur = _voorkeurLogic.GetVoorkeurInfo(id);
@@ -157,14 +152,14 @@ namespace ProjectinternDB.Controllers
             VkModel.TrajectNaam = voorkeur.TrajectNaam;
             VkModel.Taak_naam = voorkeur.TaakNaam;
             VkModel.Onderdeel_naam = voorkeur.OnderdeelNaam;
-             //_voorkeurLogic.BekwaamInfo(id, BKModel);
+            //_voorkeurLogic.BekwaamInfo(id, BKModel);
             //var tupleData = new Tuple<int, Taak>(id, );
-
 
             return View(VkModel);
         }
+
         public IActionResult InvoegenVoorkeurDocent(int prioriteit, int id)
-        {           
+        {
             string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //int id = VKVmodel.Bekwaam_id;
             _voorkeurLogic.InvoegenTaakVoorkeur(id, prioriteit, User_id);

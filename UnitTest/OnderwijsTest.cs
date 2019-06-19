@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Data.Context;
+﻿using Data.Context;
 using Data.Interfaces;
 using Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,7 +9,7 @@ namespace UnitTest
     [TestClass]
     public class OnderwijsTest
     {
-        OnderwijsLogic onderwijsLogic;
+        private OnderwijsLogic onderwijsLogic;
         private IOnderwijsContext context;
 
         [TestInitialize]
@@ -34,22 +31,11 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TakenOphalen()
-        {
-            // arrange
-
-            //act
-
-            //assert
-            Assert.IsTrue(onderwijsLogic.TakenOphalen(1) != null);
-        }
-
-        [TestMethod]
         public void TaakToevoegen()
         {
             //Arrange
             Taak taak = new Taak(66, "Onderwijstaak");
-            Taak taak2 = new Taak(1, "Test");// bestaat al 
+            Taak taak2 = new Taak(1, "Test");// bestaat al
             //act
             onderwijsLogic.TaakAanmaken(taak);
             onderwijsLogic.TaakAanmaken(taak2);
@@ -66,23 +52,23 @@ namespace UnitTest
             //Act
             onderwijsLogic.TaakVerwijderen(1);
             //Assert
-            Assert.AreEqual(null,onderwijsLogic.TaakOphalen(1));
+            Assert.AreEqual(null, onderwijsLogic.TaakOphalen(1));
         }
 
         [TestMethod]
         public void UpdateTaak()
         {
             //Arrange
-            Taak taak = new Taak {Omschrijving = "TestUpdate",AantalKlassen = 22,BenodigdeUren = 120, EenheidNaam = "TestUpdateEeenheidNaam",OnderdeelId = 1,OnderdeelNaam = "TestUpdateOnderdeelNaam",TaakId = 1,TaakNaam = "TestUpdateTaakNaam",TrajectNaam = "TestUpdateTrajectNaam"};
+            Taak taak = new Taak { Omschrijving = "TestUpdate", AantalKlassen = 22, BenodigdeUren = 120, EenheidNaam = "TestUpdateEeenheidNaam", OnderdeelId = 1, OnderdeelNaam = "TestUpdateOnderdeelNaam", TaakId = 1, TaakNaam = "TestUpdateTaakNaam", TrajectNaam = "TestUpdateTrajectNaam" };
             //Act
             BlokeigenaarLogic blokeigenaarLogic = new BlokeigenaarLogic(context);
             blokeigenaarLogic.UpdateTaak(taak);
             //Assert
-            Assert.AreEqual(onderwijsLogic.TaakOphalen(1).Omschrijving,taak.Omschrijving);
+            Assert.AreEqual(onderwijsLogic.TaakOphalen(1).Omschrijving, taak.Omschrijving);
             Assert.AreEqual(onderwijsLogic.TaakOphalen(1).TaakNaam, taak.TaakNaam);
             Assert.AreEqual(onderwijsLogic.TaakOphalen(1).BenodigdeUren, taak.BenodigdeUren);
             Assert.AreEqual(onderwijsLogic.TaakOphalen(1).AantalKlassen, taak.AantalKlassen);
             Assert.AreEqual(onderwijsLogic.TaakOphalen(1).OnderdeelNaam, taak.OnderdeelNaam);
         }
-}
+    }
 }

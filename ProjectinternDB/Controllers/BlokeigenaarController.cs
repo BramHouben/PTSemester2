@@ -24,7 +24,7 @@ namespace ProjectinternDB.Controllers
 
             if (taken.Count == 0)
             {
-                TempData["TakenNull"] = "0 resultaten";
+                TempData["TakenNull"] = "U bent nog niet aan een eenheid gekoppeld!";
             }
             return View(taken);
         }

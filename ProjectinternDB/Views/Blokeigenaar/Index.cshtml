@@ -1,90 +1,90 @@
 ﻿@using Model.Onderwijsdelen
 @model IEnumerable<Taak>
 
-@{
+    @{
     ViewData["Title"] = "Index";
-}
-<h2>Index</h2>
+    }
+    <h2>Index</h2>
 
-<h4>Overzicht Taken</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Taak
-                    </th>
-                    <th>
-                        Onderdeel
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Omschrijving)
-                    </th>
-                    <th>
-                        Uren
-                    </th>
-                    <th>
-                        Aantal Klassen
-                    </th>
+    <h4>Overzicht Taken</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Taak
+                        </th>
+                        <th>
+                            Onderdeel
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Omschrijving)
+                        </th>
+                        <th>
+                            Uren
+                        </th>
+                        <th>
+                            Aantal Klassen
+                        </th>
 
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.TaakNaam)</td>
                         @if (item.OnderdeelId == 0)
                         {
-                            <td>Deze taak heeft nog geen onderdeel</td>
+                        <td>Deze taak heeft nog geen onderdeel</td>
                         }
                         else
                         {
-                            <td>@Html.DisplayFor(modelItem => item.OnderdeelNaam)</td>
+                        <td>@Html.DisplayFor(modelItem => item.OnderdeelNaam)</td>
                         }
                         @if (item.Omschrijving == null)
                         {
-                            <td>Deze taak heeft nog geen omschrijving</td>
+                        <td>Deze taak heeft nog geen omschrijving</td>
                         }
                         else
                         {
-                            <td>@Html.DisplayFor(modelItem => item.Omschrijving)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Omschrijving)</td>
                         }
                         <td>@Html.DisplayFor(modelItem => item.BenodigdeUren)</td>
                         @if (item.AantalBekwaam < item.AantalKlassen)
                         {
-                            <td class="nietGenoegBekwaam"><label title="Bekwaam: @Html.DisplayFor(modelItem => item.AantalBekwaam)"><i class="fas fa-exclamation-triangle"></i>  @Html.DisplayFor(modelItem => item.AantalKlassen)</label></td>
+                        <td class="nietGenoegBekwaam"><label title="Bekwaam: @Html.DisplayFor(modelItem => item.AantalBekwaam)"><i class="fas fa-exclamation-triangle"></i>  @Html.DisplayFor(modelItem => item.AantalKlassen)</label></td>
                         }
                         else
                         {
-                            <td class="genoegBekwaam"><label title="Bekwaam: @Html.DisplayFor(modelItem => item.AantalBekwaam)">@Html.DisplayFor(modelItem => item.AantalKlassen)</label></td>
+                        <td class="genoegBekwaam"><label title="Bekwaam: @Html.DisplayFor(modelItem => item.AantalBekwaam)">@Html.DisplayFor(modelItem => item.AantalKlassen)</label></td>
                         }
 
-
-                        @*<td>@Html.DisplayFor(modelItem => item.AantalBekwaam) / @Html.DisplayFor(modelItem => item.AantalKlassen)</td>*@ @*x = aantalbekwaam*@
+                        @*
+                        <td>@Html.DisplayFor(modelItem => item.AantalBekwaam) / @Html.DisplayFor(modelItem => item.AantalKlassen)</td>*@ @*x = aantalbekwaam*@
                         <td>
                             <a asp-action="EditTaak" asp-route-id="@item.TaakId">Edit</a> |
                             @{
-                                // TODO: Popup: weet je zeker dat je deze taak wilt verwijderen etc...
+                            // TODO: Popup: weet je zeker dat je deze taak wilt verwijderen etc...
                             }
                             <a asp-action="VerwijderTaak" asp-route-id="@item.TaakId">Verwijder</a>
                         </td>
                     </tr>
-                }
-            </tbody>
-        </table>
-        @if (TempData["TakenNull"] != null)
-        {
+                    }
+                </tbody>
+            </table>
+            @if (TempData["TakenNull"] != null)
+            {
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <p>@TempData["TakenNull"]</p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        }
-        <a asp-action="TaakToevoegen">Taak Toevoegen</a>
+            }
+            <a asp-action="TaakToevoegen">Taak Toevoegen</a>
+        </div>
     </div>
-</div>

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Data.Context;
+﻿using Data.Context;
 using Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;

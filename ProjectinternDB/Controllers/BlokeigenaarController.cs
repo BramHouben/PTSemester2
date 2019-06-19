@@ -19,7 +19,13 @@ namespace ProjectinternDB.Controllers
         private BlokeigenaarLogic _blokeigenaarLogic = new BlokeigenaarLogic();
         public IActionResult Index()
         {
-            IEnumerable<Taak> taken = _blokeigenaarLogic.TakenOphalen(1);
+            string User_id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<Taak> taken = _blokeigenaarLogic.TakenOphalen(User_id);
+
+            if (taken.Count == 0)
+            {
+                TempData["TakenNull"] = "0 resultaten";
+            }
             return View(taken);
         }
 

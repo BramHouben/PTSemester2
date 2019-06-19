@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text;
-using Data.Interfaces;
-using Model;
+﻿using Data.Interfaces;
 using Model.Onderwijsdelen;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Data.Context
 {
-    class OnderwijsSQLContext : IOnderwijsContext
+    internal class OnderwijsSQLContext : IOnderwijsContext
     {
         //private SqlConnection connectie;
         private DBconn dbconn = new DBconn();
@@ -26,7 +23,6 @@ namespace Data.Context
                         cmd.Parameters.AddWithValue("@TaakID", id);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            
                             string result = "";
                             if (reader.Read())
                             {
@@ -44,17 +40,24 @@ namespace Data.Context
             }
         }
 
-        public List<Taak> TakenOphalen(int blokeigenaarID)
+        public List<Taak> TakenOphalen(string userID)
         {
             List<Taak> taken = new List<Taak>();
+            var blokeigenaarID = 0;
             try
             {
                 using (SqlConnection con = dbconn.GetConnString())
                 {
                     con.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT T.*, E.EenheidNaam AS EenheidNaam, O.OnderdeelNaam AS OnderdeelNaam FROM Taak T INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId Left Join Blokeigenaar on Blokeigenaar.BlokeigenaarID = e.BlokeigenaarId WHERE Blokeigenaar.BlokeigenaarID = @ID", con))
+
+                    using (SqlCommand cmd = new SqlCommand("SELECT BlokeigenaarID FROM Blokeigenaar WHERE MedwerkerID = @id", con))
                     {
-                        cmd.Parameters.AddWithValue("@ID", blokeigenaarID);
+                        cmd.Parameters.Add(new SqlParameter("@id", userID));
+                        blokeigenaarID = (int)cmd.ExecuteScalar();
+                    }
+                    using (SqlCommand cmd = new SqlCommand("SELECT T.*, E.EenheidNaam AS EenheidNaam, O.OnderdeelNaam AS OnderdeelNaam FROM Taak T INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId Left Join Blokeigenaar on Blokeigenaar.BlokeigenaarID = e.BlokeigenaarId WHERE Blokeigenaar.BlokeigenaarID = @id", con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", blokeigenaarID);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -73,8 +76,6 @@ namespace Data.Context
                             }
                         }
                     }
-
-                    
                 }
             }
             catch (SqlException Fout)
@@ -100,12 +101,12 @@ namespace Data.Context
                                                            "GROUP BY B.TaakID", con))
                     {
                         cmd.Parameters.AddWithValue("@TaakID", taakId);
-                        
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                aantalTaken = (int) reader["AantalBekwaam"];
+                                aantalTaken = (int)reader["AantalBekwaam"];
                             }
                         }
                     }
@@ -187,11 +188,11 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 taak.TaakId = id;
-                                taak.TaakNaam = (string) reader["TaakNaam"];
-                                taak.OnderdeelId = (int) reader["OnderdeelId"];
-                                taak.Omschrijving = (string) reader["Omschrijving"];
-                                taak.BenodigdeUren = (int) reader["BenodigdeUren"];
-                                taak.AantalKlassen = (int) reader["Aantal_Klassen"];
+                                taak.TaakNaam = (string)reader["TaakNaam"];
+                                taak.OnderdeelId = (int)reader["OnderdeelId"];
+                                taak.Omschrijving = (string)reader["Omschrijving"];
+                                taak.BenodigdeUren = (int)reader["BenodigdeUren"];
+                                taak.AantalKlassen = (int)reader["Aantal_Klassen"];
                                 taak.OnderdeelNaam = (string)reader["OnderdeelNaam"];
                                 taak.EenheidNaam = (string)reader["EenheidNaam"];
                             }
@@ -236,7 +237,6 @@ namespace Data.Context
             catch (Exception e)
             {
                 Console.WriteLine(e);
-    
             }
         }
 
@@ -255,8 +255,8 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 Traject traject = new Traject();
-                                traject.TrajectId = (int) reader["TrajectId"];
-                                traject.TrajectNaam = (string) reader["TrajectNaam"];
+                                traject.TrajectId = (int)reader["TrajectId"];
+                                traject.TrajectNaam = (string)reader["TrajectNaam"];
                                 trajecten.Add(traject);
                             }
                         }
@@ -288,8 +288,8 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 Eenheid eenheid = new Eenheid();
-                                eenheid.EenheidId = (int) reader["EenheidId"];
-                                eenheid.EenheidNaam = (string) reader["EenheidNaam"];
+                                eenheid.EenheidId = (int)reader["EenheidId"];
+                                eenheid.EenheidNaam = (string)reader["EenheidNaam"];
                                 eenheid.TrajectId = trajectId;
                                 eenheden.Add(eenheid);
                             }
@@ -321,8 +321,8 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 Onderdeel onderdeel = new Onderdeel();
-                                onderdeel.OnderdeelId = (int) reader["OnderdeelId"];
-                                onderdeel.OnderdeelNaam = (string) reader["OnderdeelNaam"];
+                                onderdeel.OnderdeelId = (int)reader["OnderdeelId"];
+                                onderdeel.OnderdeelNaam = (string)reader["OnderdeelNaam"];
                                 onderdeel.EenheidId = eenheidId;
                                 onderdelen.Add(onderdeel);
                             }
@@ -354,10 +354,10 @@ namespace Data.Context
                             while (reader.Read())
                             {
                                 Taak taak = new Taak();
-                                taak.TaakId = (int) reader["TaakId"];
-                                taak.TaakNaam = (string) reader["TaakNaam"];
+                                taak.TaakId = (int)reader["TaakId"];
+                                taak.TaakNaam = (string)reader["TaakNaam"];
                                 taak.OnderdeelId = onderdeelId;
-                                taak.Omschrijving = (string) reader["Omschrijving"];
+                                taak.Omschrijving = (string)reader["Omschrijving"];
                                 taken.Add(taak);
                             }
                         }
@@ -398,7 +398,7 @@ namespace Data.Context
                                 Eenheid eenheid = new Eenheid();
                                 eenheid.EenheidId = (int)reader["EenheidId"];
                                 eenheid.EenheidNaam = (string)reader["EenheidNaam"];
-                                eenheid.TrajectId = (int) reader["TrajectId"];
+                                eenheid.TrajectId = (int)reader["TrajectId"];
                                 eenhedenBlokeigenaar.Add(eenheid);
                             }
                         }
@@ -411,6 +411,5 @@ namespace Data.Context
             }
             return eenhedenBlokeigenaar;
         }
-
     }
 }

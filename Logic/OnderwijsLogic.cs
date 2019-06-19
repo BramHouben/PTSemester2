@@ -24,7 +24,7 @@ namespace Logic
             return _onderwijsRepository.OnderwijstaakNaam(id);
         }
 
-        public List<Taak> TakenOphalen(int blokeigenaarID)
+        public List<Taak> TakenOphalen(string blokeigenaarID)
         {
             return _onderwijsRepository.TakenOphalen(blokeigenaarID);
         }

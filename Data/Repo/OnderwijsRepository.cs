@@ -26,7 +26,7 @@ namespace Data
            return _iOnderwijsContext.OnderwijstaakNaam(id);
        }
 
-       public List<Taak> TakenOphalen(int blokeigenaarID)
+       public List<Taak> TakenOphalen(string blokeigenaarID)
        {
            return _iOnderwijsContext.TakenOphalen(blokeigenaarID);
        }

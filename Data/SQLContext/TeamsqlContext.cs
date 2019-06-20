@@ -81,8 +81,15 @@ namespace Data.Context
                                 {
                                     docent.RuimteVoorInzet = (int)reader["RuimteVoorInzet"];
                                 }
-                                docent.Naam = (string)reader["Naam"];
 
+                                if (DBNull.Value.Equals(reader["Naam"]))
+                                {
+                                    docent.Naam = "Geen naam opgegeven";
+                                }
+                                else
+                                {
+                                    docent.Naam = (string)reader["Naam"];
+                                }
                                 //docent.MedewerkerId = (string) reader["MedewerkerID"];
                                 docentList.Add(docent);
                             }
@@ -362,10 +369,18 @@ namespace Data.Context
                         {
                             if (reader.Read())
                             {
-                                docent = new Docent { DocentId = (int)reader["DocentID"], Naam = (string)reader["Naam"] };
+                                docent = new Docent { DocentId = (int)reader["DocentID"] };
                                 if (!(DBNull.Value.Equals(reader["TeamID"])))
                                 {
                                     docent.TeamId = (int)reader["TeamID"];
+                                }
+                                if (!(DBNull.Value.Equals(reader["Naam"])))
+                                {
+                                    docent.Naam = (string) reader["Naam"];
+                                }
+                                else
+                                {
+                                    docent.Naam = "Geen naam opgegeven";
                                 }
 
                                 if (!(DBNull.Value.Equals(reader["RuimteVoorInzet"])))

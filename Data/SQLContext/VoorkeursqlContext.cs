@@ -429,9 +429,17 @@ namespace Data.Context
                                     var Info = new Medewerker
                                     {
                                         MedewerkerId = (string) reader["MedewerkerID"],
-                                        Naam = (string) reader["Naam"],
+                                        
                                     };
-
+                                    if (DBNull.Value.Equals(reader["Naam"]))
+                                    {
+                                        Info.Naam = "Geen naam opgegeven";
+                                    }
+                                    else
+                                    {
+                                        Info.Naam = (string) reader["Naam"];
+                                    }
+                                    
                                     List.Add(Info);
                                 }
                             }

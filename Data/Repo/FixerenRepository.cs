@@ -17,7 +17,7 @@ namespace Data
         public void TaakFixerenMetDocentID(int docentID, int taakID) => FixerenContext.TaakFixerenMetDocentID(docentID, taakID);
         public void VerwijderGefixeerdeTaak(int fid) => FixerenContext.VerwijderGefixeerdeTaak(fid);
         public void VeranderGefixeerdeTaak(int taakID, int docentID) => FixerenContext.VeranderGefixeerdeTaak(taakID, docentID);
-        public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp() => FixerenContext.HaalAlleGefixeerdeTakenOp();
+        public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp(string id) => FixerenContext.HaalAlleGefixeerdeTakenOp(id);
         public GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int Fix_id) => FixerenContext.HaalGefixeerdeTaakOpMetID(Fix_id);
     }
 }

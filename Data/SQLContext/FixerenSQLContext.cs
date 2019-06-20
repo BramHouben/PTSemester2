@@ -92,9 +92,11 @@ namespace Data.Context
             }
         }
 
-        public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp()
+        public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp(string id)
         {
             List<GefixeerdeTaak> GefixeerdeTaken = new List<GefixeerdeTaak>();
+            var teamId = 0;
+
             try
             {
                 _connectie = dbconn.ReturnConnectionString();
@@ -104,8 +106,18 @@ namespace Data.Context
                     conn.Open();
 
                     using (SqlCommand cmd = new SqlCommand(
-                        "SELECT F.*, T.TaakNaam, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN Taak T ON T.TaakId = F.Taak_id ORDER BY F.DocentID ASC", conn))
+                        "SELECT T.TeamID FROM Team T INNER JOIN TeamLeider TL ON TL.TeamLeiderID=T.TeamLeiderID WHERE TL.MedewerkerID=@id", conn))
                     {
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+                        teamId = (int)cmd.ExecuteScalar();
+                    }
+
+
+                    using (SqlCommand cmd = new SqlCommand(
+                        "SELECT F.*, T.TaakNaam, (ANU.Voornaam + ' ' + ANU.Achternaam) as Naam FROM [dbo].[GefixeerdeTaken] F INNER JOIN [dbo].[Docent] D ON F.DocentID = D.DocentID INNER JOIN [dbo].[AspNetUsers] ANU ON D.MedewerkerID = ANU.Id INNER JOIN Taak T ON T.TaakId = F.Taak_id INNER JOIN Onderdeel O ON O.OnderdeelId = T.OnderdeelId INNER JOIN Eenheid E ON E.EenheidId = O.EenheidId INNER JOIN Traject TRJ ON TRJ.TrajectId = E.TrajectId WHERE TRJ.TeamID = @id ORDER BY F.DocentID ASC", conn))
+                    {
+                        cmd.Parameters.Add(new SqlParameter("@id", teamId));
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())

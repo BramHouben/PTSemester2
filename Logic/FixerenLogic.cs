@@ -27,9 +27,9 @@ namespace Logic
             FixerenRepo.VeranderGefixeerdeTaak(taakID, docentID);
         }
 
-        public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp()
+        public List<GefixeerdeTaak> HaalAlleGefixeerdeTakenOp(string id)
         {
-            return FixerenRepo.HaalAlleGefixeerdeTakenOp();
+            return FixerenRepo.HaalAlleGefixeerdeTakenOp(id);
         }
 
         public GefixeerdeTaak HaalGefixeerdeTaakOpMetID(int Fix_id)

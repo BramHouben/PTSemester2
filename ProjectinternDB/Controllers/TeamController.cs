@@ -64,7 +64,8 @@ namespace ProjectinternDB.Controllers
 
         public ActionResult FixerenOverzicht()
         {
-            var result = _fixerenLogic.HaalAlleGefixeerdeTakenOp();
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = _fixerenLogic.HaalAlleGefixeerdeTakenOp(id);
             return View(result);
         }
 

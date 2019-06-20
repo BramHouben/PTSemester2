@@ -504,7 +504,7 @@ namespace Data.Context
                     using (SqlCommand cmdTaak =
                         new SqlCommand("SELECT TaakNaam FROM Taak WHERE TaakId = @voorkeurTaakNaam", con))
                     {
-                        cmdTaak.Parameters.AddWithValue("@voorkeurTaakNaam", voorkeur.TaakNaam);
+                        cmdTaak.Parameters.AddWithValue("@voorkeurTaakNaam", resultTaak);
                         using (SqlDataReader reader = cmdTaak.ExecuteReader())
                         {
                             if (reader.Read())

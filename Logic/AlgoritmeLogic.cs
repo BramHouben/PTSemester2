@@ -22,16 +22,37 @@ namespace Logic
             return algoritmeRepo.ActiverenSysteem();
         }
 
+        private List<int> OphalenGefixeerdeTakenID()
+        {
+            return algoritmeRepo.OphalenGefixeerdeTakenID();
+        }
+        
+        private void GefixeerdeDocentenToevoegen()
+        {
+            
+            foreach(int TaakID in OphalenGefixeerdeTakenID())
+            {
+               foreach(int docentID in algoritmeRepo.DocentenIDsOphalenMetTaakID(TaakID))
+               {
+                    algoritmeRepo.GefixeerdeLijstDoorvoeren(docentID, TaakID);
+               }
+            }
+        }
+
+        private void GefixeerdeMensenInvoeren()
+        {
+            GefixeerdeDocentenToevoegen();
+        }
 
         public void AlgoritmeStarten()
         {
             algoritmeRepo.DeleteTabel();
-            
             Indelen();
         }
 
         public void Indelen()
         {
+            GefixeerdeMensenInvoeren();
             foreach (var taak in algoritmeRepo.TakenOphalen())
             {
                 List<ADocent> DocentenScores = new List<ADocent>();
@@ -49,16 +70,9 @@ namespace Logic
                 List<ADocent> GesorteerdeDocentenScores = DocentenScores.OrderByDescending(o => o.Score).ToList();
                 for (int klas = 0; klas < taak.AantalKlassen; klas++)
                 {
-                 
-
-                    foreach (var docent in GesorteerdeDocentenScores.ToList())
-                    {
-                      
-                    }
                     if (GesorteerdeDocentenScores.Count == 0)
                     {
                         ZetinDbNull(taak.TaakID);
-                       
                     }
                     else
                     {

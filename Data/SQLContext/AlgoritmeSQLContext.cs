@@ -283,5 +283,84 @@ namespace Data.Context
                 Console.WriteLine(fout.Message);
             }
         }
+
+        public void GefixeerdeLijstDoorvoeren(int DocentID, int TaakID)
+        {
+            try
+            {
+                _connectie = dbconn.ReturnConnectionString();
+                using (SqlConnection Sqlconnectie = new SqlConnection(_connectie))
+                {
+                    Sqlconnectie.Open();
+                    using (SqlCommand command = new SqlCommand("INSERT INTO EindTabelAlgoritme (Docent_id, Taak_id) VALUES (@DocentID, @TaakID)", Sqlconnectie))
+                    {
+                        command.Parameters.AddWithValue("@DocentID", DocentID);
+                        command.Parameters.AddWithValue("@TaakID", TaakID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        public List<int> OphalenGefixeerdeTakenID()
+        {
+            List<int> TaakIDs = new List<int>();
+            try
+            {
+                _connectie = dbconn.ReturnConnectionString();
+                using(SqlConnection con = new SqlConnection(_connectie))
+                {
+                    con.Open();
+                    using(SqlCommand command = new SqlCommand("SELECT Taak_id FROM GefixeerdeTaken GROUP BY Taak_id", con))
+                    {
+                        using(SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                TaakIDs.Add(Convert.ToInt32(reader["Taak_id"]));
+                            }
+                        }
+                    }
+                }
+            }
+            catch(SqlException Fout)
+            {
+                Debug.WriteLine(Fout.Message);
+            }
+            return TaakIDs;
+        }
+
+        public List<int> DocentenIDsOphalenMetTaakID(int i)
+        {
+            List<int> DocentIDs = new List<int>();
+            try
+            {
+                _connectie = dbconn.ReturnConnectionString();
+                using (SqlConnection con = new SqlConnection(_connectie))
+                {
+                    con.Open();
+                    using (SqlCommand command = new SqlCommand("SELECT Docent_id FROM GefixeerdeTaken WHERE Taak_id = @taakID", con))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            command.Parameters.AddWithValue("@taakID", i);
+                            while (reader.Read())
+                            {
+                                DocentIDs.Add(Convert.ToInt32(reader["Docent_id"]));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException Fout)
+            {
+                Debug.WriteLine(Fout.Message);
+            }
+            return DocentIDs;
+        }
     }
 }

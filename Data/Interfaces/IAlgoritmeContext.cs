@@ -16,5 +16,8 @@ namespace Data.Interfaces
         void ZetinDbNull(int taakID);
         void ZetinDb(int docentID, int taakID);
         void VerwijderVoorkeur(int docentID, int iD);
+        void GefixeerdeLijstDoorvoeren(int docentID, int TaakID);
+        List<int> OphalenGefixeerdeTakenID();
+        List<int> DocentenIDsOphalenMetTaakID(int i);
     }
 }

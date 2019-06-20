@@ -34,7 +34,20 @@ namespace Data
             return algoritmeContext.TakenOphalen();
         }
 
+        public List<int> OphalenGefixeerdeTakenID()
+        {
+            return algoritmeContext.OphalenGefixeerdeTakenID();
+        }
 
+        public void GefixeerdeLijstDoorvoeren(int DocentID, int TaakID)
+        {
+            algoritmeContext.GefixeerdeLijstDoorvoeren(DocentID, TaakID);
+        }
+
+        public List<int> DocentenIDsOphalenMetTaakID(int i)
+        {
+            return algoritmeContext.DocentenIDsOphalenMetTaakID(i);
+        }
 
         public List<ADocent> InzetbareDocenten(int taakID)
         {

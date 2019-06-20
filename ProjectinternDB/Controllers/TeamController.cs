@@ -42,9 +42,17 @@ namespace ProjectinternDB.Controllers
         {
             var taak = HttpContext.Request.Form["TaakId"];
             int taakid = Convert.ToInt32(taak);
-            _fixerenLogic.TaakFixerenMetDocentID(id, taakid);
+            if(taakid == 0)
+            {
+                TempData["Error"] = "Selecteer een taak";
+                return RedirectToAction("Fixeren", "Team");
+            }
+            else
+            {
+                _fixerenLogic.TaakFixerenMetDocentID(id, taakid);
+                return RedirectToAction("Index", "Home");
+            }
 
-            return RedirectToAction("Index", "Home");
         }
 
         // Laten staan - Frits

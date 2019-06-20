@@ -6,6 +6,8 @@
 }
 
 <h2>Fixeren</h2>
+@if (TempData["Error"] != null)
+{<span class="text-danger">@TempData["Error"]</span>}
 <div>
     <form asp-controller="Team" asp-action="Fixeren" method="post" class="form-horizontal" role="form">
         <div class="form-group">
